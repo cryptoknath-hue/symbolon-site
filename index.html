@@ -1,0 +1,1159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Tessera (TSR): an auxiliary chain merge-mined with Monero that pays operators of Tor and I2P Monero nodes for audited availability. Prototype: no public network, no value.">
+<meta property="og:title" content="Tessera (TSR)">
+<meta property="og:description" content="Mine Monero. Pay the people who keep it reachable.">
+<meta property="og:type" content="website">
+<style>
+  :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<title>Tessera (TSR)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  /* ---- dark by default; the light theme is redefined below ---- */
+  :root {
+    --bg:        #07090d;
+    --bg-2:      #0c1016;
+    --panel:     #11161e;
+    --panel-2:   #181f2a;
+    --line:      #1f2836;
+    --line-2:    #2f3b4c;
+    --ink:       #eef2f8;
+    --ink-2:     #a7b2c3;
+    --muted:     #6b7789;
+    --cyan:      #3ddbd0;
+    --cyan-2:    #1d8f89;
+    --cyan-dim:  #0f3d3b;
+    --amber:     #e0a860;
+    --amber-dim: #2d2415;
+    --on-cyan:   #04100f;
+    --ok:        #5fd39a;
+    --ok-bg:     #10261d;
+    --wip:       #e0a860;
+    --wip-bg:    #2a2315;
+    --no:        #e08a8a;
+    --no-bg:     #2b1919;
+    --grid:      #1a2230;
+
+    --display: "Sora", "Helvetica Neue", Arial, sans-serif;
+    --body: "Manrope", "Helvetica Neue", Arial, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    --radius: 12px;
+    --nav-h: 60px;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #ffffff; --bg-2: #f5f7fa; --panel: #ffffff; --panel-2: #eef2f7;
+      --line: #dde4ec; --line-2: #bcc7d5; --ink: #0b1017; --ink-2: #3d4959;
+      --muted: #6a7788; --cyan: #0a7a74; --cyan-2: #0a7a74; --cyan-dim: #d3efec;
+      --amber: #8a5d12; --amber-dim: #f7eddb; --on-cyan: #ffffff;
+      --ok: #1f6b48; --ok-bg: #dcefe5; --wip: #8a6512; --wip-bg: #f5ead3;
+      --no: #94393b; --no-bg: #f6dddd; --grid: #e6ecf3;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #ffffff; --bg-2: #f5f7fa; --panel: #ffffff; --panel-2: #eef2f7;
+    --line: #dde4ec; --line-2: #bcc7d5; --ink: #0b1017; --ink-2: #3d4959;
+    --muted: #6a7788; --cyan: #0a7a74; --cyan-2: #0a7a74; --cyan-dim: #d3efec;
+    --amber: #8a5d12; --amber-dim: #f7eddb; --on-cyan: #ffffff;
+    --ok: #1f6b48; --ok-bg: #dcefe5; --wip: #8a6512; --wip-bg: #f5ead3;
+    --no: #94393b; --no-bg: #f6dddd; --grid: #e6ecf3;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--body); font-size: 16px; line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .shell { max-width: 1120px; margin: 0 auto; padding-inline: 22px; }
+
+  /* ---------------- navigation ---------------- */
+  .nav {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30;
+    background: color-mix(in srgb, var(--bg) 86%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-in {
+    max-width: 1120px; margin: 0 auto; padding-inline: 22px; height: var(--nav-h);
+    display: flex; align-items: center; gap: 16px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  .brand-mark {
+    width: 24px; height: 24px; border-radius: 7px; background: var(--cyan);
+    display: grid; place-items: center;
+    font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--on-cyan);
+  }
+  .brand-name { font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
+  .nav-links { display: flex; gap: 2px; margin-left: auto; align-items: center; overflow-x: auto; }
+  .nav-links a {
+    font-size: 14px; font-weight: 500; color: var(--ink-2); text-decoration: none;
+    padding: 7px 11px; border-radius: 8px; white-space: nowrap;
+    transition: color .15s ease, background .15s ease;
+  }
+  .nav-links a:hover { color: var(--ink); background: var(--panel-2); }
+  .nav-links a.ext { color: var(--cyan); }
+  @media (max-width: 780px) { .brand-name { display: none; } .nav-links a { padding: 7px 8px; font-size: 13px; } }
+
+  #langue {
+    font-family: var(--body); font-size: 14px; font-weight: 500; color: var(--ink-2);
+    background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+    padding: 6px 10px; margin-left: 6px; cursor: pointer;
+  }
+  #langue:hover { color: var(--ink); border-color: var(--line-2); }
+  #langue:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+
+  /* ---------------- entrances ---------------- */
+  @keyframes monte { from { transform: translateY(10px); } to { transform: translateY(0); } }
+  .monte { animation: monte .7s cubic-bezier(.2,.8,.3,1) both; }
+  .d1 { animation-delay: .05s } .d2 { animation-delay: .12s } .d3 { animation-delay: .19s } .d4 { animation-delay: .26s }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .monte { animation: none; }
+    .anneau-tourne, .pulse { animation: none !important; }
+  }
+
+  /* ---------------- hero ---------------- */
+  .hero { padding-block: clamp(46px, 8vw, 88px) 0; display: grid; gap: 44px; grid-template-columns: 1.15fr .85fr; align-items: center; }
+  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 32px; } }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11.5px; font-weight: 500;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--cyan); margin: 0 0 18px;
+  }
+  h1 {
+    font-family: var(--display); font-size: clamp(38px, 6.6vw, 68px); font-weight: 800;
+    line-height: 1.02; letter-spacing: -.04em; margin: 0; text-wrap: balance;
+  }
+  h1 em { font-style: normal; color: var(--cyan); }
+  .hero-sub { font-size: clamp(17px, 2vw, 19.5px); color: var(--ink-2); max-width: 54ch; margin: 22px 0 0; text-wrap: pretty; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--body); font-size: 15px; font-weight: 600;
+    padding: 12px 22px; border-radius: 10px; text-decoration: none; border: 1px solid transparent;
+    transition: transform .15s ease, filter .15s ease, background .15s ease;
+  }
+  .btn-primary { background: var(--cyan); color: var(--on-cyan); }
+  .btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+  .btn-ghost { border-color: var(--line-2); color: var(--ink); }
+  .btn-ghost:hover { background: var(--panel-2); transform: translateY(-1px); }
+  a:focus-visible, .btn:focus-visible, summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+  .notice {
+    margin-top: 34px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px;
+    padding: 14px 18px; border: 1px solid var(--line); border-left: 3px solid var(--wip);
+    border-radius: 10px; background: var(--panel); font-size: 14.5px; color: var(--ink-2);
+  }
+  .notice b { color: var(--ink); font-weight: 700; }
+
+  /* ---------------- animated ring ---------------- */
+  .anneau-boite { display: grid; place-items: center; }
+  .anneau { width: 100%; max-width: 380px; height: auto; }
+  .anneau-tourne { animation: tourne 17.5s steps(7) infinite; transform-origin: 150px 150px; }
+  @keyframes tourne { to { transform: rotate(360deg); } }
+  .pulse { animation: pulse 2.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .45 } }
+  .a-node { fill: var(--panel-2); stroke: var(--line-2); stroke-width: 1.5; }
+  .a-node-vu { fill: var(--cyan); stroke: var(--cyan); }
+  .a-spoke { stroke: var(--cyan); stroke-width: 1.4; opacity: .75; }
+  .a-ring { fill: none; stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 5; }
+  .a-lbl { font-family: var(--mono); font-size: 10px; fill: var(--muted); }
+
+  /* ---------------- key numbers ---------------- */
+  .stats {
+    display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 1px;
+    margin-top: 58px; background: var(--line); border: 1px solid var(--line);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .stat { background: var(--panel); padding: 24px 22px; }
+  .stat-n {
+    font-family: var(--display); font-size: clamp(27px, 4vw, 38px); font-weight: 800;
+    letter-spacing: -.035em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--ink);
+  }
+  .stat-n .u { font-size: .46em; font-weight: 600; color: var(--muted); margin-left: 5px; letter-spacing: 0; }
+  .stat-l { font-size: 13.5px; color: var(--muted); margin-top: 11px; line-height: 1.45; }
+  @media (max-width: 860px) { .stats { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+
+  /* ---------------- sections ---------------- */
+  section { padding-block: clamp(58px, 8vw, 96px) 0; scroll-margin-top: calc(var(--nav-h) + 14px); }
+  .bande { background: var(--bg-2); border-block: 1px solid var(--line); margin-top: clamp(58px, 8vw, 96px); }
+  .bande > .shell > section:first-child { padding-top: clamp(52px, 7vw, 82px); }
+  .bande > .shell > section:last-child { padding-bottom: clamp(58px, 8vw, 96px); }
+  .sec-head { margin-bottom: 32px; }
+  .sec-kicker {
+    font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--cyan); margin: 0 0 12px;
+  }
+  h2 {
+    font-family: var(--display); font-size: clamp(27px, 4vw, 40px); font-weight: 700;
+    letter-spacing: -.032em; line-height: 1.1; margin: 0; text-wrap: balance; max-width: 22ch;
+  }
+  h3 { font-family: var(--display); font-weight: 600; letter-spacing: -.015em; }
+  .sec-head p { color: var(--ink-2); max-width: 64ch; margin: 18px 0 0; font-size: 16.5px; }
+  p { margin: 0 0 16px; }
+  strong { color: var(--ink); font-weight: 700; }
+
+  /* ---------------- cards ---------------- */
+  .cards { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+  .cards.deux { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  @media (max-width: 880px) { .cards, .cards.deux { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 24px;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .card:hover { border-color: var(--line-2); transform: translateY(-2px); }
+  .card h3 { font-size: 18px; margin: 0 0 10px; }
+  .card p { color: var(--ink-2); font-size: 15px; margin: 0; }
+  .card-tag {
+    display: inline-block; font-family: var(--mono); font-size: 10.5px; font-weight: 500;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--cyan); background: var(--cyan-dim);
+    padding: 3px 9px; border-radius: 5px; margin-bottom: 14px;
+  }
+
+  /* ---------------- steps ---------------- */
+  .steps { display: grid; gap: 14px; counter-reset: s; }
+  .step {
+    display: grid; grid-template-columns: 46px minmax(0,1fr); gap: 20px; align-items: start;
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px;
+  }
+  .step::before {
+    counter-increment: s; content: counter(s, decimal-leading-zero);
+    font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--cyan);
+    border: 1px solid var(--cyan-dim); border-radius: 9px; padding: 7px 0; text-align: center;
+  }
+  .step h3 { font-size: 17px; margin: 2px 0 6px; }
+  .step p { margin: 0; font-size: 15px; color: var(--ink-2); max-width: 64ch; }
+  @media (max-width: 560px) { .step { grid-template-columns: 1fr; gap: 10px; } .step::before { width: 46px; } }
+
+  pre {
+    margin: 22px 0 0; padding: 20px; background: var(--bg-2); border: 1px solid var(--line);
+    border-radius: var(--radius); overflow-x: auto; font-family: var(--mono);
+    font-size: 12.5px; line-height: 1.8; color: var(--ink);
+  }
+  pre .c { color: var(--muted); } pre .k { color: var(--cyan); }
+  code { font-family: var(--mono); font-size: .88em; }
+  p code, li code, td code, .step code, .card p code {
+    background: var(--panel-2); padding: 2px 6px; border-radius: 5px; color: var(--ink);
+  }
+
+  /* ---------------- tabs ---------------- */
+  .tabs { display: flex; gap: 4px; margin: 26px 0 0; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .tabs button {
+    font-family: var(--body); font-size: 14.5px; font-weight: 600; color: var(--muted);
+    background: none; border: 0; border-bottom: 2px solid transparent;
+    padding: 10px 16px; cursor: pointer; transition: color .15s ease, border-color .15s ease;
+  }
+  .tabs button:hover { color: var(--ink); }
+  .tabs button[aria-selected="true"] { color: var(--cyan); border-bottom-color: var(--cyan); }
+  .tabs button:focus-visible { outline: 2px solid var(--cyan); outline-offset: -2px; }
+  .panneau[hidden] { display: none; }
+  .panneau { padding-top: 22px; }
+  .panneau p { color: var(--ink-2); font-size: 15px; max-width: 64ch; }
+
+  /* ---------------- figures ---------------- */
+  figure { margin: 30px 0 0; }
+  .scroller { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+  .scroller svg { display: block; min-width: 660px; width: 100%; height: auto; }
+  figcaption { font-size: 13.5px; color: var(--muted); margin-top: 12px; max-width: 66ch; }
+  .d-box { fill: var(--panel-2); stroke: var(--line-2); stroke-width: 1; }
+  .d-box-a { fill: none; stroke: var(--cyan); stroke-width: 1.5; }
+  .d-leaf { fill: var(--panel-2); stroke: var(--line-2); stroke-width: 1; }
+  .d-leaf-a { fill: var(--cyan); stroke: var(--cyan); }
+  .d-l { stroke: var(--line-2); stroke-width: 1; fill: none; }
+  .d-l-a { stroke: var(--cyan); stroke-width: 1.5; fill: none; }
+  .d-t { font-family: var(--mono); font-size: 11px; fill: var(--ink-2); }
+  .d-t-dim { font-family: var(--mono); font-size: 10px; fill: var(--muted); }
+  .d-t-a { font-family: var(--mono); font-size: 11px; font-weight: 500; fill: var(--cyan); }
+  .d-t-in { font-family: var(--mono); font-size: 10px; font-weight: 700; fill: var(--on-cyan); }
+
+  /* ---------------- chart ---------------- */
+  .chart-wrap { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); padding: 22px 20px 12px; margin-top: 28px; position: relative; }
+  .chart-title { font-family: var(--display); font-weight: 600; font-size: 16px; margin: 0 0 2px; }
+  .chart-sub { font-size: 13.5px; color: var(--muted); margin: 0 0 14px; }
+  #courbe { display: block; width: 100%; height: auto; touch-action: pan-y; }
+  .ax { stroke: var(--grid); stroke-width: 1; }
+  .ax-t { font-family: var(--mono); font-size: 10.5px; fill: var(--muted); }
+  .serie { fill: none; stroke: var(--cyan); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  .aire { fill: var(--cyan); opacity: .1; }
+  .repere { stroke: var(--line-2); stroke-width: 1; stroke-dasharray: 3 4; }
+  .pt { fill: var(--cyan); stroke: var(--panel); stroke-width: 2; }
+  .note { font-family: var(--mono); font-size: 10.5px; fill: var(--ink-2); }
+  .croix { stroke: var(--line-2); stroke-width: 1; opacity: 0; }
+  #bulle {
+    position: absolute; pointer-events: none; opacity: 0; transition: opacity .12s ease;
+    background: var(--panel-2); border: 1px solid var(--line-2); border-radius: 8px;
+    padding: 7px 10px; font-family: var(--mono); font-size: 11.5px; color: var(--ink);
+    white-space: nowrap; transform: translate(-50%, -125%); z-index: 2;
+  }
+  details { margin-top: 14px; }
+  summary { cursor: pointer; font-size: 13.5px; color: var(--muted); }
+  details table { margin-top: 12px; font-size: 12.5px; }
+
+  /* ---------------- tables ---------------- */
+  .params { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--panel); }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  caption {
+    text-align: left; padding: 15px 22px; background: var(--panel-2); border-bottom: 1px solid var(--line);
+    font-family: var(--mono); font-size: 11px; letter-spacing: .13em; text-transform: uppercase; color: var(--muted);
+  }
+  th, td { text-align: left; padding: 13px 22px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child th, tr:last-child td { border-bottom: 0; }
+  th { font-weight: 500; color: var(--ink-2); width: 46%; }
+  td { font-family: var(--mono); font-size: 13px; color: var(--ink); font-variant-numeric: tabular-nums; word-break: break-word; }
+
+  /* ---------------- status board ---------------- */
+  .board { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--panel); }
+  .brow {
+    display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 5px 16px; align-items: start;
+    padding: 17px 22px; border-bottom: 1px solid var(--line);
+  }
+  .brow:last-child { border-bottom: 0; }
+  .brow b { font-weight: 700; font-size: 15.5px; }
+  .brow span { grid-column: 1; font-size: 14px; color: var(--muted); max-width: 70ch; }
+  .chip {
+    grid-row: 1; grid-column: 2; font-family: var(--mono); font-size: 10.5px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 6px; white-space: nowrap;
+  }
+  .chip.ok { color: var(--ok); background: var(--ok-bg); }
+  .chip.wip { color: var(--wip); background: var(--wip-bg); }
+  .chip.no { color: var(--no); background: var(--no-bg); }
+
+  /* ---------------- limits ---------------- */
+  .limite {
+    border: 1px solid var(--line); border-left: 3px solid var(--amber); border-radius: var(--radius);
+    background: var(--panel); padding: 24px; margin-bottom: 14px;
+  }
+  .limite h3 { font-size: 17px; margin: 0 0 8px; color: var(--amber); }
+  .limite p { margin: 0; color: var(--ink-2); font-size: 15px; max-width: 70ch; }
+
+  /* ---------------- footer ---------------- */
+  footer { margin-top: clamp(58px, 8vw, 96px); border-top: 1px solid var(--line); padding-block: 38px 64px; }
+  footer p { color: var(--muted); font-size: 14px; max-width: 72ch; }
+  footer a, a { color: var(--cyan); }
+</style>
+
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top"><span class="brand-mark">T</span><span class="brand-name" data-i18n="k001">Tessera</span></a>
+    <div class="nav-links">
+      <a href="#project" data-i18n="k002">The project</a>
+      <a href="#mine" data-i18n="k003">Mining</a>
+      <a href="#start" data-i18n="k004">Get started</a>
+      <a href="#proof" data-i18n="k005">The proof</a>
+      <a href="#emission" data-i18n="k006">Emission</a>
+      <a href="#status" data-i18n="k007">Status</a>
+      <select id="langue" aria-label="Language / Langue">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+      </select>
+    </div>
+  </div>
+</nav>
+
+<div class="shell" id="top">
+  <header class="hero">
+    <div>
+      <p class="eyebrow monte d1" data-i18n="k009">Auxiliary chain merge-mined with Monero</p>
+      <h1 class="monte d2">Mine Monero.<br>Pay the people who <em>keep</em> it reachable.</h1>
+      <p class="hero-sub monte d3" data-i18n="k010">
+        One RandomX hash settles two chains at once. You do not split your hashrate and you do not
+        spend a single extra hash — and the reward goes to the operators of Monero nodes reachable
+        only over Tor and I2P.
+      </p>
+      <div class="cta monte d4">
+        <a class="btn btn-primary" href="#mine" data-i18n="k011">How to mine it</a>
+        <a class="btn btn-ghost" href="#limits" data-i18n="k012">What isn't solved</a>
+      </div>
+      <div class="notice monte d4">
+        <b data-i18n="k013">Prototype.</b>
+        <span data-i18n="k014">No public network, no token in circulation, nothing for sale. The design is under
+        public review at the Monero Research Lab before it is built any further.</span>
+      </div>
+    </div>
+
+    <div class="anneau-boite monte d3">
+      <svg class="anneau" viewBox="0 0 300 300" role="img"
+           aria-label="Registered nodes form a ring; each round a different node is the one being audited, and its five auditors are the nodes preceding it.">
+        <circle cx="150" cy="150" r="104" class="a-ring"></circle>
+        <g class="anneau-tourne">
+          <path d="M150 46 L 69 85" class="a-spoke"></path>
+          <path d="M150 46 L 49 173" class="a-spoke"></path>
+          <path d="M150 46 L 105 244" class="a-spoke"></path>
+          <path d="M150 46 L 195 244" class="a-spoke"></path>
+          <path d="M150 46 L 251 173" class="a-spoke"></path>
+          <circle cx="150" cy="46" r="13" class="a-node a-node-vu pulse"></circle>
+        </g>
+        <circle cx="150" cy="46" r="9" class="a-node"></circle>
+        <circle cx="231" cy="85" r="9" class="a-node"></circle>
+        <circle cx="251" cy="173" r="9" class="a-node"></circle>
+        <circle cx="195" cy="244" r="9" class="a-node"></circle>
+        <circle cx="105" cy="244" r="9" class="a-node"></circle>
+        <circle cx="49" cy="173" r="9" class="a-node"></circle>
+        <circle cx="69" cy="85" r="9" class="a-node"></circle>
+        <text x="150" y="146" text-anchor="middle" class="a-lbl">the round's ring</text>
+        <text x="150" y="162" text-anchor="middle" class="a-lbl">5 auditors per node</text>
+      </svg>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-n">0<span class="u">%</span></div>
+      <div class="stat-l">of your hashrate diverted from mining Monero</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">17.17<span class="u">TSR</span></div>
+      <div class="stat-l">at the first block, decaying toward a perpetual tail</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">60<span class="u">s</span></div>
+      <div class="stat-l">target time between blocks</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">172</div>
+      <div class="stat-l">tests, with no dependency beyond Python and <code>cryptography</code></div>
+    </div>
+  </div>
+
+  <section id="project">
+    <div class="sec-head">
+      <p class="sec-kicker" data-i18n="k016">The project</p>
+      <h2 data-i18n="k017">Funding the nodes nobody pays</h2>
+      <p data-i18n="k018">
+        Public Monero nodes are run by volunteers. The ones that matter most for privacy —
+        reachable only over Tor or I2P — are also the most expensive to keep up and the least
+        visible. Tessera pays them with a currency that costs nothing to produce, because it
+        reuses mining work that has already been done. Three rules frame the idea, and they live
+        in the code rather than in a statement of intent.
+      </p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <span class="card-tag" data-i18n="k019">Rule 1</span>
+        <h3 data-i18n="k020">Availability, never usage</h3>
+        <p data-i18n="k021">Paying per request would create a direct incentive to log, classify and attribute user
+        traffic. Probes check that a node answers. Nothing else is observed.</p>
+      </article>
+      <article class="card">
+        <span class="card-tag" data-i18n="k022">Rule 2</span>
+        <h3 data-i18n="k023">Tor and I2P only</h3>
+        <p data-i18n="k024">Consensus accepts a <code>.onion</code> v3 or <code>.b32.i2p</code> endpoint and nothing
+        else — a clearnet form is rejected by the network. Subsidising clearnet would fund exactly
+        what Monero defends against.</p>
+      </article>
+      <article class="card">
+        <span class="card-tag" data-i18n="k025">Rule 3</span>
+        <h3 data-i18n="k026">Collateral, not reputation</h3>
+        <p data-i18n="k027">Sybil resistance has to cost money, because identity cannot be established without a
+        trusted party. Registering locks a deposit, which a failure eats into.</p>
+      </article>
+    </div>
+  </section>
+</div>
+
+<div class="bande">
+<div class="shell">
+  <section id="mine">
+    <div class="sec-head">
+      <p class="sec-kicker" data-i18n="k028">Mining</p>
+      <h2 data-i18n="k029">Four pieces, one hash</h2>
+      <p data-i18n="k030">
+        Your miner looks for a RandomX hash for Monero, exactly as it already does. P2Pool slips a
+        merkle tree carrying our block hash into the Monero coinbase. If the hash it finds meets our
+        difficulty, it counts for us too — with no additional computation. No GPU and no ASIC can
+        take part: mining Tessera is mining RandomX.
+      </p>
+      <p data-i18n="k031">
+        Let us be exact about what that does not mean: <strong>Tessera's security is its own
+        difficulty, not Monero's hashrate.</strong> The Monero block carrying our proof does not have
+        to be a block Monero accepted — requiring that would make our consensus depend on each node's
+        own view of the Monero chain. Merge mining makes Tessera free to mine for anyone already
+        mining Monero; it does not transfer Monero's security to it.
+      </p>
+    </div>
+
+    <figure>
+      <div class="scroller">
+        <svg viewBox="0 0 720 286" role="img"
+             aria-label="A Monero block carries, in its coinbase, a merkle tree with one slot holding the Tessera block hash; a single RandomX hash settles both chains.">
+          <rect x="16" y="26" width="300" height="196" rx="8" class="d-box"></rect>
+          <text x="32" y="50" class="d-t">Monero block</text>
+          <line x1="16" y1="62" x2="316" y2="62" class="d-l"></line>
+          <text x="32" y="86" class="d-t-dim">header · nonce · prev_id</text>
+          <text x="32" y="112" class="d-t-dim">coinbase transaction</text>
+          <rect x="32" y="126" width="268" height="78" rx="6" class="d-box-a"></rect>
+          <text x="46" y="148" class="d-t">tx_extra</text>
+          <text x="46" y="170" class="d-t-dim">tag 0x03 · merge mining</text>
+          <text x="46" y="192" class="d-t-a">merkle root</text>
+          <path d="M300 170 C 348 170, 348 118, 392 118" class="d-l-a"></path>
+          <path d="M392 118 l -9 -4 l 0 8 z" fill="var(--cyan)"></path>
+          <rect x="400" y="26" width="304" height="196" rx="8" class="d-box"></rect>
+          <text x="416" y="50" class="d-t">Tree of auxiliary chains</text>
+          <line x1="400" y1="62" x2="704" y2="62" class="d-l"></line>
+          <rect x="516" y="96" width="72" height="22" rx="5" class="d-leaf"></rect>
+          <text x="532" y="111" class="d-t-dim">root</text>
+          <path d="M552 118 L 480 146 M552 118 L 624 146" class="d-l"></path>
+          <path d="M480 168 L 444 190 M480 168 L 516 190 M624 168 L 588 190 M624 168 L 660 190" class="d-l"></path>
+          <rect x="444" y="146" width="72" height="22" rx="5" class="d-leaf"></rect>
+          <rect x="588" y="146" width="72" height="22" rx="5" class="d-leaf"></rect>
+          <rect x="412" y="190" width="64" height="22" rx="5" class="d-leaf"></rect>
+          <rect x="484" y="190" width="64" height="22" rx="5" class="d-leaf d-leaf-a"></rect>
+          <text x="500" y="205" class="d-t-in">Tessera</text>
+          <rect x="556" y="190" width="64" height="22" rx="5" class="d-leaf"></rect>
+          <rect x="628" y="190" width="64" height="22" rx="5" class="d-leaf"></rect>
+          <text x="416" y="238" class="d-t-dim">slot is imposed: SHA256(chain_id | nonce | "m") mod N</text>
+          <line x1="16" y1="258" x2="704" y2="258" class="d-l"></line>
+          <text x="16" y="278" class="d-t">A single RandomX hash settles both chains.</text>
+        </svg>
+      </div>
+      <figcaption data-i18n="k032">
+        Each chain's slot in the tree is imposed by its identifier: nobody can mine two versions of
+        the same chain inside one Monero block.
+      </figcaption>
+    </figure>
+
+    <div class="steps" style="margin-top:34px">
+      <article class="step"><div>
+        <h3 data-i18n="k033">An unrestricted monerod</h3>
+        <p data-i18n="k034">It verifies RandomX for us through <code>calc_pow</code>, and it also verifies proofs of
+        service. Its RPC stays on localhost — never expose it.</p>
+      </div></article>
+      <article class="step"><div>
+        <h3 data-i18n="k035">A Tessera node</h3>
+        <p data-i18n="k036">It answers P2Pool's three merge mining methods on port 19081 and talks to other nodes on
+        19082.</p>
+      </div></article>
+      <article class="step"><div>
+        <h3 data-i18n="k037">P2Pool with <code>--merge-mine</code></h3>
+        <p data-i18n="k038">P2Pool 4.0 or later. It queries the Tessera node, inserts our hash into the Monero block
+        and submits solutions to both chains. Any pool can do the same — the interface is generic,
+        and several pools can mine Tessera at the same time.</p>
+      </div></article>
+      <article class="step"><div>
+        <h3 data-i18n="k039">Your miner, unchanged</h3>
+        <p data-i18n="k040">Pointed at P2Pool's stratum, exactly as for mining Monero alone. Nothing more to
+        configure, nothing to install on the miner's side.</p>
+      </div></article>
+    </div>
+
+    <pre><span class="c" data-i18n="k041"># the Tessera node, delegating RandomX verification to monerod</span>
+python3 -m tessera <span class="k">--network</span> testnet <span class="k">--monerod</span> http://127.0.0.1:28081
+
+<span class="c" data-i18n="k044"># P2Pool mines Monero and Tessera in the same hash</span>
+./p2pool <span class="k">--wallet</span> &lt;XMR_ADDRESS&gt; \
+         <span class="k">--merge-mine</span> 127.0.0.1:19081 &lt;TSR_ADDRESS&gt;</pre>
+    <p style="margin-top:14px; font-size:14px; color:var(--muted)" data-i18n="k047">
+      Today these commands only work against a local test network.
+    </p>
+  </section>
+
+  <section id="start">
+    <div class="sec-head">
+      <p class="sec-kicker" data-i18n="k048">Get started</p>
+      <h2 data-i18n="k049">A wallet, then a node</h2>
+      <p data-i18n="k050">
+        Everything below runs against a <strong>local test chain</strong>. There is no public
+        network to join: what you mine exists only on your own machine, and is worth nothing. That
+        is the point for now — the mechanism can be exercised end to end before anything is
+        launched.
+      </p>
+      <p data-i18n="k051">
+        You need Python 3.12 and the <code>cryptography</code> package. Nothing else — no
+        compiler, no database, no build step.
+      </p>
+    </div>
+
+    <h3 style="font-size:20px; margin:0 0 4px" data-i18n="k052">Create a wallet</h3>
+    <p style="color:var(--ink-2); max-width:64ch" data-i18n="k053">
+      The wallet asks the node which network it is on and which nonce to use, so start a node
+      first. Leave it running in another terminal.
+    </p>
+    <pre><span class="c" data-i18n="k054"># a local node, with a fake proof of work — no monerod needed</span>
+python3 -m tessera <span class="k">--network</span> local <span class="k">--pow</span> sha256 <span class="k">--data-dir</span> /tmp/tsr
+
+<span class="c" data-i18n="k058"># in another terminal: create the key, then look at it</span>
+python3 tools/wallet.py new
+python3 tools/wallet.py address
+python3 tools/wallet.py balance</pre>
+    <div class="notice" style="margin-top:20px; border-left-color: var(--no)">
+      <b data-i18n="k059">Back it up now.</b>
+      <span data-i18n="k060"><code>~/.tessera/wallet.json</code> holds your private key <strong>in the
+      clear</strong>. It is not encrypted, it cannot be regenerated, and losing it loses the
+      coins. Copy it somewhere safe before you mine anything.</span>
+    </div>
+
+    <h3 style="font-size:20px; margin:38px 0 4px" data-i18n="k061">Mine</h3>
+    <p style="color:var(--ink-2); max-width:64ch" data-i18n="k062">
+      Two ways. The first needs nothing but Python and proves the whole path in a minute. The
+      second is the real thing, against a real Monero daemon and a real P2Pool.
+    </p>
+
+    <div class="steps" style="margin-top:22px">
+      <article class="step"><div>
+        <h3 data-i18n="k063">The quick way — a simulated pool</h3>
+        <p data-i18n="k064"><code>tools/fake_p2pool.py</code> plays P2Pool's side of the three RPC calls against your
+        local node, with a fake proof of work. Blocks arrive in seconds and your balance moves.</p>
+        <pre style="margin-top:14px">python3 tools/fake_p2pool.py http://127.0.0.1:19081 &lt;your tsrl address&gt; 3
+python3 tools/wallet.py balance</pre>
+      </div></article>
+      <article class="step"><div>
+        <h3 data-i18n="k065">The real way — monerod, P2Pool, your miner</h3>
+        <p data-i18n="k066">A Monero testnet daemon with an <strong>unrestricted</strong> RPC, because Tessera
+        verifies RandomX through <code>calc_pow</code>, which a restricted RPC does not expose.
+        Keep that RPC on localhost.</p>
+        <pre style="margin-top:14px">monerod --testnet --non-interactive \
+        --rpc-bind-ip 127.0.0.1 --rpc-bind-port 28081 \
+        --zmq-pub tcp://127.0.0.1:28083 --disable-rpc-ban
+
+python3 -m tessera <span class="k">--network</span> testnet <span class="k">--monerod</span> http://127.0.0.1:28081
+
+./p2pool <span class="k">--host</span> 127.0.0.1 <span class="k">--rpc-port</span> 28081 <span class="k">--zmq-port</span> 28083 \
+         <span class="k">--wallet</span> &lt;XMR testnet address&gt; <span class="k">--stratum</span> 127.0.0.1:3333 \
+         <span class="k">--merge-mine</span> 127.0.0.1:19081 &lt;your tsrt address&gt;
+
+<span class="c" data-i18n="k075"># then point your usual miner at the stratum</span>
+xmrig -o 127.0.0.1:3333 -u &lt;XMR testnet address&gt;</pre>
+      </div></article>
+    </div>
+
+    <h3 style="font-size:20px; margin:38px 0 0" data-i18n="k076">On your platform</h3>
+    <p style="color:var(--ink-2); max-width:64ch; margin-top:8px" data-i18n="k077">
+      Two roles, and they are not the same job. <strong>Mining</strong> needs nothing but a miner
+      pointed at a pool that merge-mines — no new software, no Tessera-specific anything. Running
+      the <strong>stack</strong> — a Monero daemon, P2Pool and a Tessera node — is what takes
+      per-platform setup, and only one person per pool has to do it.
+    </p>
+
+    <div class="tabs" role="tablist" aria-label="Platform">
+      <button role="tab" id="t-linux" aria-controls="p-linux" aria-selected="true" data-i18n="k078">Linux</button>
+      <button role="tab" id="t-win" aria-controls="p-win" aria-selected="false" data-i18n="k079">Windows</button>
+      <button role="tab" id="t-hive" aria-controls="p-hive" aria-selected="false" data-i18n="k080">HiveOS</button>
+    </div>
+
+    <div class="panneau" id="p-linux" role="tabpanel" aria-labelledby="t-linux">
+      <p data-i18n="k081">The reference platform — everything here was built and tested on it.</p>
+      <pre><span class="c" data-i18n="k082"># the node needs Python 3.12 and one library</span>
+sudo apt install python3 python3-cryptography
+
+<span class="c" data-i18n="k083"># monerod and P2Pool: official static binaries, no compiler needed</span>
+<span class="c" data-i18n="k084"># getmonero.org/downloads · github.com/SChernykh/p2pool/releases</span>
+<span class="c" data-i18n="k085"># then the three commands above, and your usual miner on the stratum</span>
+xmrig -o 127.0.0.1:3333 -u &lt;XMR address&gt;</pre>
+    </div>
+
+    <div class="panneau" id="p-win" role="tabpanel" aria-labelledby="t-win" hidden>
+      <p data-i18n="k086">
+        Same pieces, official Windows builds for all three. Install Python 3.12 from python.org,
+        ticking <em>Add python.exe to PATH</em>, then run the node from PowerShell.
+      </p>
+      <pre>pip install cryptography
+
+<span class="c" data-i18n="k087"># monerod: monero-win-x64 zip from getmonero.org</span>
+.\monerod.exe --testnet --rpc-bind-port 28081 --zmq-pub tcp://127.0.0.1:28083
+
+<span class="c" data-i18n="k088"># the Tessera node</span>
+python -m tessera --network testnet --monerod http://127.0.0.1:28081
+
+<span class="c" data-i18n="k089"># P2Pool: p2pool-vX-windows-x64.zip</span>
+.\p2pool.exe --host 127.0.0.1 --rpc-port 28081 --zmq-port 28083 `
+             --wallet &lt;XMR address&gt; --stratum 127.0.0.1:3333 `
+             --merge-mine 127.0.0.1:19081 &lt;TSR address&gt;
+
+<span class="c" data-i18n="k090"># then xmrig, run as administrator so it can use large pages</span>
+xmrig.exe -o 127.0.0.1:3333 -u &lt;XMR address&gt;</pre>
+      <p style="margin-top:14px" data-i18n="k091">
+        Running xmrig as administrator is a RandomX matter, not a Tessera one — without large
+        pages you lose a third of your hashrate on any Monero mining.
+      </p>
+    </div>
+
+    <div class="panneau" id="p-hive" role="tabpanel" aria-labelledby="t-hive" hidden>
+      <p data-i18n="k092">
+        <strong>A HiveOS rig needs no change at all.</strong> It mines RandomX with xmrig against a
+        stratum URL; whether that pool merge-mines is the pool's business, not the rig's. So you do
+        not install anything Tessera-related on the rig.
+      </p>
+      <p data-i18n="k093">
+        Run the stack on a machine you control — a small server, a Raspberry Pi 5, or the same box
+        as your node — and point the flight sheet at it:
+      </p>
+      <pre><span class="c" data-i18n="k094"># Flight sheet</span>
+Coin           : XMR
+Miner          : xmrig
+Pool URL       : &lt;the host running P2Pool&gt;:3333
+Wallet address : &lt;your XMR address&gt;   <span class="c" data-i18n="k095"># P2Pool pays the wallet it was started with</span>
+Algorithm      : rx/0</pre>
+      <p style="margin-top:14px" data-i18n="k096">
+        Expose only the stratum port to your rigs — over a private network or a mesh VPN rather
+        than the open internet. The Monero RPC must stay on localhost: it runs unrestricted, since
+        Tessera verifies RandomX through <code>calc_pow</code>.
+      </p>
+    </div>
+
+    <div class="steps" style="margin-top:34px">
+      <article class="step"><div>
+        <h3 data-i18n="k097">Check that it worked</h3>
+        <p data-i18n="k098">P2Pool logs <code>uses chain_id …</code> once it has accepted the chain. The node logs a
+        line per accepted block, and your balance is the final word.</p>
+        <pre style="margin-top:14px">python3 tools/wallet.py balance
+curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"}' \
+     -H 'Content-Type: application/json'</pre>
+      </div></article>
+    </div>
+
+    <p style="margin-top:26px; color:var(--muted); font-size:14.5px" data-i18n="k099">
+      P2Pool must wait for a fully synced daemon before it starts — it will say
+      <code>monerod is busy syncing</code> until then. The Monero testnet is about 3 million
+      blocks; count a night for a first sync, and minutes to catch up after that.
+    </p>
+  </section>
+</div>
+</div>
+
+<div class="shell">
+  <section id="proof">
+    <div class="sec-head">
+      <p class="sec-kicker" data-i18n="k100">Proof of service</p>
+      <h2 data-i18n="k101">How to prove a hidden node is there</h2>
+      <p data-i18n="k102">
+        This is the project's central problem. The availability of a hidden service is a fact that
+        lives off-chain: any report about it is a claim made by whoever probed, and therefore
+        unverifiable. The way out rests on three observations.
+      </p>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <span class="card-tag" data-i18n="k103">1 · Identity</span>
+        <h3 data-i18n="k104">A .onion address <em>is</em> a key</h3>
+        <p data-i18n="k105">A Tor v3 address is <code>base32(ed25519_key ‖ checksum ‖ version)</code>. Consensus
+        extracts the public key and checks the checksum. Nobody can sign in a service's place.</p>
+      </article>
+      <article class="card">
+        <span class="card-tag" data-i18n="k106">2 · Challenge</span>
+        <h3 data-i18n="k107">The challenge comes from the chain</h3>
+        <p data-i18n="k108"><code>Keccak256(round_hash ‖ address)</code> picks four consecutive Monero blocks among
+        the last thousand. Unpredictable, identical for everyone, not replayable, and still present
+        on a pruned node.</p>
+      </article>
+      <article class="card">
+        <span class="card-tag" data-i18n="k109">3 · Verification</span>
+        <h3 data-i18n="k110">Every node checks it again</h3>
+        <p data-i18n="k111">Every Tessera node already runs a monerod. It recomputes the expected answer itself, then
+        verifies the signature. <strong>Whoever carries the proof has no power over it.</strong></p>
+      </article>
+    </div>
+
+    <div class="cards deux" style="margin-top:16px">
+      <article class="card">
+        <h3 data-i18n="k112">The auditor's nonce changes everything</h3>
+        <p data-i18n="k113">The challenge is public, so a node could compute it offline and would never need to be
+        reachable at all. That is why the auditor adds <strong>its own nonce</strong>, anchored to the
+        round's block hash: the answer is bound to that auditor and that draw, and the signature
+        <strong>cannot predate that block</strong>. Consensus bounds when it was produced.</p>
+      </article>
+      <article class="card">
+        <h3 data-i18n="k114">And that is where the Sybil cost comes from</h3>
+        <p data-i18n="k115">The answer covers four Monero blocks. One machine can hold the chain once for a thousand
+        identities; it cannot serve it a thousand times, to five auditors each, within the deadline
+        they allow. The cost becomes proportional to the number of identities, without ever needing
+        to know an ASN.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="ring">
+    <div class="sec-head">
+      <p class="sec-kicker" data-i18n="k116">The auditors</p>
+      <h2 data-i18n="k117">Drawn, never chosen</h2>
+      <p data-i18n="k118">
+        Each round, registered nodes are arranged in a ring by
+        <code>Keccak256(round_hash ‖ address)</code>. Everyone audits its five successors, so
+        everyone is audited by its five predecessors. Neither the audited nor the auditor decides,
+        the ring turns every round, and the load is exactly the same for all — nobody is overloaded
+        and nobody is forgotten. That is the animation at the top of this page.
+      </p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <span class="card-tag" data-i18n="k119">Quorum</span>
+        <h3 data-i18n="k120">Three yes, at most one no</h3>
+        <p data-i18n="k121">An auditor that cannot reach a node files an absence report, which counts as a duty
+        fulfilled. A round needs three attestations <strong>and at most one absence</strong> — so
+        three accomplices out of five no longer suffice. Four are needed.</p>
+      </article>
+      <article class="card">
+        <span class="card-tag" data-i18n="k122">Penalty</span>
+        <h3 data-i18n="k123">Ignoring your draw costs</h3>
+        <p data-i18n="k124">At each epoch the ring is recomputed over eight sampled rounds. Below 50% of duties
+        fulfilled, 5% of the collateral is <strong>burnt</strong> — never paid to anyone, so that
+        nobody has an interest in getting another punished.</p>
+      </article>
+      <article class="card">
+        <span class="card-tag" data-i18n="k125">Diversity</span>
+        <h3 data-i18n="k126">A narrow circle earns nothing</h3>
+        <p data-i18n="k127">Over an epoch the ring sends an honest node auditors from across the registry. A node
+        attested only by the same small group is paid nothing for availability — which is what
+        makes collusion sterile below half the registry.</p>
+      </article>
+      <article class="card">
+        <span class="card-tag" data-i18n="k128">Removal</span>
+        <h3 data-i18n="k129">Below the minimum, you're out</h3>
+        <p data-i18n="k130">If the collateral falls under the threshold, the node leaves the registry and the
+        remainder goes back to its operator. Keeping a struck-off node's deposit locked would
+        protect nothing.</p>
+      </article>
+    </div>
+  </section>
+</div>
+
+<div class="bande">
+<div class="shell">
+  <section id="emission">
+    <div class="sec-head">
+      <p class="sec-kicker" data-i18n="k131">Emission</p>
+      <h2 data-i18n="k132">A tail that never stops</h2>
+      <p data-i18n="k133">
+        <code>reward = max((18,000,000 TSR − emitted) ≫ 20, 0.35 TSR)</code>, plus the block's fees.
+        With one-minute blocks, that 20-bit shift follows Monero's curve in wall-clock time. The tail
+        never stops, and that is the point: <strong>a chain whose purpose is to pay for a continuous
+        service cannot stop emitting without ceasing to pay.</strong>
+      </p>
+    </div>
+
+    <div class="chart-wrap">
+      <p class="chart-title" data-i18n="k134">Reward per block, over thirteen years</p>
+      <p class="chart-sub" data-i18n="k135">In TSR. The perpetual tail of 0.35 TSR is reached around year eight.</p>
+      <svg id="courbe" viewBox="0 0 720 300" role="img"
+           aria-label="The block reward decays from 17.17 TSR to 0.35 TSR over eight years, then stays flat."></svg>
+      <div id="bulle"></div>
+      <details>
+        <summary data-i18n="k136">See the values</summary>
+        <div class="scroller" style="border:0"><table id="table-courbe"></table></div>
+      </details>
+    </div>
+
+    <div class="cards" style="margin-top:28px">
+      <article class="card">
+        <span class="card-tag" data-i18n="k137">No premine</span>
+        <h3 data-i18n="k138">Nobody starts ahead</h3>
+        <p data-i18n="k139">No presale, no founder allocation, no reserved share. The first block is block one.</p>
+      </article>
+      <article class="card">
+        <span class="card-tag" data-i18n="k140">Service share</span>
+        <h3 data-i18n="k141">+40%, on top</h3>
+        <p data-i18n="k142">Every 720 blocks the service share is paid: 80% by attested availability, capped at 15%
+        per node, and 20% by audit work performed. It is added to the miner's reward, never taken
+        out of it.</p>
+      </article>
+      <article class="card">
+        <span class="card-tag" data-i18n="k143">Consequence</span>
+        <h3 data-i18n="k144">18 M is not the final supply</h3>
+        <p data-i18n="k145">When nodes are being paid, real emission exceeds the target by up to 40%. The 18 M
+        describes the mining curve, not the total. Better said than hidden.</p>
+      </article>
+    </div>
+    <p style="margin-top:22px; color:var(--muted); font-size:14.5px" data-i18n="k146">
+      What is not allocated — caps, rounding, no registered nodes — is simply never emitted. No pot
+      accumulates anywhere, so there is nothing to govern and nothing to divert.
+    </p>
+  </section>
+
+  <section id="parameters">
+    <div class="sec-head">
+      <p class="sec-kicker" data-i18n="k147">Parameters</p>
+      <h2 data-i18n="k148">What is already in the code</h2>
+    </div>
+    <div class="params">
+      <table>
+        <caption data-i18n="k149">Test network — everything remains changeable before a public network</caption>
+        <tbody>
+          <tr><th scope="row" data-i18n="k150">Ticker</th><td>TSR</td></tr>
+          <tr><th scope="row" data-i18n="k151">Atomic units per coin</th><td>100,000,000</td></tr>
+          <tr><th scope="row" data-i18n="k152">Target time between blocks</th><td>60 s</td></tr>
+          <tr><th scope="row" data-i18n="k153">First block reward</th><td>17.166 TSR + fees</td></tr>
+          <tr><th scope="row" data-i18n="k154">Supply targeted before the tail</th><td>18,000,000 TSR</td></tr>
+          <tr><th scope="row" data-i18n="k155">Perpetual tail</th><td>0.35 TSR per block</td></tr>
+          <tr><th scope="row" data-i18n="k156">Proof of work</th><td>RandomX, inherited from Monero</td></tr>
+          <tr><th scope="row" data-i18n="k157">Difficulty adjustment</th><td>LWMA-1, 60-block window</td></tr>
+          <tr><th scope="row" data-i18n="k158">Signatures</th><td>ed25519</td></tr>
+          <tr><th scope="row" data-i18n="k159">Address prefix (testnet)</th><td>tsrt</td></tr>
+          <tr><th scope="row" data-i18n="k160">Chain identifier (testnet)</th><td>dd0b62f4…db86586c</td></tr>
+          <tr><th scope="row" data-i18n="k161">Payout epoch</th><td>720 blocks</td></tr>
+          <tr><th scope="row" data-i18n="k162">Auditors per node · quorum</th><td>5 · 3</td></tr>
+          <tr><th scope="row" data-i18n="k163">Premine</th><td>none</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+</div>
+
+<div class="shell">
+  <section id="status">
+    <div class="sec-head">
+      <p class="sec-kicker" data-i18n="k164">Status</p>
+      <h2 data-i18n="k165">What works, what does not exist</h2>
+      <p data-i18n="k166">A coin that pays for availability should start by being honest about its own. State as of
+      23 September 2026.</p>
+    </div>
+    <div class="board">
+      <div class="brow">
+        <b data-i18n="k167">Merge mining, verified against a real P2Pool</b>
+        <span class="chip ok" data-i18n="k168">Implemented</span>
+        <span data-i18n="k169">P2Pool accepts the chain, serves templates and submits solutions; our RandomX verification reproduces the Monero daemon's exactly, on real blocks.</span>
+      </div>
+      <div class="brow">
+        <b data-i18n="k170">Accounts, transactions, fees</b>
+        <span class="chip ok" data-i18n="k171">Implemented</span>
+        <span data-i18n="k172">ed25519 keys, network-prefixed addresses, replay-proof nonces, persistent mempool, command-line wallet.</span>
+      </div>
+      <div class="brow">
+        <b data-i18n="k173">Peer-to-peer network</b>
+        <span class="chip ok" data-i18n="k174">Implemented</span>
+        <span data-i18n="k175">Handshake, automatic peer discovery, catch-up sync, relay, reorganisations — heaviest branch wins, the switch is atomic — and banning of misbehaving peers.</span>
+      </div>
+      <div class="brow">
+        <b data-i18n="k176">Registry, proof of service, probes, penalties</b>
+        <span class="chip ok" data-i18n="k177">Implemented</span>
+        <span data-i18n="k178">Tor/I2P endpoints verified by consensus, locked collateral, chain-derived challenge, auditor ring, epoch payouts and penalties.</span>
+      </div>
+      <div class="brow">
+        <b data-i18n="k179">Public network</b>
+        <span class="chip no" data-i18n="k180">Does not exist</span>
+        <span data-i18n="k181">No public chain, no seed node. Nothing to join today.</span>
+      </div>
+      <div class="brow">
+        <b data-i18n="k182">Value, market</b>
+        <span class="chip no" data-i18n="k183">Does not exist</span>
+        <span data-i18n="k184">The token has no price, is sold nowhere, and no gain is promised.</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="limits">
+    <div class="sec-head">
+      <p class="sec-kicker" data-i18n="k185">Limits</p>
+      <h2 data-i18n="k186">What is not solved</h2>
+      <p data-i18n="k187">
+        Neither of these gets fixed by writing more code. They are here because a project that hides
+        its limits does not deserve to be examined.
+      </p>
+    </div>
+    <div class="limite">
+      <h3 data-i18n="k188">Collusion between an operator and its auditors</h3>
+      <p data-i18n="k189">
+        Faking reachability requires controlling <strong>four of the five auditors</strong> the ring
+        hands you in a round — and, over a whole epoch, being attested by
+        <strong>at least half the registry</strong>. Below that share a faked node earns nothing at
+        all: the ring eventually sends a broad sample of auditors to an honest node, while a
+        colluding node only ever hears from its own accomplices, and the payout rule refuses a
+        circle that narrow.
+      </p>
+      <p data-i18n="k190">
+        What remains is a majority attack, and it is a losing one. Holding a share of the registry
+        means locking that share of the collateral, while the rounds it buys grow more slowly:
+      </p>
+      <div class="scroller" style="margin:18px 0">
+        <table style="min-width:520px">
+          <caption data-i18n="k191">Cost and gain of collusion</caption>
+          <tbody>
+            <tr><th scope="row" data-i18n="k192">Share of the registry held</th><td>30%</td><td>50%</td><td>60%</td><td>70%</td></tr>
+            <tr><th scope="row" data-i18n="k193">Rounds it can fake</th><td>3.1%</td><td>18.8%</td><td>33.7%</td><td>52.8%</td></tr>
+            <tr><th scope="row" data-i18n="k194">Share of the pot it captures</th><td>0%</td><td>15.8%</td><td>33.6%</td><td>55.2%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p data-i18n="k195">
+        Below half the registry the diversity rule zeroes it out; at half, fifty percent of the
+        collateral buys under sixteen percent of the pot. The attack only pays past roughly sixty
+        percent — the same threshold every proof-of-work and proof-of-stake chain lives with.
+      </p>
+      <p data-i18n="k196">
+        And the worst case is bounded: a colluder can claim availability it does not have, which
+        <em>dilutes what honest operators are paid</em>. It cannot steal a balance, rewrite the
+        chain, forge a block, or touch Monero in any way. This is subsidy fraud, not a chain attack.
+      </p>
+      <p data-i18n="k197">
+        Removing it entirely would mean a trusted party deciding who is reachable — which is the
+        thing this whole design exists to avoid. So it is reduced, quantified, made unprofitable,
+        and stated. Not solved.
+      </p>
+    </div>
+    <div class="limite">
+      <h3 data-i18n="k198">Consensus bounds ten minutes, not a millisecond</h3>
+      <p data-i18n="k199">
+        The auditor's nonce is anchored to the round's block hash, so a signature carrying it cannot
+        have been produced earlier, and a probe is only admissible for ten blocks. The chain
+        therefore bounds <em>when</em> the answer was produced without trusting anyone's stopwatch.
+        What it still does not measure is bandwidth or latency: making a faker serve four Monero
+        blocks to five auditors is a real cost, but an economic one rather than a proven one.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <p data-i18n="k202">
+      The design is submitted to public criticism at the Monero Research Lab, open questions
+      included: <a href="https://github.com/monero-project/research-lab/issues/164" data-i18n="k200">research-lab, issue 164</a>.
+      The objections that come out of it will change the project, or end it.
+    </p>
+    <p style="margin-top:14px" data-i18n="k201">
+      Code under the MIT licence. The project is affiliated with neither Monero nor P2Pool: it uses
+      P2Pool's public merge mining interface, with no effect on Monero's consensus or mining
+      economics. <em>Tessera</em>, after the Roman <em>tessera hospitalis</em> — a token broken in
+      two, one half for the host, one for the guest, proving the right to hospitality.
+    </p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var TRAD = { fr: {"k001": "Tessera", "k002": "Le projet", "k003": "Miner", "k004": "Commencer", "k005": "La preuve", "k006": "Émission", "k007": "État", "k009": "Chaîne auxiliaire merge-minée avec Monero", "k010": "Un seul hash RandomX règle deux chaînes à la fois. Vous ne partagez pas votre hashrate et vous n'en dépensez pas un de plus — et la récompense va aux opérateurs de nœuds Monero joignables uniquement par Tor et I2P.", "k011": "Comment le miner", "k012": "Ce qui n'est pas résolu", "k013": "Prototype.", "k014": "Pas de réseau public, aucun jeton en circulation, rien à vendre. La conception est en relecture publique au Monero Research Lab avant d'aller plus loin.", "k016": "Le projet", "k017": "Financer les nœuds que personne ne paie", "k018": "Les nœuds Monero publics sont tenus par des bénévoles. Ceux qui comptent le plus pour la vie privée — joignables seulement par Tor ou I2P — sont aussi les plus coûteux à maintenir et les moins visibles. Tessera les rémunère avec une monnaie qui ne coûte rien à produire, puisqu'elle réutilise un travail de minage déjà fait. Trois règles encadrent l'idée, et elles vivent dans le code plutôt que dans une déclaration d'intention.", "k019": "Règle 1", "k020": "La disponibilité, jamais l'usage", "k021": "Payer à la requête créerait une incitation directe à journaliser, classer et attribuer le trafic des utilisateurs. Les sondages vérifient qu'un nœud répond. Rien d'autre n'est observé.", "k022": "Règle 2", "k023": "Tor et I2P uniquement", "k024": "Le consensus accepte un point d'accès <code>.onion</code> v3 ou <code>.b32.i2p</code>, et rien d'autre — une forme clearnet est rejetée par le réseau. Subventionner le clearnet financerait exactement ce contre quoi Monero se défend.", "k025": "Règle 3", "k026": "Du collatéral, pas de la réputation", "k027": "Résister au Sybil doit coûter de l'argent, faute de pouvoir établir une identité sans tiers de confiance. S'enregistrer immobilise un dépôt, qu'un manquement entame.", "k028": "Miner", "k029": "Quatre briques, un seul hash", "k030": "Votre mineur cherche un hash RandomX pour Monero, exactement comme il le fait déjà. p2pool glisse dans la coinbase du bloc Monero un arbre de Merkle qui porte le hash de notre bloc. Si le hash trouvé satisfait notre difficulté, il compte aussi pour nous — sans calcul supplémentaire. Ni GPU ni ASIC ne peuvent s'en mêler : miner Tessera, c'est miner du RandomX.", "k031": "Soyons exacts sur ce que cela ne veut pas dire : <strong>la sécurité de Tessera est sa propre difficulté, pas le hashrate de Monero.</strong> Le bloc Monero qui porte notre preuve n'a pas besoin d'avoir été accepté par Monero — l'exiger rendrait notre consensus dépendant de la vue qu'a chaque nœud de la chaîne Monero. Le merge mining rend Tessera gratuit à miner pour qui mine déjà du Monero ; il ne lui transfère pas sa sécurité.", "k032": "L'emplacement de chaque chaîne dans l'arbre est imposé par son identifiant : personne ne peut miner deux versions d'une même chaîne dans un seul bloc Monero.", "k033": "Un monerod à RPC non restreint", "k034": "C'est lui qui vérifie le RandomX pour nous, via <code>calc_pow</code>, et qui vérifie aussi les preuves de service. Son RPC reste en local — ne l'exposez jamais.", "k035": "Un nœud Tessera", "k036": "Il répond aux trois méthodes de merge mining de p2pool sur le port 19081 et parle aux autres nœuds sur 19082.", "k037": "p2pool avec <code>--merge-mine</code>", "k038": "p2pool 4.0 ou plus. Il interroge le nœud Tessera, insère notre hash dans le bloc Monero et soumet les solutions aux deux chaînes. N'importe quel pool peut faire pareil — l'interface est générique, et plusieurs pools peuvent miner Tessera en même temps.", "k039": "Votre mineur, inchangé", "k040": "Pointé sur le stratum de p2pool, exactement comme pour miner du Monero seul. Rien de plus à configurer, rien à installer côté mineur.", "k041": "# le nœud Tessera, qui délègue la vérification RandomX à monerod", "k044": "# p2pool mine Monero et Tessera dans le même hash", "k047": "Aujourd'hui ces commandes ne fonctionnent que contre un réseau de test local.", "k048": "Commencer", "k049": "Un portefeuille, puis un nœud", "k050": "Tout ce qui suit tourne contre une <strong>chaîne de test locale</strong>. Il n'y a pas de réseau public à rejoindre : ce que vous minez n'existe que sur votre machine, et ne vaut rien. C'est l'intérêt pour l'instant — le mécanisme peut être éprouvé de bout en bout avant tout lancement.", "k051": "Il vous faut Python 3.12 et le paquet <code>cryptography</code>. Rien d'autre — pas de compilateur, pas de base de données, pas d'étape de construction.", "k052": "Créer un portefeuille", "k053": "Le portefeuille demande au nœud sur quel réseau il est et quel nonce utiliser : démarrez donc un nœud d'abord, et laissez-le tourner dans un autre terminal.", "k054": "# un nœud local, avec une preuve de travail factice — pas besoin de monerod", "k058": "# dans un autre terminal : créer la clé, puis la regarder", "k059": "Sauvegardez-la tout de suite.", "k060": "<code>~/.tessera/wallet.json</code> contient votre clé privée <strong>en clair</strong>. Elle n'est pas chiffrée, elle ne se régénère pas, et la perdre c'est perdre les coins. Copiez-la quelque part de sûr avant de miner quoi que ce soit.", "k061": "Miner", "k062": "Deux façons. La première ne demande que Python et prouve tout le chemin en une minute. La seconde est la vraie, contre un vrai démon Monero et un vrai p2pool.", "k063": "La voie rapide — un pool simulé", "k064": "<code>tools/fake_p2pool.py</code> joue le côté p2pool des trois appels RPC contre votre nœud local, avec une preuve de travail factice. Les blocs arrivent en quelques secondes et votre solde bouge.", "k065": "La vraie voie — monerod, p2pool, votre mineur", "k066": "Un démon Monero testnet à RPC <strong>non restreint</strong>, parce que Tessera vérifie le RandomX via <code>calc_pow</code>, qu'un RPC restreint n'expose pas. Gardez ce RPC en local.", "k075": "# puis pointez votre mineur habituel sur le stratum", "k076": "Sur votre plateforme", "k077": "Deux rôles, et ce n'est pas le même métier. <strong>Miner</strong> ne demande qu'un mineur pointé sur un pool qui merge-mine — aucun nouveau logiciel, rien de spécifique à Tessera. Faire tourner la <strong>pile</strong> — un démon Monero, p2pool et un nœud Tessera — voilà ce qui demande une installation, et une seule personne par pool doit s'en charger.", "k078": "Linux", "k079": "Windows", "k080": "HiveOS", "k081": "La plateforme de référence — tout ce qui est ici y a été construit et testé.", "k082": "# le nœud demande Python 3.12 et une bibliothèque", "k083": "# monerod et p2pool : binaires statiques officiels, aucun compilateur", "k084": "# getmonero.org/downloads · github.com/SChernykh/p2pool/releases", "k085": "# puis les trois commandes ci-dessus, et votre mineur habituel sur le stratum", "k086": "Les mêmes briques, avec les binaires Windows officiels des trois. Installez Python 3.12 depuis python.org en cochant <em>Add python.exe to PATH</em>, puis lancez le nœud depuis PowerShell.", "k087": "# monerod : l'archive monero-win-x64 de getmonero.org", "k088": "# le nœud Tessera", "k089": "# p2pool : p2pool-vX-windows-x64.zip", "k090": "# puis xmrig, lancé en administrateur pour les large pages", "k091": "Lancer xmrig en administrateur est une affaire de RandomX, pas de Tessera — sans les large pages vous perdez un tiers de votre hashrate sur n'importe quel minage Monero.", "k092": "<strong>Un rig HiveOS n'a besoin d'aucun changement.</strong> Il mine du RandomX avec xmrig vers une URL de stratum ; que ce pool merge-mine ou non regarde le pool, pas le rig. Vous n'installez donc rien de lié à Tessera sur le rig.", "k093": "Faites tourner la pile sur une machine que vous contrôlez — un petit serveur, un Raspberry Pi 5, ou la même machine que votre nœud — et pointez la flight sheet dessus :", "k094": "# Flight sheet", "k095": "# p2pool paie le portefeuille avec lequel il a été lancé", "k096": "N'exposez à vos rigs que le port stratum — sur un réseau privé ou un VPN maillé plutôt que sur l'internet ouvert. Le RPC Monero doit rester en local : il tourne non restreint, puisque Tessera vérifie le RandomX via <code>calc_pow</code>.", "k097": "Vérifier que ça marche", "k098": "p2pool écrit <code>uses chain_id …</code> une fois la chaîne acceptée. Le nœud écrit une ligne par bloc accepté, et votre solde tranche.", "k099": "p2pool attend un démon entièrement synchronisé avant de démarrer — il répète <code>monerod is busy syncing</code> jusque-là. Le testnet Monero fait environ 3 millions de blocs : comptez une nuit pour la première synchro, et quelques minutes pour rattraper ensuite.", "k100": "La preuve de service", "k101": "Comment prouver qu'un nœud caché est là", "k102": "C'est le problème central du projet. La disponibilité d'un service caché est un fait qui vit hors chaîne : tout rapport à son sujet est l'affirmation de celui qui a sondé, donc invérifiable. La sortie tient à trois observations.", "k103": "1 · Identité", "k104": "Une adresse .onion <em>est</em> une clé", "k105": "Une adresse Tor v3, c'est <code>base32(clé_ed25519 ‖ checksum ‖ version)</code>. Le consensus en extrait la clé publique et vérifie le checksum. Personne ne peut signer à la place d'un service.", "k106": "2 · Défi", "k107": "Le défi vient de la chaîne", "k108": "<code>Keccak256(hash_du_tour ‖ adresse)</code> désigne quatre blocs Monero consécutifs parmi les mille derniers. Imprévisible, identique pour tous, non rejouable, et encore présent sur un nœud élagué.", "k109": "3 · Vérification", "k110": "Chaque nœud revérifie", "k111": "Chaque nœud Tessera fait déjà tourner un monerod. Il recalcule lui-même la réponse attendue, puis vérifie la signature. <strong>Celui qui transporte la preuve n'a aucun pouvoir sur elle.</strong>", "k112": "L'aléa de l'auditeur change tout", "k113": "Le défi est public : un nœud pourrait le calculer hors ligne et n'aurait jamais besoin d'être joignable. C'est pourquoi l'auditeur ajoute <strong>son propre aléa</strong>, ancré au hash du bloc du tour : la réponse est liée à cet auditeur et à ce tirage, et la signature <strong>ne peut pas précéder ce bloc</strong>. Le consensus borne le moment où elle a été produite.", "k114": "Et c'est de là que vient le coût du Sybil", "k115": "La réponse couvre quatre blocs Monero. Une machine peut détenir la chaîne une fois pour mille identités ; elle ne peut pas la servir mille fois, à cinq auditeurs chacune, dans le délai accordé. Le coût redevient proportionnel au nombre d'identités, sans jamais avoir besoin de connaître un ASN.", "k116": "Les auditeurs", "k117": "Tirés, jamais choisis", "k118": "À chaque tour, les nœuds enregistrés sont rangés en anneau par <code>Keccak256(hash_du_tour ‖ adresse)</code>. Chacun audite ses cinq suivants, donc chacun est audité par ses cinq précédents. Ni l'audité ni l'auditeur ne décident, l'anneau tourne à chaque tour, et la charge est exactement la même pour tous — personne n'est surchargé, personne n'est oublié. C'est l'animation en haut de cette page.", "k119": "Quorum", "k120": "Trois oui, au plus un non", "k121": "Un auditeur qui ne joint pas un nœud dépose un constat d'absence, qui compte comme un devoir rendu. Un tour exige trois attestations <strong>et au plus une absence</strong> — trois complices sur cinq ne suffisent donc plus. Il en faut quatre.", "k122": "Sanction", "k123": "Ignorer son tirage coûte", "k124": "À chaque époque, l'anneau est recalculé sur huit tours échantillonnés. Sous 50 % de devoirs rendus, 5 % du collatéral est <strong>brûlé</strong> — jamais versé à quelqu'un, pour que personne n'ait intérêt à faire sanctionner un autre.", "k125": "Diversité", "k126": "Un cercle étroit ne gagne rien", "k127": "Sur une époque, l'anneau envoie à un nœud honnête des auditeurs de tout le registre. Un nœud attesté seulement par le même petit groupe n'est pas payé pour sa disponibilité — c'est ce qui rend la collusion stérile en dessous de la moitié du registre.", "k128": "Radiation", "k129": "Sous le minimum, on sort", "k130": "Si le collatéral tombe sous le seuil, le nœud quitte le registre et le reliquat revient à son opérateur. Garder bloqué le dépôt d'un nœud radié ne protégerait rien.", "k131": "Émission", "k132": "Une queue qui ne s'arrête jamais", "k133": "<code>récompense = max((18 000 000 TSR − émis) ≫ 20, 0,35 TSR)</code>, plus les frais du bloc. Avec des blocs d'une minute, ce décalage de 20 bits suit la courbe de Monero en temps réel. La queue ne s'arrête jamais, et c'est le point : <strong>une chaîne dont la raison d'être est de payer un service en continu ne peut pas cesser d'émettre sans cesser de payer.</strong>", "k134": "Récompense par bloc, sur treize ans", "k135": "En TSR. La queue perpétuelle de 0,35 TSR est atteinte vers la huitième année.", "k136": "Voir les valeurs", "k137": "Aucun premine", "k138": "Personne ne part avec de l'avance", "k139": "Pas de prévente, pas de part fondateur, aucune allocation réservée. Le premier bloc est le bloc un.", "k140": "Part service", "k141": "+40 %, en plus", "k142": "Tous les 720 blocs, la part service est versée : 80 % à la disponibilité attestée, plafonnée à 15 % par nœud, et 20 % au travail d'audit rendu. Elle s'ajoute à la récompense du mineur, elle ne lui est jamais retirée.", "k143": "Conséquence", "k144": "18 M n'est pas la masse finale", "k145": "Quand des nœuds sont payés, l'émission réelle dépasse la cible de jusqu'à 40 %. Les 18 M décrivent la courbe du minage, pas le total. Autant le dire que le cacher.", "k146": "Ce qui n'est pas attribué — plafonds, arrondis, absence de nœuds enregistrés — n'est tout simplement jamais émis. Aucun pot ne s'accumule nulle part : il n'y a donc rien à gouverner ni à détourner.", "k147": "Paramètres", "k148": "Ce qui est déjà dans le code", "k149": "Réseau de test — tout reste modifiable avant un réseau public", "k150": "Ticker", "k151": "Unités atomiques par coin", "k152": "Intervalle visé entre deux blocs", "k153": "Récompense du premier bloc", "k154": "Masse visée avant la queue", "k155": "Queue perpétuelle", "k156": "Preuve de travail", "k157": "Ajustement de difficulté", "k158": "Signatures", "k159": "Préfixe d'adresse (testnet)", "k160": "Identifiant de chaîne (testnet)", "k161": "Époque de paiement", "k162": "Auditeurs par nœud · quorum", "k163": "Premine", "k164": "État", "k165": "Ce qui marche, ce qui n'existe pas", "k166": "Un coin qui paie de la disponibilité devrait commencer par être honnête sur la sienne. État au 23 septembre 2026.", "k167": "Merge mining, vérifié contre un vrai p2pool", "k168": "Implémenté", "k169": "p2pool accepte la chaîne, sert les templates et soumet des solutions ; notre vérification RandomX reproduit exactement celle du démon Monero, sur des blocs réels.", "k170": "Comptes, transactions, frais", "k171": "Implémenté", "k172": "Clés ed25519, adresses à préfixe réseau, nonces anti-rejeu, mempool persistant, portefeuille en ligne de commande.", "k173": "Réseau pair à pair", "k174": "Implémenté", "k175": "Poignée de main, découverte automatique de pairs, rattrapage, relais, réorganisations — la branche la plus lourde l'emporte, la bascule est atomique — et mise à l'écart des pairs fautifs.", "k176": "Registre, preuve de service, sondages, sanctions", "k177": "Implémenté", "k178": "Points d'accès Tor/I2P vérifiés par le consensus, collatéral immobilisé, défi dérivé de la chaîne, anneau d'auditeurs, versements et sanctions de fin d'époque.", "k179": "Réseau public", "k180": "N'existe pas", "k181": "Aucune chaîne publique, aucun nœud d'amorçage. Rien à rejoindre aujourd'hui.", "k182": "Valeur, marché", "k183": "N'existe pas", "k184": "Le jeton n'a aucun prix, n'est vendu nulle part, et aucun gain n'est promis.", "k185": "Limites", "k186": "Ce qui n'est pas résolu", "k187": "Ni l'un ni l'autre ne se règle en écrivant plus de code. Ils sont ici parce qu'un projet qui cache ses limites ne mérite pas qu'on l'examine.", "k188": "La collusion entre un audité et ses auditeurs", "k189": "Simuler sa joignabilité suppose de contrôler <strong>quatre des cinq auditeurs</strong> que l'anneau vous donne dans un tour — et, sur une époque entière, d'être attesté par <strong>au moins la moitié du registre</strong>. En dessous de cette part, un faux nœud ne gagne rien du tout : l'anneau finit par envoyer à un nœud honnête un large échantillon d'auditeurs, tandis qu'un nœud complice n'entend jamais que les siens, et la règle de versement refuse un cercle aussi étroit.", "k190": "Ce qui reste est une attaque majoritaire, et elle est perdante. Détenir une part du registre suppose d'immobiliser cette part du collatéral, alors que les tours qu'elle achète progressent plus lentement :", "k191": "Coût et gain de la collusion", "k192": "Part du registre détenue", "k193": "Tours qu'il peut simuler", "k194": "Part du pot qu'il capte", "k195": "En dessous de la moitié du registre, la règle de diversité l'annule ; à la moitié, cinquante pour cent du collatéral achètent moins de seize pour cent du pot. L'attaque ne paie qu'au-delà d'environ soixante pour cent — le seuil avec lequel vit toute chaîne à preuve de travail comme à preuve d'enjeu.", "k196": "Et le pire cas est borné : un complice peut revendiquer une disponibilité qu'il n'a pas, ce qui <em>dilue ce que touchent les opérateurs honnêtes</em>. Il ne peut pas voler un solde, réécrire la chaîne, forger un bloc, ni toucher Monero d'une quelconque façon. C'est de la fraude à la subvention, pas une attaque sur la chaîne.", "k197": "La supprimer entièrement supposerait un tiers de confiance décrétant qui est joignable — précisément ce que toute cette conception existe pour éviter. Elle est donc réduite, chiffrée, rendue non rentable, et annoncée. Pas résolue.", "k198": "Le consensus borne dix minutes, pas une milliseconde", "k199": "L'aléa de l'auditeur est ancré au hash du bloc du tour : une signature qui le porte n'a pas pu être produite avant, et un sondage n'est recevable que dix blocs. La chaîne borne donc <em>quand</em> la réponse a été produite, sans faire confiance au chronomètre de personne. Ce qu'elle ne mesure toujours pas, c'est la bande passante ou la latence : obliger un tricheur à servir quatre blocs Monero à cinq auditeurs est un coût réel, mais économique plutôt que prouvé.", "k200": "research-lab, issue 164", "k201": "Code sous licence MIT. Le projet n'est affilié ni à Monero ni à p2pool : il utilise l'interface publique de merge mining de p2pool, sans effet sur le consensus ni sur l'économie minière de Monero. <em>Tessera</em>, d'après la <em>tessera hospitalis</em> romaine — un jeton brisé en deux, une moitié pour l'hôte, une pour l'hébergé, preuve du droit à l'hospitalité.", "k202": "La conception est soumise à la critique publique du Monero Research Lab, questions ouvertes comprises : <a href=\"https://github.com/monero-project/research-lab/issues/164\">research-lab, issue 164</a>. Les objections qui en sortiront changeront le projet, ou l'arrêteront."} };
+  var select = document.getElementById('langue');
+  function applique(langue) {
+    document.documentElement.lang = langue;
+    var d = TRAD[langue];
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n]'), function (el) {
+      if (el.dataset.source === undefined) el.dataset.source = el.innerHTML;
+      var t = d && d[el.getAttribute('data-i18n')];
+      el.innerHTML = (t === undefined || t === null) ? el.dataset.source : t;
+    });
+    if (select) select.value = langue;
+    try { localStorage.setItem('tessera-langue', langue); } catch (e) {}
+  }
+  var choisie = null;
+  try { choisie = localStorage.getItem('tessera-langue'); } catch (e) {}
+  if (!choisie) {
+    var nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
+    choisie = TRAD[nav] ? nav : 'en';
+  }
+  if (choisie !== 'en') applique(choisie);
+  else if (select) select.value = 'en';
+  if (select) select.addEventListener('change', function () { applique(select.value); });
+})();
+</script>
+
+<script>
+(function () {
+  var onglets = Array.prototype.slice.call(document.querySelectorAll('.tabs [role="tab"]'));
+  function montre(cible) {
+    onglets.forEach(function (o) {
+      var actif = o === cible;
+      o.setAttribute('aria-selected', actif ? 'true' : 'false');
+      document.getElementById(o.getAttribute('aria-controls')).hidden = !actif;
+    });
+  }
+  onglets.forEach(function (o, i) {
+    o.addEventListener('click', function () { montre(o); });
+    o.addEventListener('keydown', function (e) {
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      var suivant = onglets[(i + d + onglets.length) % onglets.length];
+      suivant.focus(); montre(suivant);
+    });
+  });
+})();
+
+(function () {
+  var data = [[0,17.166],[0.25,15.144],[0.5,13.361],[0.75,11.787],[1,10.399],[1.25,9.174],[1.5,8.094],[1.75,7.14],[2,6.299],[2.25,5.557],[2.5,4.903],[2.75,4.325],[3,3.816],[3.25,3.366],[3.5,2.97],[3.75,2.62],[4,2.312],[4.25,2.039],[4.5,1.799],[4.75,1.587],[5,1.4],[5.25,1.235],[5.5,1.09],[5.75,0.962],[6,0.848],[6.25,0.748],[6.5,0.66],[6.75,0.582],[7,0.514],[7.25,0.453],[7.5,0.4],[7.75,0.353],[8,0.35],[8.5,0.35],[9,0.35],[9.5,0.35],[10,0.35],[10.5,0.35],[11,0.35],[11.5,0.35],[12,0.35],[12.5,0.35],[13,0.35]];
+  var svg = document.getElementById('courbe');
+  if (!svg) return;
+  var W = 720, H = 300, L = 54, R = 18, T = 18, B = 40;
+  var xmax = 13, ymax = 18;
+  function X(v) { return L + (v / xmax) * (W - L - R); }
+  function Y(v) { return H - B - (v / ymax) * (H - T - B); }
+  var el = function (n, a) {
+    var e = document.createElementNS('http://www.w3.org/2000/svg', n);
+    for (var k in a) e.setAttribute(k, a[k]);
+    return e;
+  };
+  var frag = document.createDocumentFragment();
+
+  [0, 5, 10, 15].forEach(function (v) {
+    frag.appendChild(el('line', { x1: L, y1: Y(v), x2: W - R, y2: Y(v), class: 'ax' }));
+    var t = el('text', { x: L - 10, y: Y(v) + 4, class: 'ax-t', 'text-anchor': 'end' });
+    t.textContent = v;
+    frag.appendChild(t);
+  });
+  [0, 2, 4, 6, 8, 10, 12].forEach(function (v) {
+    var t = el('text', { x: X(v), y: H - B + 20, class: 'ax-t', 'text-anchor': 'middle' });
+    t.textContent = v === 0 ? 'launch' : 'year ' + v;
+    frag.appendChild(t);
+  });
+
+  var d = '', a = 'M' + X(0) + ' ' + Y(0);
+  data.forEach(function (p, i) {
+    d += (i ? ' L' : 'M') + X(p[0]) + ' ' + Y(p[1]);
+    a += ' L' + X(p[0]) + ' ' + Y(p[1]);
+  });
+  a += ' L' + X(xmax) + ' ' + Y(0) + ' Z';
+  frag.appendChild(el('path', { d: a, class: 'aire' }));
+  frag.appendChild(el('path', { d: d, class: 'serie' }));
+
+  frag.appendChild(el('line', { x1: X(8), y1: Y(0.35), x2: X(8), y2: Y(6.6), class: 'repere' }));
+  var n1 = el('text', { x: X(8), y: Y(7.1), class: 'note', 'text-anchor': 'middle' });
+  n1.textContent = 'perpetual tail · 0.35 TSR';
+  frag.appendChild(n1);
+  frag.appendChild(el('circle', { cx: X(8), cy: Y(0.35), r: 4.5, class: 'pt' }));
+  frag.appendChild(el('circle', { cx: X(0), cy: Y(17.166), r: 4.5, class: 'pt' }));
+  var n2 = el('text', { x: X(0) + 12, y: Y(17.166) + 4, class: 'note' });
+  n2.textContent = '17.166 TSR at the first block';
+  frag.appendChild(n2);
+
+  var croix = el('line', { x1: 0, y1: T, x2: 0, y2: H - B, class: 'croix' });
+  var point = el('circle', { cx: 0, cy: 0, r: 5, class: 'pt', opacity: 0 });
+  frag.appendChild(croix);
+  frag.appendChild(point);
+  svg.appendChild(frag);
+
+  var bulle = document.getElementById('bulle');
+  function survol(ev) {
+    var box = svg.getBoundingClientRect();
+    var px = ((ev.touches ? ev.touches[0].clientX : ev.clientX) - box.left) / box.width * W;
+    var an = Math.max(0, Math.min(xmax, (px - L) / (W - L - R) * xmax));
+    var best = data[0];
+    data.forEach(function (p) { if (Math.abs(p[0] - an) < Math.abs(best[0] - an)) best = p; });
+    croix.setAttribute('x1', X(best[0])); croix.setAttribute('x2', X(best[0]));
+    croix.setAttribute('opacity', 1);
+    point.setAttribute('cx', X(best[0])); point.setAttribute('cy', Y(best[1]));
+    point.setAttribute('opacity', 1);
+    bulle.textContent = 'year ' + best[0] + ' · ' + best[1] + ' TSR/block';
+    bulle.style.left = (X(best[0]) / W * box.width) + 'px';
+    bulle.style.top = (Y(best[1]) / H * box.height) + 'px';
+    bulle.style.opacity = 1;
+  }
+  function sortie() {
+    croix.setAttribute('opacity', 0); point.setAttribute('opacity', 0); bulle.style.opacity = 0;
+  }
+  svg.addEventListener('mousemove', survol);
+  svg.addEventListener('mouseleave', sortie);
+  svg.addEventListener('touchmove', survol, { passive: true });
+  svg.addEventListener('touchend', sortie);
+
+  var tbl = document.getElementById('table-courbe');
+  if (tbl) {
+    var html = '<caption>Reward per block</caption><tbody>';
+    data.forEach(function (p) {
+      html += '<tr><th scope="row">year ' + p[0] + '</th><td>' + p[1] + ' TSR</td></tr>';
+    });
+    tbl.innerHTML = html + '</tbody>';
+  }
+})();
+</script>
+</body>
+</html>
