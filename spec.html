@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tessera — Specification</title>
+<meta name="description" content="Technical specification of Tessera: merge mining, emission, service node registry, proof of service and audits.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2307090d'/%3E%3Cpath d='M7 7h18v5h-6.5v13H13V12H7z' fill='%233ddbd0'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;800&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#07090d; --bg-2:#0c1016; --panel:#11161e; --panel-2:#181f2a;
+  --line:#1f2836; --line-2:#2f3b4c; --ink:#eef2f8; --ink-2:#a7b2c3; --muted:#6b7789;
+  --cyan:#3ddbd0; --cyan-dim:#0f3d3b; --amber:#e0a860;
+  --display:"Sora","Helvetica Neue",Arial,sans-serif;
+  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:#ffffff; --bg-2:#f5f7fa; --panel:#ffffff; --panel-2:#eef2f7;
+    --line:#dde4ec; --line-2:#bcc7d5; --ink:#0b1017; --ink-2:#3d4959; --muted:#6a7788;
+    --cyan:#0a7a74; --cyan-dim:#d3efec; --amber:#8a5d12;
+  }
+}
+:root[data-theme="light"] {
+  --bg:#ffffff; --bg-2:#f5f7fa; --panel:#ffffff; --panel-2:#eef2f7;
+  --line:#dde4ec; --line-2:#bcc7d5; --ink:#0b1017; --ink-2:#3d4959; --muted:#6a7788;
+  --cyan:#0a7a74; --cyan-dim:#d3efec; --amber:#8a5d12;
+}
+* { box-sizing: border-box; }
+body {
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--body); font-size:16px; line-height:1.68;
+  -webkit-text-size-adjust:100%;
+}
+.top {
+  position:sticky; top:0; z-index:10; border-bottom:1px solid var(--line);
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(10px);
+}
+.top .in { max-width:1080px; margin:0 auto; padding:0 16px; height:56px;
+  display:flex; align-items:center; gap:12px; }
+.brand { display:flex; align-items:center; gap:9px; text-decoration:none; color:var(--ink); }
+.brand-name { font-family:var(--display); font-weight:700; font-size:17px; letter-spacing:-0.02em; }
+.top a.back { margin-left:auto; font-size:14px; color:var(--ink-2); text-decoration:none;
+  padding:7px 11px; border:1px solid var(--line); border-radius:9px; }
+.top a.back:hover { color:var(--ink); border-color:var(--line-2); }
+.wrap { max-width:1080px; margin:0 auto; padding:0 16px; display:grid; gap:40px;
+  grid-template-columns: 232px minmax(0,1fr); align-items:start; }
+nav.toc { position:sticky; top:76px; padding:26px 0 40px; font-size:13.5px; max-height:calc(100vh - 92px); overflow:auto; }
+nav.toc p { font-family:var(--mono); font-size:10.5px; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--muted); margin:0 0 10px; }
+nav.toc a { display:block; color:var(--ink-2); text-decoration:none; padding:3.5px 0; text-wrap:pretty; }
+nav.toc a:hover { color:var(--cyan); }
+nav.toc a.sub { padding-left:13px; font-size:12.5px; color:var(--muted); }
+main { padding:26px 0 96px; min-width:0; }
+.lede { border:1px solid var(--line); background:var(--panel); border-radius:12px;
+  padding:14px 16px; font-size:14.5px; color:var(--ink-2); margin:0 0 30px; }
+.lede b { color:var(--ink); }
+h1 { font-family:var(--display); font-size:clamp(30px,5vw,42px); font-weight:800;
+  letter-spacing:-0.025em; line-height:1.12; margin:0 0 6px; }
+h2 { font-family:var(--display); font-size:clamp(21px,3vw,26px); font-weight:700;
+  letter-spacing:-0.02em; margin:52px 0 14px; padding-top:14px; border-top:1px solid var(--line); scroll-margin-top:72px; }
+h3 { font-family:var(--display); font-size:18px; font-weight:600; margin:32px 0 10px; scroll-margin-top:72px; }
+p, li { text-wrap:pretty; }
+a { color:var(--cyan); }
+code { font-family:var(--mono); font-size:0.875em; background:var(--panel-2);
+  border:1px solid var(--line); border-radius:5px; padding:1px 5px; word-break:break-word; }
+pre { background:var(--panel); border:1px solid var(--line); border-radius:11px;
+  padding:14px 16px; overflow:auto; font-size:13px; line-height:1.6; }
+pre code { background:none; border:0; padding:0; font-size:inherit; }
+blockquote { margin:20px 0; padding:2px 0 2px 16px; border-left:3px solid var(--amber); color:var(--ink-2); }
+table { border-collapse:collapse; width:100%; margin:20px 0; font-size:14px; display:block; overflow-x:auto; }
+th, td { border:1px solid var(--line); padding:8px 11px; text-align:left; white-space:nowrap; }
+th { background:var(--panel-2); font-weight:700; }
+hr { border:0; border-top:1px solid var(--line); margin:38px 0; }
+ul, ol { padding-left:22px; }
+li { margin:5px 0; }
+@media (max-width: 860px) {
+  .wrap { grid-template-columns:minmax(0,1fr); gap:0; }
+  nav.toc { position:static; max-height:none; border-bottom:1px solid var(--line); }
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <a class="brand" href="./">
+    <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
+      <rect width="32" height="32" rx="7" fill="var(--cyan-dim)"></rect>
+      <path d="M7 7h18v5h-6.5v13H13V12H7z" fill="var(--cyan)"></path>
+    </svg>
+    <span class="brand-name">Tessera</span>
+  </a>
+  <a class="back" href="./">&larr; Back to the site</a>
+</div></header>
+<div class="wrap">
+  <nav class="toc" aria-label="Sections"><p>Contents</p><a class="" href="#proof-of-work-auxpow">Proof of work (AuxPoW)</a>
+<a class="" href="#accounts-addresses-transactions">Accounts, addresses, transactions</a>
+<a class="" href="#the-parent-monero-block">The parent Monero block</a>
+<a class="" href="#chain-identity-chain-id">Chain identity (chain_id)</a>
+<a class="" href="#difficulty">Difficulty</a>
+<a class="" href="#emission">Emission</a>
+<a class="" href="#service-node-registry">Service node registry</a>
+<a class="sub" href="#proof-of-service">Proof of service</a>
+<a class="sub" href="#auditor-probes">Auditor probes</a>
+<a class="sub" href="#the-absence-report">The absence report</a>
+<a class="sub" href="#payout-epoch">Payout epoch</a>
+<a class="sub" href="#penalising-a-failing-auditor">Penalising a failing auditor</a>
+<a class="sub" href="#auditor-diversity">Auditor diversity</a>
+<a class="sub" href="#what-remains">What remains</a>
+<a class="" href="#peer-to-peer-network">Peer-to-peer network</a>
+<a class="" href="#what-does-not-exist-yet">What does not exist yet</a></nav>
+  <main>
+    <h1>Specification</h1>
+    <div class="lede"><b>Prototype.</b> No public network, no token in circulation, nothing for
+    sale. This document describes the mechanism as implemented, including what it does not
+    solve.</div>
+    <p>A French version of this document is kept at <a href="SPEC.fr.md">SPEC.fr.md</a>.</p>
+<h2 id="proof-of-work-auxpow">Proof of work (AuxPoW)</h2>
+<p>A block at height h is valid if, and only if:</p>
+<ol>
+<li><code>aux_hash = SHA256(aux_blob)</code> and <code>aux_blob</code> is the canonical serialisation (sorted JSON) of a
+   <code>BlockHeader</code> <code>{version, height, prev_hash, timestamp, difficulty, miner_address, tx_root}</code>.</li>
+<li><code>prev_hash</code> is the current tip, <code>height = tip + 1</code>, <code>difficulty = next_difficulty()</code>.</li>
+<li>The Monero blob parses; its coinbase carries a <code>0x03</code> merge mining tag giving
+   <code>(n_aux_chains, aux_nonce, merkle_root)</code> in P2Pool's format.</li>
+<li><code>slot = SHA256(chain_id | aux_nonce_le32 | 'm') % n_aux_chains</code> and the merkle proof (Keccak-256,
+   Monero's tree) links <code>aux_hash</code> to <code>merkle_root</code> <strong>at that exact slot</strong> — which is what stops
+   anyone mining two versions of the same chain.</li>
+<li><code>pow = RandomX(hashing_blob, seed_hash)</code> computed by monerod (<code>calc_pow</code>) satisfies
+   <code>int_le(pow) * difficulty &lt;= 2^256 - 1</code>. <strong>RandomX does not hash the full block</strong> P2Pool sends,
+   but its hashing blob: header (up to and including the nonce) + merkle root of
+   <code>[coinbase_hash] + tx_hashes</code> + leaf count. The coinbase hash follows Monero's v2 transaction
+   rule: <code>Keccak(H(prefix) || H(0x00) || 0^32)</code>, a coinbase's RingCT base being of the null type.
+   Passing the whole block to <code>calc_pow</code> returns a plausible-looking but wrong hash, and every
+   solution is rejected.</li>
+<li><code>miner_address</code> is a valid address for the network, and the block's body (its transactions)
+   reproduces <code>tx_root</code>. Since the body is never sent to P2Pool, the node finds it in the template
+   it handed out: a forgotten template is a lost solution (see below).</li>
+</ol>
+<p>Timestamps: <code>timestamp &lt;= now + 2h</code> and <code>&gt;= tip.timestamp - 2h</code>.</p>
+<h2 id="accounts-addresses-transactions">Accounts, addresses, transactions</h2>
+<p>An account model, not UTXO. An address is <code>&lt;network prefix&gt; || base58(ed25519_pubkey || checksum)</code>,
+with the prefix (<code>tsrl</code> locally, <code>tsrt</code> on testnet) feeding the checksum: an address from one
+network is invalid on the other.</p>
+<p>A transaction <code>{version, sender, recipient, amount, fee, nonce, payload, signature}</code> is valid if:</p>
+<ol>
+<li><code>amount &gt; 0</code>, <code>fee &gt;= 0</code>, <code>amount + fee</code> fits in 64 bits, <code>sender != recipient</code>;</li>
+<li>both addresses belong to the network;</li>
+<li><code>signature</code> is an ed25519 signature over the fields <strong>excluding the signature</strong> (sorted JSON),
+   verified with the public key extracted from <code>sender</code>;</li>
+<li><code>nonce</code> is exactly the sender account's counter — it prevents replay and fixes ordering;</li>
+<li>the balance covers <code>amount + fee</code>.</li>
+</ol>
+<p><code>txid = SHA256(fields excluding signature)</code>: ed25519 being deterministic, the signature adds no
+malleability.</p>
+<p><code>tx_root</code> is the <strong>merkle root of the txids in order</strong>, RFC 6962 construction over SHA-256 — not
+Monero's tree, which stays in <code>merkle.py</code> for the merge-mining side only. Two properties are worth
+naming, because they are the reason for not reusing the tree we already had:</p>
+<ul>
+<li><strong>Domain separation.</strong> A leaf is <code>SHA256(0x00 ‖ txid)</code>, an internal node
+  <code>SHA256(0x01 ‖ left ‖ right)</code>. Without it an internal node can be presented as a leaf, and one
+  could prove the inclusion of a "transaction" that is not one.</li>
+<li><strong>No duplication of the last leaf.</strong> The tree splits at the largest power of two <em>strictly below</em>
+  the leaf count, so two distinct bodies cannot share a root (Bitcoin's CVE-2012-2459).</li>
+</ul>
+<p>An empty block commits to 32 zero bytes. <code>get_tx_proof</code> returns <code>{index, count, path, header}</code>: a
+client holding only the header recomputes the root from <code>(txid, path, index, count)</code> and compares
+it to <code>tx_root</code>. The path's expected length is imposed by <code>(index, count)</code>, so a proof cannot be
+rearranged, padded or truncated.</p>
+<p>Applying a block is atomic in SQL: for each transaction, debit <code>amount + fee</code> and increment the
+sender's nonce, credit <code>amount</code> to the recipient; then credit the miner with
+<code>block_reward + the block's fees</code>.</p>
+<h2 id="the-parent-monero-block">The parent Monero block</h2>
+<p>The Monero block supplied must be <strong>well formed, carry our tag at the right slot, and have a
+sufficient RandomX hash</strong>. Nothing more: it does not have to be a block Monero accepted.</p>
+<p>This is a decision, not an oversight. Requiring a genuinely accepted block is incompatible with
+merge mining: a solution meets <em>our</em> difficulty, not Monero's, so barely one Tessera block in a
+thousand would be a real Monero block. And requiring the parent to be "known to our monerod" would
+make our consensus depend on each node's local view of the Monero chain, orphans included: two
+nodes could disagree on the validity of the same Tessera block. Namecoin and other auxiliary
+chains make the same choice, for the same reason.</p>
+<p><strong>The consequence, not to be hidden: Tessera's security is its own difficulty, not Monero's
+hashrate.</strong> Anyone can mine Tessera with dedicated RandomX hashrate, without going through Monero
+or P2Pool. Merge mining makes mining free for those already mining Monero; it does not transfer
+Monero's security to Tessera. A 51% attack on Tessera costs Tessera's difficulty.</p>
+<h2 id="chain-identity-chain-id">Chain identity (<code>chain_id</code>)</h2>
+<p>The merge mining <code>unique_id</code>: <strong>exactly 32 bytes</strong>, otherwise P2Pool refuses the chain.
+v1: <code>chain_id = Keccak256("tessera-&lt;network&gt;-v0")</code>, fixed at genesis and checked at startup
+(<code>NetworkParams.__post_init__</code>). It fixes the chain's slot in the merkle tree: changing it
+separates the chain permanently from every existing instance (a deliberate hard fork).</p>
+<h2 id="difficulty">Difficulty</h2>
+<p>LWMA-1 over a 60-block window, targeting 60 s (1 s on the local network, for tests): each interval
+is weighted by its rank, the most recent weighing most.</p>
+<ul>
+<li>an interval is capped at <code>6T</code>: one very late block cannot collapse the difficulty on its own;</li>
+<li>a timestamp going backwards counts as 1 s, never as a negative interval;</li>
+<li>the weighted sum has a floor of <code>N²T/20</code>: a burst of instant blocks cannot blow up the target;</li>
+<li>final floor at <code>min_difficulty</code>.</li>
+</ul>
+<p><code>next = average_difficulty × N(N+1)T × 99 / (200 × weighted_sum)</code>. The 99/100 factor is the bias
+correction from the reference CryptoNote variant.</p>
+<h2 id="emission">Emission</h2>
+<p><code>reward = max((supply_target - emitted) &gt;&gt; 20, tail_reward)</code>, plus the block's fees, credited to
+<code>miner_address</code>. The reward is not in the header: each node recomputes it from the supply already
+emitted, which is stored block by block.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Supply targeted before the tail</td>
+<td>18,000,000 TSR</td>
+</tr>
+<tr>
+<td>First block reward</td>
+<td>17.166 TSR</td>
+</tr>
+<tr>
+<td>Perpetual tail</td>
+<td>0.35 TSR per block (~184,000 TSR/year)</td>
+</tr>
+<tr>
+<td>Tail begins</td>
+<td>around year 8</td>
+</tr>
+<tr>
+<td>Service share</td>
+<td>+40% of the epoch's emission, on top, when nodes are paid</td>
+</tr>
+<tr>
+<td>Premine, presale, founder allocation</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p>With one-minute blocks, <code>&gt;&gt; 20</code> reproduces Monero's curve exactly in wall-clock time (<code>&gt;&gt; 19</code> on
+two-minute blocks). <strong>The tail never stops</strong>: a chain whose purpose is to pay for a continuous
+service cannot stop emitting without ceasing to pay.</p>
+<p>The share meant for node operators is <strong>added to</strong> the miner's reward rather than taken out of it:
+switching the service on takes nothing away from those who mine. It is paid at the end of each
+epoch (see "Payout epoch"), and the 40% ratio remains open to discussion.</p>
+<h2 id="service-node-registry">Service node registry</h2>
+<p>A transaction carries an optional <code>payload</code>. Without it, it is a transfer. With it, it is a
+registry operation, always targeting its own account (<code>recipient == sender</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{"kind": "register", "endpoint": …}</code></td>
+<td>locks <code>amount</code> as collateral (≥ <code>min_collateral</code>) and binds the endpoint to the address</td>
+</tr>
+<tr>
+<td><code>{"kind": "unregister"}</code></td>
+<td>returns the collateral after <code>collateral_lock</code> blocks (<code>amount</code> must be zero)</td>
+</tr>
+<tr>
+<td><code>{"kind": "proof", "round", "signature"}</code></td>
+<td>a self-submitted proof of service for that round</td>
+</tr>
+<tr>
+<td><code>{"kind": "attest", "round", "node", "nonce", "signature"}</code></td>
+<td>an auditor's probe that got an answer</td>
+</tr>
+<tr>
+<td><code>{"kind": "report", "round", "node"}</code></td>
+<td>an auditor's report that nobody answered</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The endpoint must be a hidden service.</strong> Tor v3 (<code>[a-z2-7]{56}.onion</code>) or I2P
+(<code>[a-z2-7]{52}.b32.i2p</code>). No clearnet form is acceptable: the "Tor and I2P only" rule lives in
+consensus, not in a statement of intent.</p>
+<p>One address registers one node; one endpoint is taken once. The collateral leaves circulation for
+as long as it is locked. The same rules apply on entry to the mempool and on block validation, so
+an impossible operation is refused immediately rather than silently dropped later.</p>
+<p>A reorganisation undoes registrations like everything else: the undo journal keeps both the
+entries created and the entries removed.</p>
+<h3 id="proof-of-service">Proof of service</h3>
+<p>A Tor v3 address <strong>is</strong> an ed25519 public key: <code>base32(key || checksum || version)</code>. Consensus
+extracts the key, verifies the checksum, and uses it to authenticate proofs. An I2P b32 address
+being a hash of a destination rather than a signing key, an I2P endpoint must <strong>declare</strong> its key
+at registration — one notch weaker, and it has to be said plainly.</p>
+<p>Each round, a node's challenge derives from the chain:</p>
+<pre><code>seed          = Keccak256(round_block_hash || node_address)
+monero_height = that block's monero height − (seed[0:4] mod 1000)
+digest        = SHA256(the 4 consecutive Monero blocks from that height)
+answer        = Keccak256(digest || node_address || round_block_hash)
+</code></pre>
+<p>The operator signs <code>answer</code> with its service key and submits a <code>proof</code> transaction. The validator
+<strong>recomputes everything itself</strong>: the challenge from its own chain, the answer from its own
+<code>monerod</code>, then verifies the signature.</p>
+<p>SHA-256 for the bulk — it is native code — and Keccak only for the final binding, over a few dozen
+bytes, since our Keccak is pure Python.</p>
+<p>Three properties follow:</p>
+<ol>
+<li><strong>A forged positive is impossible</strong> — it would take the hidden service's private key.</li>
+<li><strong>Whoever carries the proof has no power over it</strong>: not an oracle, just a relay. That is what
+   escapes the classic problem of the unverifiable audit.</li>
+<li><strong>Replay is impossible</strong>: one proof per node per round, within a 60-block window, and never
+   before registration.</li>
+</ol>
+<p>The Monero block range is drawn from the thousand preceding the round, so a pruned node can still
+verify it.</p>
+<p>A self-submitted proof establishes that the operator holds its key, holds the Monero chain and was
+alive. <strong>It does not establish that anyone could reach it</strong> — hence the probe.</p>
+<h3 id="auditor-probes">Auditor probes</h3>
+<p>Each round, registered nodes are arranged in a <strong>ring</strong>: <code>order = sort by
+Keccak256(round_block_hash || address)</code>. Everyone audits its five successors, so everyone is
+audited by its five predecessors. Neither the audited nor the auditor decides, the ring turns
+every round, and the load is <strong>exactly the same for all</strong> — nobody is overloaded, nobody forgotten.</p>
+<p>The ring costs one sort per round where a per-node draw cost one per node. That is what makes
+checking missed duties computable at the end of an epoch. Auditors are themselves registered
+nodes: they have collateral at stake.</p>
+<p>On a small registry you cannot appoint more auditors than there are other nodes: the auditor count
+and the quorum adapt (<code>min(5, N−1)</code> and <code>min(3, auditors)</code>).</p>
+<p>The auditor reaches the endpoint, sends a nonce <strong>anchored to the round's block</strong> — its first
+eight bytes are those of that block's hash, the rest is its own draw — and the node returns:</p>
+<pre><code>answer = Keccak256(digest || node || round_block_hash || auditor || nonce)
+</code></pre>
+<p>signed by the service key. The auditor publishes
+<code>{"kind":"attest", round, node, nonce, signature}</code>.</p>
+<p><strong>The auditor's nonce is what makes this work.</strong> Without it, the node could compute the answer
+offline and would never need to be reachable. With it, producing the signature means having
+received the probe — having answered at the endpoint.</p>
+<p><strong>And the window is held by consensus.</strong> A signature carrying that anchor <strong>cannot have been
+produced before that block existed</strong>, and a probe is only admissible within the following ten
+blocks. The answer was therefore born inside an interval the chain bounds itself, rather than one
+vouched for by whoever held the stopwatch. The chain still measures neither bandwidth nor
+latency — it bounds roughly ten minutes, not a millisecond — but it no longer trusts the auditor
+on that point.</p>
+<p><strong>The Sybil cost comes from there.</strong> Answering means holding the block range <em>and</em> serving it to
+each of the five auditors. One machine can hold the chain once for a thousand identities; it
+cannot serve that range a thousand times inside the window.</p>
+<h3 id="the-absence-report">The absence report</h3>
+<p>An auditor that cannot reach a node has <strong>nothing to sign</strong>: an absence cannot be proven. It files
+a <code>report</code> instead — "I probed, nobody answered". Nothing in it is verifiable, and that is
+acknowledged: what frames it is not cryptography but the draw and the count.</p>
+<p>Without that report the mechanism punished honesty: an auditor discovering a dead node had no way
+to say so and looked like a shirker. Filing a report <strong>counts as a duty fulfilled</strong>.</p>
+<p>A round counts as available when <strong>at least three of the five auditors attested and at most one
+reported an absence</strong>. That second condition changes the arithmetic of collusion: with three
+accomplices out of five, the two honest auditors report the absence, dissent exceeds the cap, and
+the round does not count. <strong>Four accomplices out of five are now required.</strong></p>
+<p>For a fraction <em>f</em> of the registry controlled by an attacker, the probability that a round falls to
+it goes from <code>P(≥3 of 5)</code> to <code>P(≥4 of 5)</code>: at <em>f</em> = 0.5, from 50% to 19%.</p>
+<p>Symmetrically, crying absence is a fault when a strong majority did reach the node: beyond two
+contradicted reports in an epoch, the auditor is penalised like a shirker. Without that, crying
+absence would be enough to deprive a competitor of its rounds.</p>
+<p>A lone lying auditor can therefore do nothing in either direction: it cannot forge a positive (it
+would need the service key), and one report alone does not sink a round.</p>
+<h3 id="payout-epoch">Payout epoch</h3>
+<p>Every <code>service_epoch</code> blocks (720, about 12 hours), the epoch's closing block pays the service
+share. The amount is <strong>not</strong> in the header: it derives entirely from chain state, so every node
+computes the same figure.</p>
+<pre><code>pot          = current_reward × service_epoch × 40%
+auditor_pot  = pot × 20%
+node_pot     = pot − auditor_pot
+</code></pre>
+<ul>
+<li><strong>Availability</strong>: each node receives <code>node_pot × its_attested_rounds / total_rounds</code>, capped at
+  15% of the node pot. That cap is this version's only brake on Sybil: multiplying identities does
+  not multiply the share indefinitely.</li>
+<li><strong>Audit work</strong>: each auditor receives <code>auditor_pot × its_probes / total_probes</code>. Auditing is
+  therefore paid, which stands in — for now — for punishing those who do not audit.</li>
+<li>What is not allocated — caps, rounding, no registered nodes — is <strong>simply never emitted</strong>. No pot
+  accumulates anywhere, so there is nothing to govern and nothing to divert.</li>
+</ul>
+<p>The payout <strong>adds to</strong> the miner's reward rather than removing from it. The consequence to own:
+when nodes are registered and available, <strong>real emission exceeds the 18 M target</strong> by up to 40%.
+The 18 M describes the mining curve, not the final supply.</p>
+<p>The payout belongs to the epoch's closing block: a reorganisation undoes it along with that block,
+and the new branch's own closing block pays in turn.</p>
+<h3 id="penalising-a-failing-auditor">Penalising a failing auditor</h3>
+<p>At each epoch end, the ring is recomputed over a <strong>sample of rounds</strong> (8 per epoch, spread out)
+and, per auditor, duties assigned and duties fulfilled are counted. Below <strong>50% of duties
+fulfilled</strong>, 5% of the collateral is <strong>burnt</strong>.</p>
+<p>Burnt, not paid out: nobody should have an interest in another being punished. If the collateral
+falls below the minimum, the node leaves the registry and the remainder goes back to its
+operator — keeping a struck-off node's deposit locked would protect nothing.</p>
+<p>The 720 rounds are not all re-checked: the cost would be prohibitive. The sample is enough to tell
+someone working from someone doing nothing, and since the draw is public but unpredictable, nobody
+knows in advance which rounds will be checked.</p>
+<h3 id="auditor-diversity">Auditor diversity</h3>
+<p>Over an epoch, the ring eventually sends an honest node auditors from across the registry. A node
+attested only by the same narrow circle is either barely reachable or surrounded by accomplices —
+either way it earns nothing. A node is paid for availability only if <strong>distinct auditors attested
+it over the epoch ≥ 50% of the registry</strong>.</p>
+<p>That is what makes collusion sterile below half the registry: an attacker holding a fraction <em>f</em>
+can never present more than <em>f</em> distinct attesters for its own node.</p>
+<p>(The rule assumes the epoch is long enough for an honest node to meet that many auditors: 720
+rounds × 5 auditors gives 3,600 slots, which covers registries up to a few thousand nodes. A
+larger registry would need a longer epoch or a lower ratio.)</p>
+<h3 id="what-remains">What remains</h3>
+<p>An operator colluding with <strong>four</strong> of the five auditors the ring hands it, <strong>and</strong> holding half
+the registry, can still fake reachability. And it is a losing trade:</p>
+<table>
+<thead>
+<tr>
+<th>Share of the registry held</th>
+<th>30%</th>
+<th>50%</th>
+<th>60%</th>
+<th>70%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rounds it can fake</td>
+<td>3.1%</td>
+<td>18.8%</td>
+<td>33.7%</td>
+<td>52.8%</td>
+</tr>
+<tr>
+<td>Share of the pot it captures</td>
+<td>0%</td>
+<td>15.8%</td>
+<td>33.6%</td>
+<td>55.2%</td>
+</tr>
+</tbody>
+</table>
+<p>Below half, the diversity rule zeroes it out. At half, fifty percent of the collateral buys under
+sixteen percent of the pot. The attack only pays past roughly sixty percent — the threshold every
+proof-of-work and proof-of-stake chain lives with.</p>
+<p>The worst case is also bounded. A colluder can claim availability it does not have, which
+<strong>dilutes what honest operators are paid</strong>. It cannot steal a balance, rewrite the chain, forge a
+block, or affect Monero in any way. This is subsidy fraud, not a chain attack.</p>
+<p>Removing it entirely would mean a trusted party deciding who is reachable — the very thing this
+design exists to avoid. So it is reduced, quantified, made unprofitable, and stated. Not solved.</p>
+<h2 id="peer-to-peer-network">Peer-to-peer network</h2>
+<p>TCP, JSON messages prefixed by their length on 4 bytes, 4 MB maximum.</p>
+<p><strong>Handshake</strong> — each peer announces <code>protocol</code>, <code>network</code>, <code>chain_id</code>, <code>genesis</code>, <code>params</code>, its
+<code>node_id</code>, its height and its cumulative work. The connection is refused if any of them differ, or
+if the <code>node_id</code> is our own (connecting to ourselves).</p>
+<p><code>params</code> is <code>NetworkParams.digest()</code>, a hash of the whole consensus parameter set. The genesis hash
+alone is not enough: two nodes can share a genesis and still disagree on emission, epoch length or
+audit thresholds, which shows up only when they diverge on a later block. Comparing the digest
+turns that into a refused connection. The seed list is excluded from the digest — adding an entry
+point is not a consensus change.</p>
+<p><strong>Discovery</strong> — each node keeps a persistent address book. <code>get_peers</code> / <code>peers</code> exchange
+addresses, and as long as a node has fewer peers than wanted it dials new ones. On first launch it
+starts from the network's seed nodes (<code>seeds</code>). Two nodes that dial each other at the same time
+keep only one connection: the rule — keep the one initiated by the smaller <code>node_id</code> — is the same
+on both sides, so exactly one survives.</p>
+<p><strong>Catch-up</strong> — a peer ahead of us gets <code>get_blocks {from, count}</code> and answers <code>blocks</code>, in batches
+of 128. Every received block is <strong>fully re-validated</strong>: header, body, state, merkle proof and
+RandomX. Nothing a peer asserts is taken as given — the <code>pow_hash</code> stored is the one we recomputed.</p>
+<p><strong>Relay</strong> — the chain notifies its subscribers for every accepted block and every transaction
+entering the mempool; the network layer announces them to peers. A received block is therefore
+relayed in turn.</p>
+<p><strong>Reorganisations</strong> — a block that does not extend the tip is kept in <code>side_blocks</code>. On each new
+side block, its branch is walked back to an ancestor of our chain and cumulative work is compared.
+<strong>Strictly greater</strong>: we switch. On a tie we do not move — first seen keeps the lead.</p>
+<p>The switch undoes blocks one by one using the undo journal written with each block (balance and
+nonce deltas, transaction ids, registry entries), then applies the new branch, re-validating it
+entirely. <strong>All inside a single SQL transaction</strong>: if one block of the new branch is invalid, the
+database returns exactly to its starting state. Dropped blocks are kept aside — their branch may
+take the lead again later — and their transactions go back to the mempool if they are still valid.</p>
+<p><strong>Misbehaviour</strong> — faults are graded: a refused transaction is worth 1 point (often just a race), an
+invalid or unreadable block 25, a malformed message 50. At 100 points the host is set aside for an
+hour, and the ban is <strong>stored</strong>, so it survives a restart.</p>
+<h2 id="what-does-not-exist-yet">What does not exist yet</h2>
+<ul>
+<li>Mining through a pool requires the template to still be held. P2Pool returns only the header
+  (<code>aux_blob</code>) on submission, so the body is recovered from the <code>templates</code> table of the node that
+  handed the template out. It survives a restart, but a solution submitted to a node that never
+  issued that template is refused. Once accepted, the block travels over P2P <strong>with its body</strong>, so
+  this is a constraint on submission, not on propagation.</li>
+<li>Local RandomX verification: we depend on monerod, which is acceptable since an operator runs one
+  anyway, but it does mean a Tessera node cannot validate alone.</li>
+<li>A public network: seed lists are empty and no chain has ever run beyond a local test.</li>
+<li>Collusion between an operator holding half the registry and four of its five drawn auditors,
+  as quantified above.</li>
+</ul>
+  </main>
+</div>
+</body>
+</html>
+
