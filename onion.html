@@ -130,6 +130,12 @@ chain, which answers availability probes. This page is the whole procedure, end 
 worth nothing, and no public network exists yet. What follows is worth doing because the mechanism
 has to be exercised by people other than its author before it can be taken seriously — not because
 it pays.</p>
+<blockquote>
+<p>This procedure has been run end to end on real Tor: two hidden services registered on a test
+chain, probing each other over real circuits, signing with the keys Tor itself wrote, and both
+attestations accepted by consensus. What follows is a description of something that works, not
+of something intended.</p>
+</blockquote>
 <h2 id="what-you-are-proving-and-what-you-are-not">What you are proving, and what you are not</h2>
 <p>The probe asks your hidden service to sign a value derived from the Tessera chain and from four
 Monero blocks. A valid signature proves three things at once: the service is <strong>up</strong>, it <strong>holds
@@ -150,12 +156,22 @@ check: <strong>the chain cannot verify it.</strong> It raises the cost of lying;
 <li><strong>1 000 TSR</strong> of collateral, locked for 10 000 blocks (~7 days) after you deregister.</li>
 </ul>
 <h2 id="1-one-hidden-service-two-ports">1. One hidden service, two ports</h2>
-<p>In your <code>torrc</code>:</p>
+<p>First, make <code>monerod</code> serve a <strong>restricted</strong> RPC alongside the unrestricted one:</p>
+<pre><code>--rpc-bind-ip 127.0.0.1 --rpc-bind-port 18081 \
+--rpc-restricted-bind-ip 127.0.0.1 --rpc-restricted-bind-port 18089
+</code></pre>
+<p>This distinction matters more than anything else on this page. Tessera needs the <strong>unrestricted</strong>
+RPC, because <code>calc_pow</code> is not exposed by the restricted one — and the unrestricted RPC must never
+leave localhost, since it will run commands no stranger should be able to run on your node. What
+you publish to the world is the <strong>restricted</strong> RPC, which is what a public Monero node has always
+been.</p>
+<p>Then, in your <code>torrc</code>:</p>
 <pre><code>HiddenServiceDir /var/lib/tor/tessera/
-HiddenServicePort 18081 127.0.0.1:18081
+HiddenServicePort 18081 127.0.0.1:18089
 HiddenServicePort 80 127.0.0.1:19083
 </code></pre>
-<p>Port 18081 is your Monero RPC; port 80 is the Tessera probe responder. <strong>Both behind the same
+<p>Callers reach your node on the usual port 18081 of your <code>.onion</code>; Tor forwards that to the
+restricted RPC on 18089. Port 80 is the Tessera probe responder. <strong>Both behind the same
 <code>HiddenServiceDir</code></strong>, so both share one <code>.onion</code> address — which is the point: the address you
 register is the address that serves Monero.</p>
 <pre><code class="language-bash">sudo systemctl restart tor
