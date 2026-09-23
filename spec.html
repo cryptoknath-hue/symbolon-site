@@ -124,6 +124,7 @@ li::marker { color:var(--muted); }
 <a class="sub" href="#penalising-a-failing-auditor">Penalising a failing auditor</a>
 <a class="sub" href="#auditor-diversity">Auditor diversity</a>
 <a class="sub" href="#what-remains">What remains</a>
+<a class="" href="#cannot-verify-is-not-invalid">Cannot verify is not invalid</a>
 <a class="" href="#peer-to-peer-network">Peer-to-peer network</a>
 <a class="" href="#what-does-not-exist-yet">What does not exist yet</a></nav>
   <main>
@@ -452,6 +453,20 @@ proof-of-work and proof-of-stake chain lives with.</p>
 block, or affect Monero in any way. This is subsidy fraud, not a chain attack.</p>
 <p>Removing it entirely would mean a trusted party deciding who is reachable — the very thing this
 design exists to avoid. So it is reduced, quantified, made unprofitable, and stated. Not solved.</p>
+<h2 id="cannot-verify-is-not-invalid">Cannot verify is not invalid</h2>
+<p>Verifying a proof of service means reading Monero blocks. A node still syncing, or whose
+<code>monerod</code> has pruned the range a challenge names, <strong>cannot decide</strong> whether the proof holds.</p>
+<p>Treating that as invalid would be a consensus bug of the same family as requiring an accepted
+parent block: two honest nodes would split on the same block because of a local, temporary
+condition, and the one that is behind would ban the peer that sent it.</p>
+<p>So the two outcomes are distinct types. <code>ValidationError</code> means the block is wrong and its sender
+is at fault. <code>Unverifiable</code> means this node is not in a position to judge: it does not apply the
+block, does not mark it invalid, does not penalise the peer, and will decide once its <code>monerod</code>
+has caught up. The same holds for a transaction carrying a proof — it is neither accepted nor
+relayed, and its sender scores nothing.</p>
+<p>A node whose <code>monerod</code> cannot cover the lookback window therefore <strong>stops following the chain</strong>
+rather than forking away from it. That is the intended behaviour: a node that cannot check
+should not pretend to.</p>
 <h2 id="peer-to-peer-network">Peer-to-peer network</h2>
 <p>TCP, JSON messages prefixed by their length on 4 bytes, 4 MB maximum.</p>
 <p><strong>Handshake</strong> — each peer announces <code>protocol</code>, <code>network</code>, <code>chain_id</code>, <code>genesis</code>, <code>params</code>, its
