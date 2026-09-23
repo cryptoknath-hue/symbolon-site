@@ -45,9 +45,14 @@ body {
   display:flex; align-items:center; gap:12px; }
 .brand { display:flex; align-items:center; gap:9px; text-decoration:none; color:var(--ink); }
 .brand-name { font-family:var(--display); font-weight:700; font-size:17px; letter-spacing:-0.02em; }
-.top a.back { margin-left:auto; font-size:14px; color:var(--ink-2); text-decoration:none;
-  padding:7px 11px; border:1px solid var(--line); border-radius:9px; }
-.top a.back:hover { color:var(--ink); border-color:var(--line-2); }
+.top .liens { margin-left:auto; display:flex; gap:2px; align-items:center; overflow-x:auto; }
+.top .liens a { font-size:13.5px; color:var(--ink-2); text-decoration:none;
+  padding:7px 10px; border-radius:8px; white-space:nowrap; }
+.top .liens a:hover { color:var(--ink); background:var(--panel-2); }
+.top .liens a[aria-current="page"] { color:var(--cyan); background:var(--cyan-dim); }
+.top .liens a.back { border:1px solid var(--line); margin-left:6px; }
+.top .liens a.back:hover { border-color:var(--line-2); background:none; }
+@media (max-width:640px) { .brand-name { display:none; } .top .liens a { padding:7px 7px; font-size:12.5px; } }
 .wrap { max-width:1080px; margin:0 auto; padding:0 16px; display:grid; gap:40px;
   grid-template-columns: 232px minmax(0,1fr); align-items:start; }
 nav.toc { position:sticky; top:76px; padding:26px 0 40px; font-size:13.5px; max-height:calc(100vh - 92px); overflow:auto; }
@@ -94,7 +99,7 @@ li { margin:5px 0; }
     </svg>
     <span class="brand-name">Tessera</span>
   </a>
-  <a class="back" href="./">&larr; Back to the site</a>
+  <div class="liens"><a href="join.html">Join the testnet</a><a href="onion.html">Run a service node</a><a href="spec.html" aria-current="page">Specification</a><a class="back" href="./">&larr; Site</a></div>
 </div></header>
 <div class="wrap">
   <nav class="toc" aria-label="Sections"><p>Contents</p><a class="" href="#proof-of-work-auxpow">Proof of work (AuxPoW)</a>
@@ -115,9 +120,7 @@ li { margin:5px 0; }
 <a class="" href="#what-does-not-exist-yet">What does not exist yet</a></nav>
   <main>
     <h1>Specification</h1>
-    <div class="lede"><b>Prototype.</b> No public network, no token in circulation, nothing for
-    sale. This document describes the mechanism as implemented, including what it does not
-    solve.</div>
+    <div class="lede"><b>Prototype.</b> No public network, no token in circulation, nothing for sale. This document describes the mechanism as implemented, including what it does not solve.</div>
     <p>A French version of this document is kept at <a href="SPEC.fr.md">SPEC.fr.md</a>.</p>
 <h2 id="proof-of-work-auxpow">Proof of work (AuxPoW)</h2>
 <p>A block at height h is valid if, and only if:</p>

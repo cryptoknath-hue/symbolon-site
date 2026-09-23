@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tessera — Join the testnet</title>
+<meta name="description" content="How to run a Tessera node today, and what is still missing before the public testnet opens.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2307090d'/%3E%3Cpath d='M7 7h18v5h-6.5v13H13V12H7z' fill='%233ddbd0'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;800&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#07090d; --bg-2:#0c1016; --panel:#11161e; --panel-2:#181f2a;
+  --line:#1f2836; --line-2:#2f3b4c; --ink:#eef2f8; --ink-2:#a7b2c3; --muted:#6b7789;
+  --cyan:#3ddbd0; --cyan-dim:#0f3d3b; --amber:#e0a860;
+  --display:"Sora","Helvetica Neue",Arial,sans-serif;
+  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:#ffffff; --bg-2:#f5f7fa; --panel:#ffffff; --panel-2:#eef2f7;
+    --line:#dde4ec; --line-2:#bcc7d5; --ink:#0b1017; --ink-2:#3d4959; --muted:#6a7788;
+    --cyan:#0a7a74; --cyan-dim:#d3efec; --amber:#8a5d12;
+  }
+}
+:root[data-theme="light"] {
+  --bg:#ffffff; --bg-2:#f5f7fa; --panel:#ffffff; --panel-2:#eef2f7;
+  --line:#dde4ec; --line-2:#bcc7d5; --ink:#0b1017; --ink-2:#3d4959; --muted:#6a7788;
+  --cyan:#0a7a74; --cyan-dim:#d3efec; --amber:#8a5d12;
+}
+* { box-sizing: border-box; }
+body {
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--body); font-size:16px; line-height:1.68;
+  -webkit-text-size-adjust:100%;
+}
+.top {
+  position:sticky; top:0; z-index:10; border-bottom:1px solid var(--line);
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(10px);
+}
+.top .in { max-width:1080px; margin:0 auto; padding:0 16px; height:56px;
+  display:flex; align-items:center; gap:12px; }
+.brand { display:flex; align-items:center; gap:9px; text-decoration:none; color:var(--ink); }
+.brand-name { font-family:var(--display); font-weight:700; font-size:17px; letter-spacing:-0.02em; }
+.top .liens { margin-left:auto; display:flex; gap:2px; align-items:center; overflow-x:auto; }
+.top .liens a { font-size:13.5px; color:var(--ink-2); text-decoration:none;
+  padding:7px 10px; border-radius:8px; white-space:nowrap; }
+.top .liens a:hover { color:var(--ink); background:var(--panel-2); }
+.top .liens a[aria-current="page"] { color:var(--cyan); background:var(--cyan-dim); }
+.top .liens a.back { border:1px solid var(--line); margin-left:6px; }
+.top .liens a.back:hover { border-color:var(--line-2); background:none; }
+@media (max-width:640px) { .brand-name { display:none; } .top .liens a { padding:7px 7px; font-size:12.5px; } }
+.wrap { max-width:1080px; margin:0 auto; padding:0 16px; display:grid; gap:40px;
+  grid-template-columns: 232px minmax(0,1fr); align-items:start; }
+nav.toc { position:sticky; top:76px; padding:26px 0 40px; font-size:13.5px; max-height:calc(100vh - 92px); overflow:auto; }
+nav.toc p { font-family:var(--mono); font-size:10.5px; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--muted); margin:0 0 10px; }
+nav.toc a { display:block; color:var(--ink-2); text-decoration:none; padding:3.5px 0; text-wrap:pretty; }
+nav.toc a:hover { color:var(--cyan); }
+nav.toc a.sub { padding-left:13px; font-size:12.5px; color:var(--muted); }
+main { padding:26px 0 96px; min-width:0; }
+.lede { border:1px solid var(--line); background:var(--panel); border-radius:12px;
+  padding:14px 16px; font-size:14.5px; color:var(--ink-2); margin:0 0 30px; }
+.lede b { color:var(--ink); }
+h1 { font-family:var(--display); font-size:clamp(30px,5vw,42px); font-weight:800;
+  letter-spacing:-0.025em; line-height:1.12; margin:0 0 6px; }
+h2 { font-family:var(--display); font-size:clamp(21px,3vw,26px); font-weight:700;
+  letter-spacing:-0.02em; margin:52px 0 14px; padding-top:14px; border-top:1px solid var(--line); scroll-margin-top:72px; }
+h3 { font-family:var(--display); font-size:18px; font-weight:600; margin:32px 0 10px; scroll-margin-top:72px; }
+p, li { text-wrap:pretty; }
+a { color:var(--cyan); }
+code { font-family:var(--mono); font-size:0.875em; background:var(--panel-2);
+  border:1px solid var(--line); border-radius:5px; padding:1px 5px; word-break:break-word; }
+pre { background:var(--panel); border:1px solid var(--line); border-radius:11px;
+  padding:14px 16px; overflow:auto; font-size:13px; line-height:1.6; }
+pre code { background:none; border:0; padding:0; font-size:inherit; }
+blockquote { margin:20px 0; padding:2px 0 2px 16px; border-left:3px solid var(--amber); color:var(--ink-2); }
+table { border-collapse:collapse; width:100%; margin:20px 0; font-size:14px; display:block; overflow-x:auto; }
+th, td { border:1px solid var(--line); padding:8px 11px; text-align:left; white-space:nowrap; }
+th { background:var(--panel-2); font-weight:700; }
+hr { border:0; border-top:1px solid var(--line); margin:38px 0; }
+ul, ol { padding-left:22px; }
+li { margin:5px 0; }
+@media (max-width: 860px) {
+  .wrap { grid-template-columns:minmax(0,1fr); gap:0; }
+  nav.toc { position:static; max-height:none; border-bottom:1px solid var(--line); }
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <a class="brand" href="./">
+    <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
+      <rect width="32" height="32" rx="7" fill="var(--cyan-dim)"></rect>
+      <path d="M7 7h18v5h-6.5v13H13V12H7z" fill="var(--cyan)"></path>
+    </svg>
+    <span class="brand-name">Tessera</span>
+  </a>
+  <div class="liens"><a href="join.html" aria-current="page">Join the testnet</a><a href="onion.html">Run a service node</a><a href="spec.html">Specification</a><a class="back" href="./">&larr; Site</a></div>
+</div></header>
+<div class="wrap">
+  <nav class="toc" aria-label="Sections"><p>Contents</p><a class="" href="#where-this-actually-stands">Where this actually stands</a>
+<a class="" href="#what-you-can-do-today">What you can do today</a>
+<a class="sub" href="#a-node-a-wallet-a-block">A node, a wallet, a block</a>
+<a class="sub" href="#the-real-path-monerod-p2pool-your-miner">The real path — monerod, P2Pool, your miner</a>
+<a class="sub" href="#a-service-node-on-tor">A service node on Tor</a>
+<a class="sub" href="#exercise-the-service-layer-without-mining">Exercise the service layer without mining</a>
+<a class="" href="#when-the-testnet-opens">When the testnet opens</a>
+<a class="" href="#what-will-not-work-and-is-meant-not-to">What will not work, and is meant not to</a></nav>
+  <main>
+    <h1>Join the testnet</h1>
+    <div class="lede"><b>The public testnet is not open yet.</b> The seed list is empty and no block has been mined on a shared chain. Everything below runs on a local chain today.</div>
+    <h2 id="where-this-actually-stands">Where this actually stands</h2>
+<p><strong>The public testnet is not open yet.</strong> The seed list is empty, no block has been mined on a shared
+chain, and the network page on this site shows a single node with a height of zero. That is the
+honest state, stated here rather than discovered after an hour of setup.</p>
+<p>What is ready: the software, the merge-mining integration against a real P2Pool, and the whole
+service-node mechanism — registration, proof of service, auditor probes, absence reports, epoch
+payouts. All of it runs today against a local chain, and every step below works right now on your
+own machine.</p>
+<p>What is missing is the part nobody can do alone: a pool building Monero testnet templates, and a
+handful of reachable nodes. Both are in progress. When seed nodes exist they will be published in
+<code>params.seeds</code> and announced here; until then the "connect to the network" step is the only one
+you cannot do.</p>
+<h2 id="what-you-can-do-today">What you can do today</h2>
+<p>Run the whole thing on a local chain, and break it. That is more useful to this project right now
+than waiting.</p>
+<h3 id="a-node-a-wallet-a-block">A node, a wallet, a block</h3>
+<p>You need Python 3.12 and the <code>cryptography</code> package. Nothing else — no compiler, no database, no
+build step.</p>
+<pre><code class="language-bash"># a local chain with a fake proof of work: no monerod required
+python3 -m tessera --network local --pow sha256 --data-dir /tmp/tsr
+
+# in another terminal
+python3 tools/wallet.py new
+python3 tools/wallet.py address
+python3 tools/fake_p2pool.py http://127.0.0.1:19081 &lt;your tsrl address&gt; 5
+python3 tools/wallet.py balance
+</code></pre>
+<p><code>fake_p2pool.py</code> plays P2Pool's side of the three merge-mining RPC calls, with a fake proof of
+work. Blocks arrive in seconds.</p>
+<p><strong>Back up <code>~/.tessera/wallet.json</code> now.</strong> It holds your private key in the clear, it is not
+encrypted, and it cannot be regenerated.</p>
+<h3 id="the-real-path-monerod-p2pool-your-miner">The real path — monerod, P2Pool, your miner</h3>
+<p>This is merge mining as it actually works: your miner looks for one RandomX hash, and it settles
+both chains. You do not split your hashrate and you do not spend an extra hash.</p>
+<pre><code class="language-bash">monerod --testnet --non-interactive \
+        --rpc-bind-ip 127.0.0.1 --rpc-bind-port 28081 \
+        --zmq-pub tcp://127.0.0.1:28083 --disable-rpc-ban
+
+python3 -m tessera --network testnet --monerod http://127.0.0.1:28081
+
+./p2pool --host 127.0.0.1 --rpc-port 28081 --zmq-port 28083 \
+         --wallet &lt;XMR testnet address&gt; --stratum 127.0.0.1:3333 \
+         --merge-mine 127.0.0.1:19081 &lt;your tsrt address&gt;
+
+xmrig -o 127.0.0.1:3333 -u &lt;XMR testnet address&gt;
+</code></pre>
+<p>The Monero RPC must be <strong>unrestricted</strong>, because Tessera verifies RandomX through <code>calc_pow</code>, which
+a restricted RPC does not expose. Keep it on localhost.</p>
+<p>P2Pool waits for a fully synced daemon before it starts, repeating <code>monerod is busy syncing</code> until
+then. The Monero testnet is about three million blocks: count a night for the first sync.</p>
+<h3 id="a-service-node-on-tor">A service node on Tor</h3>
+<p>This is the part that matters most and the part that has been exercised least. The chain pays for
+<strong>audited availability of Tor-only Monero nodes</strong>, and until real hidden services have registered,
+probed each other and been paid across several epochs, that premise is only tested against
+synthetic data.</p>
+<p>The full procedure is on its own page: <strong><a href="onion.html">Run a service node</a></strong>.</p>
+<h3 id="exercise-the-service-layer-without-mining">Exercise the service layer without mining</h3>
+<p>You can run the whole registry-and-audit mechanism on a local chain, while still deriving
+challenges from <strong>real</strong> Monero blocks:</p>
+<pre><code class="language-bash">python3 -m tessera --network local --pow sha256 \
+        --monero-blocks http://127.0.0.1:28081 --data-dir /tmp/tsr
+</code></pre>
+<p>The proof of work stays fake, so blocks are cheap; the service challenges are computed against a
+real <code>monerod</code>, so proofs and probes are the real thing. Two wallets, two hidden services, and you
+have a complete audit loop on one machine.</p>
+<h2 id="when-the-testnet-opens">When the testnet opens</h2>
+<p>Two commands change, and only two.</p>
+<pre><code class="language-bash"># your node finds the network from the seed list, then from its own address book
+python3 -m tessera --network testnet --monerod http://127.0.0.1:28081
+
+# or point it at specific peers
+python3 -m tessera --network testnet --peers &lt;host&gt;:19082,&lt;host&gt;:19082
+</code></pre>
+<p>The seed list ships in <code>params.seeds</code>. It is deliberately <strong>outside</strong> the consensus digest: adding
+an entry point is not a fork, and nobody has to upgrade because a new node appeared.</p>
+<p>Your node refuses a peer whose network, <code>chain_id</code>, genesis <strong>or consensus parameters</strong> differ. That
+last check exists because two nodes can share a genesis and still disagree on emission or epoch
+length — a disagreement that otherwise only surfaces when they split on a block.</p>
+<pre><code class="language-bash">curl -s http://127.0.0.1:19081 -d '{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:&quot;0&quot;,&quot;method&quot;:&quot;get_info&quot;}' \
+     -H 'Content-Type: application/json'
+</code></pre>
+<p>The <code>genesis</code> and <code>params_digest</code> in that answer are what two nodes must agree on. If yours differ
+from the published ones, you are not on this chain.</p>
+<h2 id="what-will-not-work-and-is-meant-not-to">What will not work, and is meant not to</h2>
+<p><strong>No clearnet endpoint can register.</strong> Consensus accepts <code>.onion</code> v3 and <code>.b32.i2p</code> and nothing
+else. Subsidising clearnet would fund exactly what Monero defends against.</p>
+<p><strong>Nothing is paid per request.</strong> Probes check that a node answers. Paying per request would create
+a direct incentive to log, classify and attribute user traffic, which is the opposite of the point.</p>
+<p><strong>There is no light client yet.</strong> Blocks now commit to their transactions through a merkle tree and
+the node serves inclusion proofs (<code>get_tx_proof</code>), so one can be written — but it has not been.</p>
+<p><strong>Coins are worth nothing and are meant to be.</strong> There is no market, no premine, no presale, no
+sale of any kind, and nothing here is an offer of anything.</p>
+  </main>
+</div>
+</body>
+</html>
+

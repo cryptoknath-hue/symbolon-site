@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tessera — Run a service node</title>
+<meta name="description" content="Register a Tor-only Monero node on Tessera: hidden service, collateral, proof of service and auditing.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2307090d'/%3E%3Cpath d='M7 7h18v5h-6.5v13H13V12H7z' fill='%233ddbd0'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;800&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#07090d; --bg-2:#0c1016; --panel:#11161e; --panel-2:#181f2a;
+  --line:#1f2836; --line-2:#2f3b4c; --ink:#eef2f8; --ink-2:#a7b2c3; --muted:#6b7789;
+  --cyan:#3ddbd0; --cyan-dim:#0f3d3b; --amber:#e0a860;
+  --display:"Sora","Helvetica Neue",Arial,sans-serif;
+  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:#ffffff; --bg-2:#f5f7fa; --panel:#ffffff; --panel-2:#eef2f7;
+    --line:#dde4ec; --line-2:#bcc7d5; --ink:#0b1017; --ink-2:#3d4959; --muted:#6a7788;
+    --cyan:#0a7a74; --cyan-dim:#d3efec; --amber:#8a5d12;
+  }
+}
+:root[data-theme="light"] {
+  --bg:#ffffff; --bg-2:#f5f7fa; --panel:#ffffff; --panel-2:#eef2f7;
+  --line:#dde4ec; --line-2:#bcc7d5; --ink:#0b1017; --ink-2:#3d4959; --muted:#6a7788;
+  --cyan:#0a7a74; --cyan-dim:#d3efec; --amber:#8a5d12;
+}
+* { box-sizing: border-box; }
+body {
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--body); font-size:16px; line-height:1.68;
+  -webkit-text-size-adjust:100%;
+}
+.top {
+  position:sticky; top:0; z-index:10; border-bottom:1px solid var(--line);
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(10px);
+}
+.top .in { max-width:1080px; margin:0 auto; padding:0 16px; height:56px;
+  display:flex; align-items:center; gap:12px; }
+.brand { display:flex; align-items:center; gap:9px; text-decoration:none; color:var(--ink); }
+.brand-name { font-family:var(--display); font-weight:700; font-size:17px; letter-spacing:-0.02em; }
+.top .liens { margin-left:auto; display:flex; gap:2px; align-items:center; overflow-x:auto; }
+.top .liens a { font-size:13.5px; color:var(--ink-2); text-decoration:none;
+  padding:7px 10px; border-radius:8px; white-space:nowrap; }
+.top .liens a:hover { color:var(--ink); background:var(--panel-2); }
+.top .liens a[aria-current="page"] { color:var(--cyan); background:var(--cyan-dim); }
+.top .liens a.back { border:1px solid var(--line); margin-left:6px; }
+.top .liens a.back:hover { border-color:var(--line-2); background:none; }
+@media (max-width:640px) { .brand-name { display:none; } .top .liens a { padding:7px 7px; font-size:12.5px; } }
+.wrap { max-width:1080px; margin:0 auto; padding:0 16px; display:grid; gap:40px;
+  grid-template-columns: 232px minmax(0,1fr); align-items:start; }
+nav.toc { position:sticky; top:76px; padding:26px 0 40px; font-size:13.5px; max-height:calc(100vh - 92px); overflow:auto; }
+nav.toc p { font-family:var(--mono); font-size:10.5px; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--muted); margin:0 0 10px; }
+nav.toc a { display:block; color:var(--ink-2); text-decoration:none; padding:3.5px 0; text-wrap:pretty; }
+nav.toc a:hover { color:var(--cyan); }
+nav.toc a.sub { padding-left:13px; font-size:12.5px; color:var(--muted); }
+main { padding:26px 0 96px; min-width:0; }
+.lede { border:1px solid var(--line); background:var(--panel); border-radius:12px;
+  padding:14px 16px; font-size:14.5px; color:var(--ink-2); margin:0 0 30px; }
+.lede b { color:var(--ink); }
+h1 { font-family:var(--display); font-size:clamp(30px,5vw,42px); font-weight:800;
+  letter-spacing:-0.025em; line-height:1.12; margin:0 0 6px; }
+h2 { font-family:var(--display); font-size:clamp(21px,3vw,26px); font-weight:700;
+  letter-spacing:-0.02em; margin:52px 0 14px; padding-top:14px; border-top:1px solid var(--line); scroll-margin-top:72px; }
+h3 { font-family:var(--display); font-size:18px; font-weight:600; margin:32px 0 10px; scroll-margin-top:72px; }
+p, li { text-wrap:pretty; }
+a { color:var(--cyan); }
+code { font-family:var(--mono); font-size:0.875em; background:var(--panel-2);
+  border:1px solid var(--line); border-radius:5px; padding:1px 5px; word-break:break-word; }
+pre { background:var(--panel); border:1px solid var(--line); border-radius:11px;
+  padding:14px 16px; overflow:auto; font-size:13px; line-height:1.6; }
+pre code { background:none; border:0; padding:0; font-size:inherit; }
+blockquote { margin:20px 0; padding:2px 0 2px 16px; border-left:3px solid var(--amber); color:var(--ink-2); }
+table { border-collapse:collapse; width:100%; margin:20px 0; font-size:14px; display:block; overflow-x:auto; }
+th, td { border:1px solid var(--line); padding:8px 11px; text-align:left; white-space:nowrap; }
+th { background:var(--panel-2); font-weight:700; }
+hr { border:0; border-top:1px solid var(--line); margin:38px 0; }
+ul, ol { padding-left:22px; }
+li { margin:5px 0; }
+@media (max-width: 860px) {
+  .wrap { grid-template-columns:minmax(0,1fr); gap:0; }
+  nav.toc { position:static; max-height:none; border-bottom:1px solid var(--line); }
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <a class="brand" href="./">
+    <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
+      <rect width="32" height="32" rx="7" fill="var(--cyan-dim)"></rect>
+      <path d="M7 7h18v5h-6.5v13H13V12H7z" fill="var(--cyan)"></path>
+    </svg>
+    <span class="brand-name">Tessera</span>
+  </a>
+  <div class="liens"><a href="join.html">Join the testnet</a><a href="onion.html" aria-current="page">Run a service node</a><a href="spec.html">Specification</a><a class="back" href="./">&larr; Site</a></div>
+</div></header>
+<div class="wrap">
+  <nav class="toc" aria-label="Sections"><p>Contents</p><a class="" href="#what-you-are-proving-and-what-you-are-not">What you are proving, and what you are not</a>
+<a class="" href="#what-you-need">What you need</a>
+<a class="" href="#1-one-hidden-service-two-ports">1. One hidden service, two ports</a>
+<a class="" href="#2-your-tor-key-is-your-identity-treat-it-that-way">2. Your Tor key is your identity — treat it that way</a>
+<a class="" href="#3-a-wallet-and-collateral">3. A wallet, and collateral</a>
+<a class="" href="#4-register">4. Register</a>
+<a class="" href="#5-run-the-responder">5. Run the responder</a>
+<a class="" href="#6-your-other-job-auditing">6. Your other job: auditing</a>
+<a class="" href="#checking-your-own-node">Checking your own node</a>
+<a class="" href="#when-it-does-not-work">When it does not work</a>
+<a class="" href="#what-this-does-not-protect-you-from">What this does not protect you from</a></nav>
+  <main>
+    <h1>Run a service node</h1>
+    <div class="lede"><b>Nothing to earn today.</b> Tessera runs on a test chain and the coins are worth nothing. This procedure is worth running because the mechanism needs to be exercised by people other than its author.</div>
+    <p>A Tessera service node is a <strong>Monero node reachable only over Tor</strong>, registered on the Tessera
+chain, which answers availability probes. This page is the whole procedure, end to end.</p>
+<p>Read this first: <strong>there is nothing to earn today.</strong> Tessera runs on a test chain, the coins are
+worth nothing, and no public network exists yet. What follows is worth doing because the mechanism
+has to be exercised by people other than its author before it can be taken seriously — not because
+it pays.</p>
+<h2 id="what-you-are-proving-and-what-you-are-not">What you are proving, and what you are not</h2>
+<p>The probe asks your hidden service to sign a value derived from the Tessera chain and from four
+Monero blocks. A valid signature proves three things at once: the service is <strong>up</strong>, it <strong>holds
+the private key</strong> of the <code>.onion</code> it registered, and it has the Monero blocks the challenge names.
+Nobody can forge that, not even the auditor who carries the proof — every validator recomputes the
+expected answer from its own <code>monerod</code>.</p>
+<p>What it does <strong>not</strong> prove is that <code>monerod</code> itself is answering behind that address. The
+recommended setup below makes the probe responder and the Monero RPC share <strong>one</strong> hidden service,
+so the address you register really is your Monero node's address. An auditor may additionally check
+that <code>monerod</code> answers (<code>wallet.py audit --require-monero</code>), but be clear about the status of that
+check: <strong>the chain cannot verify it.</strong> It raises the cost of lying; it is not a rule.</p>
+<h2 id="what-you-need">What you need</h2>
+<ul>
+<li>A <strong>Monero node</strong> you already run, or are willing to run, reachable over Tor.</li>
+<li><strong>Tor</strong>, with permission to create a hidden service.</li>
+<li><strong>Python 3.12</strong> and the <code>cryptography</code> package.</li>
+<li>A <strong>Tessera node</strong> on the same machine, itself talking to an unrestricted <code>monerod</code> RPC.</li>
+<li><strong>1 000 TSR</strong> of collateral, locked for 10 000 blocks (~7 days) after you deregister.</li>
+</ul>
+<h2 id="1-one-hidden-service-two-ports">1. One hidden service, two ports</h2>
+<p>In your <code>torrc</code>:</p>
+<pre><code>HiddenServiceDir /var/lib/tor/tessera/
+HiddenServicePort 18081 127.0.0.1:18081
+HiddenServicePort 80 127.0.0.1:19083
+</code></pre>
+<p>Port 18081 is your Monero RPC; port 80 is the Tessera probe responder. <strong>Both behind the same
+<code>HiddenServiceDir</code></strong>, so both share one <code>.onion</code> address — which is the point: the address you
+register is the address that serves Monero.</p>
+<pre><code class="language-bash">sudo systemctl restart tor
+sudo cat /var/lib/tor/tessera/hostname
+</code></pre>
+<p>That <code>.onion</code> is your node's identity on Tessera.</p>
+<h2 id="2-your-tor-key-is-your-identity-treat-it-that-way">2. Your Tor key is your identity — treat it that way</h2>
+<p><code>/var/lib/tor/tessera/hs_ed25519_secret_key</code> is the private key of your hidden service. Whoever
+holds it can impersonate your node on Tor <strong>and</strong> on Tessera. Tessera refuses to work with a key
+readable beyond its owner:</p>
+<pre><code class="language-bash">sudo chmod 600 /var/lib/tor/tessera/hs_ed25519_secret_key
+</code></pre>
+<p>A detail worth knowing, because it explains a Tessera-specific piece of code: Tor does not keep
+the 32-byte seed. It stores the <strong>expanded</strong> key, and mainstream ed25519 libraries only sign from
+a seed. Tessera ships its own ed25519 (<code>tessera/ed25519.py</code>) purely so that an operator can sign
+with the key Tor actually wrote. It is checked byte for byte against a reference implementation.</p>
+<h2 id="3-a-wallet-and-collateral">3. A wallet, and collateral</h2>
+<pre><code class="language-bash">python3 tools/wallet.py new          # writes ~/.tessera/wallet.json — NOT encrypted, back it up
+python3 tools/wallet.py address
+python3 tools/wallet.py balance
+</code></pre>
+<p>Collateral is the only Sybil barrier that exists. It is not a fee: you get it back when you
+deregister, minus anything a penalty ate.</p>
+<h2 id="4-register">4. Register</h2>
+<pre><code class="language-bash">python3 tools/wallet.py register $(sudo cat /var/lib/tor/tessera/hostname) 1000
+</code></pre>
+<p>Consensus accepts <strong>only</strong> <code>.onion</code> v3 and <code>.b32.i2p</code> endpoints — a clearnet address has no valid
+form here. One account registers one node; one endpoint can be taken once.</p>
+<p>Check it landed:</p>
+<pre><code class="language-bash">python3 tools/wallet.py registry
+</code></pre>
+<h2 id="5-run-the-responder">5. Run the responder</h2>
+<pre><code class="language-bash">python3 tools/service-node.py --tor-key /var/lib/tor/tessera
+</code></pre>
+<p>It does two things: it answers auditors' probes, signing with your Tor key, and it files your own
+proof of availability each round.</p>
+<p>It <strong>never signs what it is handed.</strong> An auditor sends a round, its address and its nonce; the
+responder recomputes the expected answer from <strong>its own Tessera node</strong>, which derives it from the
+chain, and signs only that. A hostile auditor cannot use your responder as a signing oracle — it
+does not choose the message, only a nonce that consensus already constrains.</p>
+<p>The responder listens on <code>127.0.0.1:19083</code>. Tor publishes it. <strong>Never expose it directly.</strong></p>
+<p>As a service, so it comes back after a reboot:</p>
+<pre><code class="language-bash">systemd-run --user --unit=tessera-service --collect \
+  python3 /path/to/tessera/tools/service-node.py --tor-key /var/lib/tor/tessera
+</code></pre>
+<h2 id="6-your-other-job-auditing">6. Your other job: auditing</h2>
+<p>Registering makes you an auditor too. Each round the registry is sorted into a ring, and you audit
+the five nodes after you. Ignoring that is penalised — below 50% of duties fulfilled over an
+epoch, 5% of your collateral is <strong>burnt</strong>, never paid to anyone.</p>
+<pre><code class="language-bash">python3 tools/wallet.py audit
+</code></pre>
+<p>It probes each node you owe a probe to, over Tor, and files either an attestation or an <strong>absence
+report</strong>. Filing an absence counts as a duty fulfilled: an auditor that cannot reach a node has
+nothing to sign, and the mechanism must not punish it for saying so. A round counts as available
+with <strong>three attestations and at most one absence</strong>.</p>
+<p>On a timer, since duties change every round:</p>
+<pre><code class="language-bash"># ~/.config/systemd/user/tessera-audit.timer — every 10 minutes
+[Timer]
+OnUnitActiveSec=10min
+</code></pre>
+<p>Be honest in both directions: an absence report contradicted by a strong majority is itself a
+fault. Crying absence cannot be used to starve a competitor.</p>
+<h2 id="checking-your-own-node">Checking your own node</h2>
+<pre><code class="language-bash">python3 tools/wallet.py availability        # rounds attested, and your own proofs
+python3 tools/wallet.py challenge           # what this round asks of you
+curl -s http://127.0.0.1:19083/             # the responder, as it presents itself
+</code></pre>
+<p>From another machine, through Tor, the way an auditor sees you:</p>
+<pre><code class="language-bash">torsocks curl -s http://&lt;your&gt;.onion/
+</code></pre>
+<h2 id="when-it-does-not-work">When it does not work</h2>
+<p><strong><code>clé Tor inutilisable : … chmod 600</code></strong> — the key file is readable by others. Fix the permissions;
+this one is refusing to help you leak your identity.</p>
+<p><strong><code>n'est pas dans le registre</code></strong> — the responder will not start for an unregistered account. Register
+first, and wait for the transaction to be in a block.</p>
+<p><strong><code>le registre annonce … la clé donne …</code></strong> — the key in <code>--tor-key</code> is not the key of the endpoint
+you registered. Two hidden services got mixed up.</p>
+<p><strong><code>le nœud local ne peut pas calculer le défi</code></strong> — your Tessera node has no <code>monerod</code>, or its
+<code>monerod</code> does not hold the Monero range the challenge names. The challenge draws from the last
+1 000 Monero blocks so that a pruned node can still answer; a node syncing from scratch cannot.</p>
+<p><strong>Your proof is refused as out of window</strong> — a proof is admissible for 60 blocks, a probe for 10.
+The narrow probe window is deliberate: it is what lets consensus bound <em>when</em> the answer was
+produced, instead of trusting the auditor's clock.</p>
+<h2 id="what-this-does-not-protect-you-from">What this does not protect you from</h2>
+<p>Registering publishes the association between a Tessera account and a <code>.onion</code>. That is inherent —
+the chain has to know which endpoint to pay — but it means your node's address and its earnings are
+linked in public, permanently. Decide whether that matters to you before you register.</p>
+<p><code>~/.tessera/wallet.json</code> holds your private key <strong>in the clear</strong>. Acceptable while nothing has
+value; it will not be acceptable on a real network, and it is on the list of things to fix first.</p>
+  </main>
+</div>
+</body>
+</html>
+
