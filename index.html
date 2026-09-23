@@ -13,339 +13,367 @@
   [hidden] { display: none !important; }
 </style>
 <title>Tessera (TSR)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%2317120e'/%3E%3Cpath d='M2.5 3 H10.6 L11.8 7.5 L9.8 12 L11.8 16.5 L10.6 21 H2.5 Z' fill='%23d9a05e'/%3E%3Cpath d='M12.6 3 H21.5 V21 H12.6 L13.8 16.5 L11.8 12 L13.8 7.5 Z' fill='none' stroke='%23d9a05e' stroke-width='1.3'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..900&family=Newsreader:opsz,wght@6..72,300..600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 
 <style>
-  /* ---- dark by default; the light theme is redefined below ---- */
+  /* ---- noyer, laiton, papier vieilli. Sombre par défaut ; le thème clair est un papier, pas un blanc ---- */
   :root {
-    --bg:        #07090d;
-    --bg-2:      #0c1016;
-    --panel:     #11161e;
-    --panel-2:   #181f2a;
-    --line:      #1f2836;
-    --line-2:    #2f3b4c;
-    --ink:       #eef2f8;
-    --ink-2:     #a7b2c3;
-    --muted:     #6b7789;
-    --cyan:      #3ddbd0;
-    --cyan-2:    #1d8f89;
-    --cyan-dim:  #0f3d3b;
-    --amber:     #e0a860;
-    --amber-dim: #2d2415;
-    --on-cyan:   #04100f;
-    --ok:        #5fd39a;
-    --ok-bg:     #10261d;
-    --wip:       #e0a860;
-    --wip-bg:    #2a2315;
-    --no:        #e08a8a;
-    --no-bg:     #2b1919;
-    --grid:      #1a2230;
+    --bg:         #17120e;
+    --bg-2:       #1d1712;
+    --panel:      #231b15;
+    --panel-2:    #2c221a;
+    --line:       #382c22;
+    --line-2:     #55432f;
+    --ink:        #f2e8d9;
+    --ink-2:      #c2b29a;
+    --muted:      #8d7c65;
+    --accent:     #d9a05e;
+    --accent-2:   #b07c3f;
+    --accent-dim: #3a2a17;
+    --amber:      #d9a05e;
+    --amber-dim:  #33261a;
+    --on-accent:  #1a1209;
+    --ok:         #9fae76;
+    --ok-bg:      #242a18;
+    --wip:        #d9a05e;
+    --wip-bg:     #33261a;
+    --no:         #cb7458;
+    --no-bg:      #331e18;
+    --grid:       #2f251c;
 
-    --display: "Sora", "Helvetica Neue", Arial, sans-serif;
-    --body: "Manrope", "Helvetica Neue", Arial, sans-serif;
-    --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
-    --radius: 12px;
-    --nav-h: 60px;
+    --display: "Fraunces", Georgia, "Times New Roman", serif;
+    --body: "Newsreader", Georgia, "Times New Roman", serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    --nav-h: 62px;
   }
 
   @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) {
-      --bg: #ffffff; --bg-2: #f5f7fa; --panel: #ffffff; --panel-2: #eef2f7;
-      --line: #dde4ec; --line-2: #bcc7d5; --ink: #0b1017; --ink-2: #3d4959;
-      --muted: #6a7788; --cyan: #0a7a74; --cyan-2: #0a7a74; --cyan-dim: #d3efec;
-      --amber: #8a5d12; --amber-dim: #f7eddb; --on-cyan: #ffffff;
-      --ok: #1f6b48; --ok-bg: #dcefe5; --wip: #8a6512; --wip-bg: #f5ead3;
-      --no: #94393b; --no-bg: #f6dddd; --grid: #e6ecf3;
+      --bg: #f3ece0; --bg-2: #ece3d4; --panel: #f8f3e9; --panel-2: #e8dfcf;
+      --line: #d8cbb5; --line-2: #b8a58a; --ink: #221a12; --ink-2: #4f4334;
+      --muted: #7b6b55; --accent: #8a5a1d; --accent-2: #8a5a1d; --accent-dim: #ecdcc2;
+      --amber: #8a5a1d; --amber-dim: #efe1c9; --on-accent: #fdf8ef;
+      --ok: #55672f; --ok-bg: #e4e8d2; --wip: #8a5a1d; --wip-bg: #efe1c9;
+      --no: #97402a; --no-bg: #f2dcd4; --grid: #ded2bd;
     }
   }
   :root[data-theme="light"] {
-    --bg: #ffffff; --bg-2: #f5f7fa; --panel: #ffffff; --panel-2: #eef2f7;
-    --line: #dde4ec; --line-2: #bcc7d5; --ink: #0b1017; --ink-2: #3d4959;
-    --muted: #6a7788; --cyan: #0a7a74; --cyan-2: #0a7a74; --cyan-dim: #d3efec;
-    --amber: #8a5d12; --amber-dim: #f7eddb; --on-cyan: #ffffff;
-    --ok: #1f6b48; --ok-bg: #dcefe5; --wip: #8a6512; --wip-bg: #f5ead3;
-    --no: #94393b; --no-bg: #f6dddd; --grid: #e6ecf3;
+    --bg: #f3ece0; --bg-2: #ece3d4; --panel: #f8f3e9; --panel-2: #e8dfcf;
+    --line: #d8cbb5; --line-2: #b8a58a; --ink: #221a12; --ink-2: #4f4334;
+    --muted: #7b6b55; --accent: #8a5a1d; --accent-2: #8a5a1d; --accent-dim: #ecdcc2;
+    --amber: #8a5a1d; --amber-dim: #efe1c9; --on-accent: #fdf8ef;
+    --ok: #55672f; --ok-bg: #e4e8d2; --wip: #8a5a1d; --wip-bg: #efe1c9;
+    --no: #97402a; --no-bg: #f2dcd4; --grid: #ded2bd;
   }
 
+  :root { color-scheme: dark; }
+  @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { color-scheme: light; } }
+  :root[data-theme="light"] { color-scheme: light; }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
     margin: 0; background: var(--bg); color: var(--ink);
-    font-family: var(--body); font-size: 16px; line-height: 1.65;
+    font-family: var(--body); font-size: 17.5px; line-height: 1.68;
+    font-optical-sizing: auto;
     -webkit-font-smoothing: antialiased;
   }
-  .shell { max-width: 1120px; margin: 0 auto; padding-inline: 22px; }
+  .shell { max-width: 1060px; margin: 0 auto; padding-inline: 22px; }
 
   /* ---------------- navigation ---------------- */
   .nav {
     position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30;
-    background: color-mix(in srgb, var(--bg) 86%, transparent);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--line);
+    background: var(--bg); border-bottom: 1px solid var(--line-2);
   }
   .nav-in {
-    max-width: 1120px; margin: 0 auto; padding-inline: 22px; height: var(--nav-h);
+    max-width: 1060px; margin: 0 auto; padding-inline: 22px; height: var(--nav-h);
     display: flex; align-items: center; gap: 16px;
   }
-  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
-  .brand-mark { width: 26px; height: 26px; display: block; flex: none; }
-  .brand-name { font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
-  .nav-links { display: flex; gap: 2px; margin-left: auto; align-items: center; overflow-x: auto; }
-  .nav-links a {
-    font-size: 14px; font-weight: 500; color: var(--ink-2); text-decoration: none;
-    padding: 7px 11px; border-radius: 8px; white-space: nowrap;
-    transition: color .15s ease, background .15s ease;
+  .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: var(--ink); }
+  .brand-mark { width: 24px; height: 24px; display: block; flex: none; }
+  .brand-name {
+    font-family: var(--display); font-weight: 700; font-size: 19px;
+    letter-spacing: .01em; font-variation-settings: "SOFT" 0, "WONK" 1;
   }
-  .nav-links a:hover { color: var(--ink); background: var(--panel-2); }
-  .nav-links a.ext { color: var(--cyan); }
-  @media (max-width: 780px) { .brand-name { display: none; } .nav-links a { padding: 7px 8px; font-size: 13px; } }
+  /* sans min-width:0, un élément flex refuse de descendre sous la largeur de son contenu :
+     la barre de navigation élargissait la page entière au format téléphone */
+  .nav-links {
+    display: flex; gap: 0; margin-left: auto; align-items: center;
+    min-width: 0; overflow-x: auto; scrollbar-width: none;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-tools { display: flex; align-items: center; flex: none; }
+  .nav-links a {
+    font-family: var(--mono); font-size: 12.5px; font-weight: 400; color: var(--ink-2);
+    text-decoration: none; padding: 6px 11px; white-space: nowrap;
+    border-bottom: 1px solid transparent; transition: color .12s, border-color .12s;
+  }
+  .nav-links a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .nav-links a.ext { color: var(--accent); }
+  @media (max-width: 820px) {
+    .brand-name { display: none; }
+    .nav-links { margin-left: 14px; }
+    .nav-links a { padding: 6px 8px; font-size: 11.5px; }
+  }
 
   #langue, #docs {
-    font-family: var(--body); font-size: 14px; font-weight: 500; color: var(--ink-2);
-    background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
-    padding: 6px 10px; margin-left: 6px; cursor: pointer;
+    font-family: var(--mono); font-size: 12.5px; color: var(--ink-2);
+    background: transparent; border: 1px solid var(--line-2); border-radius: 0;
+    padding: 5px 8px; margin-left: 8px; cursor: pointer;
   }
-  #langue:hover, #docs:hover { color: var(--ink); border-color: var(--line-2); }
-  #langue:focus-visible, #docs:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
-  #docs { margin-left: 2px; }
+  /* sans largeur fixe, le sélecteur prend celle de sa plus longue option */
+  #docs { margin-left: 10px; width: 86px; }
+  #langue:hover, #docs:hover { color: var(--accent); border-color: var(--accent); }
+  #langue:focus-visible, #docs:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-  /* ---------------- entrances ---------------- */
-  @keyframes monte { from { transform: translateY(10px); } to { transform: translateY(0); } }
-  .monte { animation: monte .7s cubic-bezier(.2,.8,.3,1) both; }
-  .d1 { animation-delay: .05s } .d2 { animation-delay: .12s } .d3 { animation-delay: .19s } .d4 { animation-delay: .26s }
+  /* ---------------- entrées ---------------- */
+  @keyframes monte { from { transform: translateY(8px); } to { transform: translateY(0); } }
+  .monte { animation: monte .6s cubic-bezier(.2,.8,.3,1) both; }
+  .d1 { animation-delay: .04s } .d2 { animation-delay: .1s } .d3 { animation-delay: .16s } .d4 { animation-delay: .22s }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .monte { animation: none; }
     .anneau-tourne, .pulse { animation: none !important; }
   }
 
-  /* ---------------- hero ---------------- */
-  .hero { padding-block: clamp(46px, 8vw, 88px) 0; display: grid; gap: 44px; grid-template-columns: 1.15fr .85fr; align-items: center; }
-  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 32px; } }
+  /* ---------------- ouverture ---------------- */
+  .hero { padding-block: clamp(44px, 7vw, 82px) 0; display: grid; gap: 48px; grid-template-columns: 1.18fr .82fr; align-items: center; }
+  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 34px; } }
   .eyebrow {
-    font-family: var(--mono); font-size: 11.5px; font-weight: 500;
-    letter-spacing: .18em; text-transform: uppercase; color: var(--cyan); margin: 0 0 18px;
+    font-family: var(--mono); font-size: 12px; font-weight: 400;
+    letter-spacing: .02em; text-transform: none; color: var(--muted); margin: 0 0 20px;
   }
+  .eyebrow::before { content: "§ "; color: var(--accent); }
   h1 {
-    font-family: var(--display); font-size: clamp(38px, 6.6vw, 68px); font-weight: 800;
-    line-height: 1.02; letter-spacing: -.04em; margin: 0; text-wrap: balance;
+    font-family: var(--display); font-size: clamp(40px, 6.4vw, 70px); font-weight: 700;
+    font-variation-settings: "SOFT" 0, "WONK" 1; line-height: 1.02; letter-spacing: -.018em;
+    margin: 0; text-wrap: balance;
   }
-  h1 em { font-style: normal; color: var(--cyan); }
-  .hero-sub { font-size: clamp(17px, 2vw, 19.5px); color: var(--ink-2); max-width: 54ch; margin: 22px 0 0; text-wrap: pretty; }
-  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  h1 em { font-style: italic; color: var(--accent); font-variation-settings: "SOFT" 0, "WONK" 1; }
+  .hero-sub { font-size: clamp(17.5px, 2vw, 20px); color: var(--ink-2); max-width: 52ch; margin: 24px 0 0; text-wrap: pretty; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
   .btn {
     display: inline-flex; align-items: center; gap: 8px;
-    font-family: var(--body); font-size: 15px; font-weight: 600;
-    padding: 12px 22px; border-radius: 10px; text-decoration: none; border: 1px solid transparent;
-    transition: transform .15s ease, filter .15s ease, background .15s ease;
+    font-family: var(--mono); font-size: 13.5px; font-weight: 500;
+    padding: 12px 20px; border-radius: 0; text-decoration: none; border: 1px solid transparent;
+    transition: background .14s, color .14s, border-color .14s;
   }
-  .btn-primary { background: var(--cyan); color: var(--on-cyan); }
-  .btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+  .btn-primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  .btn-primary:hover { background: var(--accent-2); border-color: var(--accent-2); }
   .btn-ghost { border-color: var(--line-2); color: var(--ink); }
-  .btn-ghost:hover { background: var(--panel-2); transform: translateY(-1px); }
-  a:focus-visible, .btn:focus-visible, summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  a:focus-visible, .btn:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
   .notice {
-    margin-top: 34px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px;
-    padding: 14px 18px; border: 1px solid var(--line); border-left: 3px solid var(--wip);
-    border-radius: 10px; background: var(--panel); font-size: 14.5px; color: var(--ink-2);
+    margin-top: 34px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px;
+    padding: 15px 0 0; border-top: 1px solid var(--line-2);
+    font-size: 15.5px; color: var(--ink-2);
   }
-  .notice b { color: var(--ink); font-weight: 700; }
+  .notice b { color: var(--accent); font-weight: 600; font-family: var(--mono); font-size: 13px; }
 
-  /* ---------------- animated ring ---------------- */
+  /* ---------------- anneau ---------------- */
   .anneau-boite { display: grid; place-items: center; }
-  .anneau { width: 100%; max-width: 380px; height: auto; }
+  .anneau { width: 100%; max-width: 360px; height: auto; }
   .anneau-tourne { animation: tourne 17.5s steps(7) infinite; transform-origin: 150px 150px; }
   @keyframes tourne { to { transform: rotate(360deg); } }
   .pulse { animation: pulse 2.5s ease-in-out infinite; }
-  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .45 } }
-  .a-node { fill: var(--panel-2); stroke: var(--line-2); stroke-width: 1.5; }
-  .a-node-vu { fill: var(--cyan); stroke: var(--cyan); }
-  .a-spoke { stroke: var(--cyan); stroke-width: 1.4; opacity: .75; }
-  .a-ring { fill: none; stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 5; }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .4 } }
+  .a-node { fill: var(--bg); stroke: var(--line-2); stroke-width: 1.5; }
+  .a-node-vu { fill: var(--accent); stroke: var(--accent); }
+  .a-spoke { stroke: var(--accent); stroke-width: 1.2; opacity: .8; }
+  .a-ring { fill: none; stroke: var(--line-2); stroke-width: 1; stroke-dasharray: 2 6; }
   .a-lbl { font-family: var(--mono); font-size: 10px; fill: var(--muted); }
 
-  /* ---------------- key numbers ---------------- */
+  /* ---------------- chiffres d'ouverture : une ligne réglée, pas des tuiles ---------------- */
   .stats {
-    display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 1px;
-    margin-top: 58px; background: var(--line); border: 1px solid var(--line);
-    border-radius: var(--radius); overflow: hidden;
+    display: grid; grid-template-columns: repeat(4, minmax(0,1fr));
+    margin-top: 62px; border-top: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2);
   }
-  .stat { background: var(--panel); padding: 24px 22px; }
+  .stat { padding: 24px 22px 22px 0; border-left: 1px solid var(--line); padding-left: 22px; }
+  .stats > .stat:nth-child(4n+1) { border-left: 0; padding-left: 0; }
   .stat-n {
-    font-family: var(--display); font-size: clamp(27px, 4vw, 38px); font-weight: 800;
-    letter-spacing: -.035em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--ink);
+    font-family: var(--display); font-size: clamp(30px, 4.2vw, 42px); font-weight: 700;
+    font-variation-settings: "SOFT" 0, "WONK" 1;
+    letter-spacing: -.02em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--ink);
   }
-  .stat-n .u { font-size: .46em; font-weight: 600; color: var(--muted); margin-left: 5px; letter-spacing: 0; }
-  .stat-l { font-size: 13.5px; color: var(--muted); margin-top: 11px; line-height: 1.45; }
-  @media (max-width: 860px) { .stats { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+  .stat-n .u { font-family: var(--mono); font-size: .38em; font-weight: 400; color: var(--muted); margin-left: 6px; letter-spacing: 0; }
+  .stat-l { font-size: 14.5px; color: var(--muted); margin-top: 12px; line-height: 1.45; }
+  @media (max-width: 860px) {
+    .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .stats > .stat:nth-child(2n+1) { border-left: 0; padding-left: 0; }
+    .stats > .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
+  }
 
   /* ---------------- sections ---------------- */
-  section { padding-block: clamp(58px, 8vw, 96px) 0; scroll-margin-top: calc(var(--nav-h) + 14px); }
-  .bande { background: var(--bg-2); border-block: 1px solid var(--line); margin-top: clamp(58px, 8vw, 96px); }
-  .bande > .shell > section:first-child { padding-top: clamp(52px, 7vw, 82px); }
-  .bande > .shell > section:last-child { padding-bottom: clamp(58px, 8vw, 96px); }
-  .sec-head { margin-bottom: 32px; }
+  section { padding-block: clamp(56px, 7.5vw, 92px) 0; scroll-margin-top: calc(var(--nav-h) + 14px); }
+  .bande { background: var(--bg-2); border-block: 1px solid var(--line-2); margin-top: clamp(56px, 7.5vw, 92px); }
+  .bande > .shell > section:first-child { padding-top: clamp(50px, 6.5vw, 78px); }
+  .bande > .shell > section:last-child { padding-bottom: clamp(56px, 7.5vw, 92px); }
+  .sec-head { margin-bottom: 34px; }
   .sec-kicker {
-    font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .18em;
-    text-transform: uppercase; color: var(--cyan); margin: 0 0 12px;
+    font-family: var(--mono); font-size: 12px; font-weight: 400; letter-spacing: .02em;
+    text-transform: none; color: var(--muted); margin: 0 0 14px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--line);
   }
+  .sec-kicker::before { content: "§ "; color: var(--accent); }
   h2 {
-    font-family: var(--display); font-size: clamp(27px, 4vw, 40px); font-weight: 700;
-    letter-spacing: -.032em; line-height: 1.1; margin: 0; text-wrap: balance; max-width: 22ch;
+    font-family: var(--display); font-size: clamp(28px, 3.9vw, 42px); font-weight: 700;
+    font-variation-settings: "SOFT" 0, "WONK" 1;
+    letter-spacing: -.016em; line-height: 1.08; margin: 0; text-wrap: balance; max-width: 21ch;
   }
-  h3 { font-family: var(--display); font-weight: 600; letter-spacing: -.015em; }
-  .sec-head p { color: var(--ink-2); max-width: 64ch; margin: 18px 0 0; font-size: 16.5px; }
+  h3 { font-family: var(--display); font-weight: 600; font-variation-settings: "SOFT" 0, "WONK" 1; letter-spacing: -.008em; }
+  .sec-head p { color: var(--ink-2); max-width: 62ch; margin: 20px 0 0; font-size: 17.5px; }
   p { margin: 0 0 16px; }
-  strong { color: var(--ink); font-weight: 700; }
+  strong { color: var(--ink); font-weight: 600; }
+  em { font-style: italic; }
 
-  /* ---------------- cards ---------------- */
-  .cards { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+  /* ---------------- blocs ---------------- */
+  .cards { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0; border-top: 1px solid var(--line-2); }
   .cards.deux { grid-template-columns: repeat(2, minmax(0,1fr)); }
   @media (max-width: 880px) { .cards, .cards.deux { grid-template-columns: 1fr; } }
   .card {
-    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 24px;
-    transition: border-color .2s ease, transform .2s ease;
+    background: none; border: 0; border-left: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    border-radius: 0; padding: 26px 24px 28px; transition: background .16s;
   }
-  .card:hover { border-color: var(--line-2); transform: translateY(-2px); }
-  .card h3 { font-size: 18px; margin: 0 0 10px; }
-  .card p { color: var(--ink-2); font-size: 15px; margin: 0; }
+  /* le filet gauche sépare les colonnes : il ne doit jamais ouvrir une ligne,
+     sinon la première carte de chaque rangée est décalée par rapport au texte au-dessus */
+  .cards > .card:nth-child(3n+1) { border-left: 0; padding-left: 0; }
+  .cards.deux > .card:nth-child(2n+1) { border-left: 0; padding-left: 0; }
+  @media (max-width: 880px) { .card, .card:first-child { border-left: 0; padding-left: 0; } }
+  .card:hover { background: var(--panel); }
+  .card h3 { font-size: 20px; margin: 0 0 10px; }
+  .card h3 a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--accent); }
+  .card h3 a:hover { color: var(--accent); }
+  .card p { color: var(--ink-2); font-size: 16px; margin: 0; }
   .card-tag {
-    display: inline-block; font-family: var(--mono); font-size: 10.5px; font-weight: 500;
-    letter-spacing: .1em; text-transform: uppercase; color: var(--cyan); background: var(--cyan-dim);
-    padding: 3px 9px; border-radius: 5px; margin-bottom: 14px;
+    display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 400;
+    letter-spacing: .02em; text-transform: none; color: var(--accent); background: none;
+    padding: 0 0 4px; border-bottom: 1px solid var(--accent-dim); border-radius: 0; margin-bottom: 16px;
   }
 
-  /* ---------------- steps ---------------- */
-  .steps { display: grid; gap: 14px; counter-reset: s; }
+  /* ---------------- étapes ---------------- */
+  /* minmax(0,1fr) et min-width:0 : sans eux, la piste d'une grille est dimensionnée par le
+     contenu minimal de ses éléments, et un bloc de code long élargit la page au lieu de défiler */
+  .steps { display: grid; gap: 0; counter-reset: s; border-top: 1px solid var(--line-2);
+           grid-template-columns: minmax(0, 1fr); }
   .step {
-    display: grid; grid-template-columns: 46px minmax(0,1fr); gap: 20px; align-items: start;
-    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px;
+    display: grid; grid-template-columns: 54px minmax(0,1fr); gap: 22px; align-items: start;
+    background: none; border: 0; border-bottom: 1px solid var(--line); border-radius: 0;
+    padding: 24px 0 26px; min-width: 0;
   }
+  .step > * { min-width: 0; }
   .step::before {
     counter-increment: s; content: counter(s, decimal-leading-zero);
-    font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--cyan);
-    border: 1px solid var(--cyan-dim); border-radius: 9px; padding: 7px 0; text-align: center;
+    font-family: var(--display); font-size: 26px; font-weight: 700;
+    font-variation-settings: "SOFT" 0, "WONK" 1;
+    color: var(--line-2); border: 0; padding: 0; text-align: left; line-height: 1;
   }
-  .step h3 { font-size: 17px; margin: 2px 0 6px; }
-  .step p { margin: 0; font-size: 15px; color: var(--ink-2); max-width: 64ch; }
-  @media (max-width: 560px) { .step { grid-template-columns: 1fr; gap: 10px; } .step::before { width: 46px; } }
+  .step h3 { font-size: 19px; margin: 0 0 8px; }
+  .step p { margin: 0; font-size: 16px; color: var(--ink-2); max-width: 62ch; }
+  @media (max-width: 560px) { .step { grid-template-columns: 1fr; gap: 8px; } }
 
   pre {
-    margin: 22px 0 0; padding: 20px; background: var(--bg-2); border: 1px solid var(--line);
-    border-radius: var(--radius); overflow-x: auto; font-family: var(--mono);
-    font-size: 12.5px; line-height: 1.8; color: var(--ink);
+    margin: 24px 0 0; padding: 20px 22px; background: var(--panel); border: 0;
+    border-left: 2px solid var(--accent); border-radius: 0; overflow-x: auto;
+    font-family: var(--mono); font-size: 13px; line-height: 1.85; color: var(--ink);
   }
-  pre .c { color: var(--muted); } pre .k { color: var(--cyan); }
-  code { font-family: var(--mono); font-size: .88em; }
+  pre .c { color: var(--muted); font-style: italic; } pre .k { color: var(--accent); }
+  code { font-family: var(--mono); font-size: .84em; }
   p code, li code, td code, .step code, .card p code {
-    background: var(--panel-2); padding: 2px 6px; border-radius: 5px; color: var(--ink);
+    background: var(--panel-2); padding: 1px 5px; border-radius: 0; color: var(--ink);
   }
 
-  /* ---------------- network panel ---------------- */
-  .reseau-tete { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 26px; }
+  /* ---------------- réseau ---------------- */
+  .reseau-tete { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 28px; }
   .reseau-date { font-family: var(--mono); font-size: 12px; color: var(--muted); }
-  .reseau-grille { margin-top: 16px; grid-template-columns: repeat(4, minmax(0,1fr)); }
-  .reseau-grille .stat-n { font-size: clamp(22px, 3.2vw, 30px); }
-  .reseau-note { margin-top: 20px; color: var(--muted); font-size: 14.5px; max-width: 68ch; }
+  .reseau-grille { margin-top: 18px; grid-template-columns: repeat(4, minmax(0,1fr)); }
+  .reseau-grille .stat-n { font-size: clamp(23px, 3.1vw, 31px); }
+  .reseau-grille .stat { padding-block: 20px 18px; }
+  .reseau-note { margin-top: 22px; color: var(--muted); font-size: 15.5px; max-width: 66ch; }
   @media (max-width: 860px) { .reseau-grille { grid-template-columns: repeat(2, minmax(0,1fr)); } }
 
-  /* ---------------- tabs ---------------- */
-  .tabs { display: flex; gap: 4px; margin: 26px 0 0; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  /* ---------------- onglets ---------------- */
+  .tabs { display: flex; gap: 0; margin: 28px 0 0; border-bottom: 1px solid var(--line-2); flex-wrap: wrap; }
   .tabs button {
-    font-family: var(--body); font-size: 14.5px; font-weight: 600; color: var(--muted);
+    font-family: var(--mono); font-size: 13px; font-weight: 400; color: var(--muted);
     background: none; border: 0; border-bottom: 2px solid transparent;
-    padding: 10px 16px; cursor: pointer; transition: color .15s ease, border-color .15s ease;
+    padding: 10px 16px 10px 0; margin-right: 22px; cursor: pointer; transition: color .12s, border-color .12s;
   }
   .tabs button:hover { color: var(--ink); }
-  .tabs button[aria-selected="true"] { color: var(--cyan); border-bottom-color: var(--cyan); }
-  .tabs button:focus-visible { outline: 2px solid var(--cyan); outline-offset: -2px; }
+  .tabs button[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+  .tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
   .panneau[hidden] { display: none; }
-  .panneau { padding-top: 22px; }
-  .panneau p { color: var(--ink-2); font-size: 15px; max-width: 64ch; }
+  .panneau { padding-top: 24px; }
+  .panneau p { color: var(--ink-2); font-size: 16px; max-width: 62ch; }
 
   /* ---------------- figures ---------------- */
-  figure { margin: 30px 0 0; }
-  .scroller { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+  figure { margin: 32px 0 0; }
+  .scroller { overflow-x: auto; border: 1px solid var(--line); border-radius: 0; background: var(--panel); }
   .scroller svg { display: block; min-width: 660px; width: 100%; height: auto; }
-  figcaption { font-size: 13.5px; color: var(--muted); margin-top: 12px; max-width: 66ch; }
-  .d-box { fill: var(--panel-2); stroke: var(--line-2); stroke-width: 1; }
-  .d-box-a { fill: none; stroke: var(--cyan); stroke-width: 1.5; }
-  .d-leaf { fill: var(--panel-2); stroke: var(--line-2); stroke-width: 1; }
-  .d-leaf-a { fill: var(--cyan); stroke: var(--cyan); }
+  figcaption { font-size: 14.5px; color: var(--muted); margin-top: 14px; max-width: 64ch; }
+  .d-box { fill: var(--bg); stroke: var(--line-2); stroke-width: 1; }
+  .d-box-a { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+  .d-leaf { fill: var(--bg); stroke: var(--line-2); stroke-width: 1; }
+  .d-leaf-a { fill: var(--accent); stroke: var(--accent); }
   .d-l { stroke: var(--line-2); stroke-width: 1; fill: none; }
-  .d-l-a { stroke: var(--cyan); stroke-width: 1.5; fill: none; }
+  .d-l-a { stroke: var(--accent); stroke-width: 1.5; fill: none; }
   .d-t { font-family: var(--mono); font-size: 11px; fill: var(--ink-2); }
   .d-t-dim { font-family: var(--mono); font-size: 10px; fill: var(--muted); }
-  .d-t-a { font-family: var(--mono); font-size: 11px; font-weight: 500; fill: var(--cyan); }
-  .d-t-in { font-family: var(--mono); font-size: 10px; font-weight: 700; fill: var(--on-cyan); }
+  .d-t-a { font-family: var(--mono); font-size: 11px; fill: var(--accent); }
+  .d-t-in { font-family: var(--mono); font-size: 10px; font-weight: 600; fill: var(--on-accent); }
 
-  /* ---------------- chart ---------------- */
-  .chart-wrap { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); padding: 22px 20px 12px; margin-top: 28px; position: relative; }
-  .chart-title { font-family: var(--display); font-weight: 600; font-size: 16px; margin: 0 0 2px; }
-  .chart-sub { font-size: 13.5px; color: var(--muted); margin: 0 0 14px; }
+  /* ---------------- courbe ---------------- */
+  .chart-wrap { border: 0; border-top: 1px solid var(--line-2); border-radius: 0; background: none; padding: 26px 0 8px; margin-top: 30px; position: relative; }
+  .chart-title { font-family: var(--display); font-weight: 600; font-variation-settings: "SOFT" 0, "WONK" 1; font-size: 19px; margin: 0 0 3px; }
+  .chart-sub { font-size: 14.5px; color: var(--muted); margin: 0 0 18px; }
   #courbe { display: block; width: 100%; height: auto; touch-action: pan-y; }
   .ax { stroke: var(--grid); stroke-width: 1; }
   .ax-t { font-family: var(--mono); font-size: 10.5px; fill: var(--muted); }
-  .serie { fill: none; stroke: var(--cyan); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
-  .aire { fill: var(--cyan); opacity: .1; }
-  .repere { stroke: var(--line-2); stroke-width: 1; stroke-dasharray: 3 4; }
-  .pt { fill: var(--cyan); stroke: var(--panel); stroke-width: 2; }
+  .serie { fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; }
+  .aire { fill: var(--accent); opacity: .09; }
+  .repere { stroke: var(--line-2); stroke-width: 1; stroke-dasharray: 2 5; }
+  .pt { fill: var(--accent); stroke: var(--bg); stroke-width: 2; }
   .note { font-family: var(--mono); font-size: 10.5px; fill: var(--ink-2); }
   .croix { stroke: var(--line-2); stroke-width: 1; opacity: 0; }
   #bulle {
     position: absolute; pointer-events: none; opacity: 0; transition: opacity .12s ease;
-    background: var(--panel-2); border: 1px solid var(--line-2); border-radius: 8px;
+    background: var(--panel-2); border: 1px solid var(--line-2); border-radius: 0;
     padding: 7px 10px; font-family: var(--mono); font-size: 11.5px; color: var(--ink);
     white-space: nowrap; transform: translate(-50%, -125%); z-index: 2;
   }
-  details { margin-top: 14px; }
-  summary { cursor: pointer; font-size: 13.5px; color: var(--muted); }
-  details table { margin-top: 12px; font-size: 12.5px; }
+  details { margin-top: 16px; }
+  summary { cursor: pointer; font-family: var(--mono); font-size: 12.5px; color: var(--muted); }
+  summary:hover { color: var(--accent); }
+  details table { margin-top: 14px; font-size: 12.5px; }
 
-  /* ---------------- tables ---------------- */
-  .params { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--panel); }
-  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  /* ---------------- tableaux ---------------- */
+  .params { border: 0; border-top: 1px solid var(--line-2); border-radius: 0; overflow: hidden; background: none; }
+  table { width: 100%; border-collapse: collapse; font-size: 16px; }
   caption {
-    text-align: left; padding: 15px 22px; background: var(--panel-2); border-bottom: 1px solid var(--line);
-    font-family: var(--mono); font-size: 11px; letter-spacing: .13em; text-transform: uppercase; color: var(--muted);
+    text-align: left; padding: 16px 0; background: none; border-bottom: 1px solid var(--line);
+    font-family: var(--mono); font-size: 12px; letter-spacing: .02em; text-transform: none; color: var(--muted);
   }
-  th, td { text-align: left; padding: 13px 22px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th, td { text-align: left; padding: 13px 16px 13px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
   tr:last-child th, tr:last-child td { border-bottom: 0; }
-  th { font-weight: 500; color: var(--ink-2); width: 46%; }
+  th { font-weight: 400; color: var(--ink-2); width: 46%; }
   td { font-family: var(--mono); font-size: 13px; color: var(--ink); font-variant-numeric: tabular-nums; word-break: break-word; }
 
-  /* ---------------- status board ---------------- */
-  .board { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--panel); }
-  .brow {
-    display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 5px 16px; align-items: start;
-    padding: 17px 22px; border-bottom: 1px solid var(--line);
-  }
-  .brow:last-child { border-bottom: 0; }
-  .brow b { font-weight: 700; font-size: 15.5px; }
-  .brow span { grid-column: 1; font-size: 14px; color: var(--muted); max-width: 70ch; }
+  /* ---------------- étiquettes d'état ---------------- */
   .chip {
-    grid-row: 1; grid-column: 2; font-family: var(--mono); font-size: 10.5px; font-weight: 700;
-    letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 6px; white-space: nowrap;
+    font-family: var(--mono); font-size: 11.5px; font-weight: 400;
+    letter-spacing: .02em; text-transform: none; padding: 3px 9px; border-radius: 0; white-space: nowrap;
+    border: 1px solid currentColor;
   }
-  .chip.ok { color: var(--ok); background: var(--ok-bg); }
-  .chip.wip { color: var(--wip); background: var(--wip-bg); }
-  .chip.no { color: var(--no); background: var(--no-bg); }
+  .chip.ok { color: var(--ok); background: none; }
+  .chip.wip { color: var(--wip); background: none; }
+  .chip.no { color: var(--no); background: none; }
 
-  /* ---------------- limits ---------------- */
-  .limite {
-    border: 1px solid var(--line); border-left: 3px solid var(--amber); border-radius: var(--radius);
-    background: var(--panel); padding: 24px; margin-bottom: 14px;
-  }
-  .limite h3 { font-size: 17px; margin: 0 0 8px; color: var(--amber); }
-  .limite p { margin: 0; color: var(--ink-2); font-size: 15px; max-width: 70ch; }
-
-  /* ---------------- footer ---------------- */
-  footer { margin-top: clamp(58px, 8vw, 96px); border-top: 1px solid var(--line); padding-block: 38px 64px; }
-  footer p { color: var(--muted); font-size: 14px; max-width: 72ch; }
-  footer a, a { color: var(--cyan); }
+  /* ---------------- pied ---------------- */
+  footer { margin-top: clamp(56px, 7.5vw, 92px); border-top: 1px solid var(--line-2); padding-block: 40px 68px; }
+  footer p { color: var(--muted); font-size: 15px; max-width: 70ch; }
+  footer a, a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 </style>
 
 </head>
@@ -353,11 +381,11 @@
 <nav class="nav">
   <div class="nav-in">
     <a class="brand" href="#top"><svg class="brand-mark" viewBox="0 0 24 24" role="img" aria-label="Tessera">
-        <defs><clipPath id="tuile"><rect x="1.5" y="1.5" width="21" height="21" rx="5.5"/></clipPath></defs>
-        <g clip-path="url(#tuile)">
-          <path d="M0 0 H12.6 L14.8 6 L11.3 12 L14.8 18 L12.6 24 H0 Z" fill="var(--cyan)"></path>
-          <path d="M14.4 0 H24 V24 H14.4 L16.6 18 L13.1 12 L16.6 6 Z" fill="var(--cyan)" opacity=".38"></path>
-        </g>
+        <!-- la tessera hospitalis : un jeton brisé en deux, une moitié pour chacun.
+             Arêtes vives, une moitié pleine, l'autre en creux — elles s'emboîtent. -->
+        <path d="M2.5 3 H10.6 L11.8 7.5 L9.8 12 L11.8 16.5 L10.6 21 H2.5 Z" fill="var(--accent)"></path>
+        <path d="M12.6 3 H21.5 V21 H12.6 L13.8 16.5 L11.8 12 L13.8 7.5 Z"
+              fill="none" stroke="var(--accent)" stroke-width="1.3" stroke-linejoin="miter"></path>
       </svg><span class="brand-name" data-i18n="k001">Tessera</span></a>
     <div class="nav-links">
       <a href="#project" data-i18n="k002">The project</a>
@@ -366,6 +394,8 @@
       <a href="#proof" data-i18n="k005">The proof</a>
       <a href="#emission" data-i18n="k006">Emission</a>
       <a href="#network" data-i18n="k216">Network</a>
+    </div>
+    <div class="nav-tools">
       <select id="docs" aria-label="Documents">
         <option value="" data-i18n="k218">Docs</option>
         <option value="join.html" data-i18n="k219">Join the testnet</option>
@@ -384,7 +414,7 @@
   <header class="hero">
     <div>
       <p class="eyebrow monte d1" data-i18n="k009">Auxiliary chain merge-mined with Monero</p>
-      <h1 class="monte d2">Mine Monero.<br>Pay the people who <em>keep</em> it reachable.</h1>
+      <h1 class="monte d2" data-i18n="k226">Mine Monero.<br>Pay the people who <em>keep</em> it reachable.</h1>
       <p class="hero-sub monte d3" data-i18n="k010">
         One RandomX hash settles two chains at once. You do not split your hashrate and you do not
         spend a single extra hash — and the reward goes to the operators of Monero nodes reachable
@@ -420,8 +450,8 @@
         <circle cx="105" cy="244" r="9" class="a-node"></circle>
         <circle cx="49" cy="173" r="9" class="a-node"></circle>
         <circle cx="69" cy="85" r="9" class="a-node"></circle>
-        <text x="150" y="146" text-anchor="middle" class="a-lbl">the round's ring</text>
-        <text x="150" y="162" text-anchor="middle" class="a-lbl">5 auditors per node</text>
+        <text x="150" y="146" text-anchor="middle" class="a-lbl" data-i18n="k227">the round's ring</text>
+        <text x="150" y="162" text-anchor="middle" class="a-lbl" data-i18n="k228">5 auditors per node</text>
       </svg>
     </div>
   </header>
@@ -429,19 +459,19 @@
   <div class="stats">
     <div class="stat">
       <div class="stat-n">0<span class="u">%</span></div>
-      <div class="stat-l">of your hashrate diverted from mining Monero</div>
+      <div class="stat-l" data-i18n="k229">of your hashrate diverted from mining Monero</div>
     </div>
     <div class="stat">
       <div class="stat-n">17.17<span class="u">TSR</span></div>
-      <div class="stat-l">at the first block, decaying toward a perpetual tail</div>
+      <div class="stat-l" data-i18n="k230">at the first block, decaying toward a perpetual tail</div>
     </div>
     <div class="stat">
       <div class="stat-n">60<span class="u">s</span></div>
-      <div class="stat-l">target time between blocks</div>
+      <div class="stat-l" data-i18n="k231">target time between blocks</div>
     </div>
     <div class="stat">
-      <div class="stat-n">186</div>
-      <div class="stat-l">tests, with no dependency beyond Python and <code>cryptography</code></div>
+      <div class="stat-n">201</div>
+      <div class="stat-l" data-i18n="k232">tests, with no dependency beyond Python and <code>cryptography</code></div>
     </div>
   </div>
 
@@ -507,21 +537,21 @@
         <svg viewBox="0 0 720 286" role="img"
              aria-label="A Monero block carries, in its coinbase, a merkle tree with one slot holding the Tessera block hash; a single RandomX hash settles both chains.">
           <rect x="16" y="26" width="300" height="196" rx="8" class="d-box"></rect>
-          <text x="32" y="50" class="d-t">Monero block</text>
+          <text x="32" y="50" class="d-t" data-i18n="k233">Monero block</text>
           <line x1="16" y1="62" x2="316" y2="62" class="d-l"></line>
           <text x="32" y="86" class="d-t-dim">header · nonce · prev_id</text>
-          <text x="32" y="112" class="d-t-dim">coinbase transaction</text>
+          <text x="32" y="112" class="d-t-dim" data-i18n="k234">coinbase transaction</text>
           <rect x="32" y="126" width="268" height="78" rx="6" class="d-box-a"></rect>
           <text x="46" y="148" class="d-t">tx_extra</text>
           <text x="46" y="170" class="d-t-dim">tag 0x03 · merge mining</text>
-          <text x="46" y="192" class="d-t-a">merkle root</text>
+          <text x="46" y="192" class="d-t-a" data-i18n="k235">merkle root</text>
           <path d="M300 170 C 348 170, 348 118, 392 118" class="d-l-a"></path>
-          <path d="M392 118 l -9 -4 l 0 8 z" fill="var(--cyan)"></path>
+          <path d="M392 118 l -9 -4 l 0 8 z" fill="var(--accent)"></path>
           <rect x="400" y="26" width="304" height="196" rx="8" class="d-box"></rect>
-          <text x="416" y="50" class="d-t">Tree of auxiliary chains</text>
+          <text x="416" y="50" class="d-t" data-i18n="k236">Tree of auxiliary chains</text>
           <line x1="400" y1="62" x2="704" y2="62" class="d-l"></line>
           <rect x="516" y="96" width="72" height="22" rx="5" class="d-leaf"></rect>
-          <text x="532" y="111" class="d-t-dim">root</text>
+          <text x="532" y="111" class="d-t-dim" data-i18n="k237">root</text>
           <path d="M552 118 L 480 146 M552 118 L 624 146" class="d-l"></path>
           <path d="M480 168 L 444 190 M480 168 L 516 190 M624 168 L 588 190 M624 168 L 660 190" class="d-l"></path>
           <rect x="444" y="146" width="72" height="22" rx="5" class="d-leaf"></rect>
@@ -531,9 +561,9 @@
           <text x="500" y="205" class="d-t-in">Tessera</text>
           <rect x="556" y="190" width="64" height="22" rx="5" class="d-leaf"></rect>
           <rect x="628" y="190" width="64" height="22" rx="5" class="d-leaf"></rect>
-          <text x="416" y="238" class="d-t-dim">slot is imposed: SHA256(chain_id | nonce | "m") mod N</text>
+          <text x="416" y="238" class="d-t-dim" data-i18n="k238">slot is imposed: SHA256(chain_id | nonce | "m") mod N</text>
           <line x1="16" y1="258" x2="704" y2="258" class="d-l"></line>
-          <text x="16" y="278" class="d-t">A single RandomX hash settles both chains.</text>
+          <text x="16" y="278" class="d-t" data-i18n="k239">A single RandomX hash settles both chains.</text>
         </svg>
       </div>
       <figcaption data-i18n="k032">
@@ -945,19 +975,19 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
         <caption data-i18n="k149">Test network — everything remains changeable before a public network</caption>
         <tbody>
           <tr><th scope="row" data-i18n="k150">Ticker</th><td>TSR</td></tr>
-          <tr><th scope="row" data-i18n="k151">Atomic units per coin</th><td>100,000,000</td></tr>
+          <tr><th scope="row" data-i18n="k151">Atomic units per coin</th><td data-i18n="k240">100,000,000</td></tr>
           <tr><th scope="row" data-i18n="k152">Target time between blocks</th><td>60 s</td></tr>
-          <tr><th scope="row" data-i18n="k153">First block reward</th><td>17.166 TSR + fees</td></tr>
-          <tr><th scope="row" data-i18n="k154">Supply targeted before the tail</th><td>18,000,000 TSR</td></tr>
-          <tr><th scope="row" data-i18n="k155">Perpetual tail</th><td>0.35 TSR per block</td></tr>
-          <tr><th scope="row" data-i18n="k156">Proof of work</th><td>RandomX, inherited from Monero</td></tr>
-          <tr><th scope="row" data-i18n="k157">Difficulty adjustment</th><td>LWMA-1, 60-block window</td></tr>
+          <tr><th scope="row" data-i18n="k153">First block reward</th><td data-i18n="k241">17.166 TSR + fees</td></tr>
+          <tr><th scope="row" data-i18n="k154">Supply targeted before the tail</th><td data-i18n="k242">18,000,000 TSR</td></tr>
+          <tr><th scope="row" data-i18n="k155">Perpetual tail</th><td data-i18n="k243">0.35 TSR per block</td></tr>
+          <tr><th scope="row" data-i18n="k156">Proof of work</th><td data-i18n="k244">RandomX, inherited from Monero</td></tr>
+          <tr><th scope="row" data-i18n="k157">Difficulty adjustment</th><td data-i18n="k245">LWMA-1, 60-block window</td></tr>
           <tr><th scope="row" data-i18n="k158">Signatures</th><td>ed25519</td></tr>
           <tr><th scope="row" data-i18n="k159">Address prefix (testnet)</th><td>tsrt</td></tr>
           <tr><th scope="row" data-i18n="k160">Chain identifier (testnet)</th><td>dd0b62f4…db86586c</td></tr>
-          <tr><th scope="row" data-i18n="k161">Payout epoch</th><td>720 blocks</td></tr>
+          <tr><th scope="row" data-i18n="k161">Payout epoch</th><td data-i18n="k246">720 blocks</td></tr>
           <tr><th scope="row" data-i18n="k162">Auditors per node · quorum</th><td>5 · 3</td></tr>
-          <tr><th scope="row" data-i18n="k163">Premine</th><td>none</td></tr>
+          <tr><th scope="row" data-i18n="k163">Premine</th><td data-i18n="k247">none</td></tr>
         </tbody>
       </table>
     </div>
@@ -1014,10 +1044,14 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
     if (actif) actif.hidden = !mine;
   }
   rendu(INSTANTANE);
+  // ce bloc s'exécute avant celui qui pose la langue : on redessine quand elle change,
+  // sinon la date reste au format anglais sur une page française
+  var dernier = INSTANTANE;
+  document.addEventListener('tessera:langue', function () { rendu(dernier); });
   function rafraichit() {
     fetch('stats.json', { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (s) { if (s) rendu(s); })
+      .then(function (s) { if (s) { dernier = s; rendu(s); } })
       .catch(function () { /* page servie sans stats.json : l'instantané reste */ });
   }
   rafraichit();
@@ -1027,7 +1061,7 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
 
 <script>
 (function () {
-  var TRAD = { fr: {"k001": "Tessera", "k002": "Le projet", "k003": "Miner", "k004": "Commencer", "k005": "La preuve", "k006": "Émission", "k009": "Chaîne auxiliaire merge-minée avec Monero", "k010": "Un seul hash RandomX règle deux chaînes à la fois. Vous ne partagez pas votre hashrate et vous n'en dépensez pas un de plus — et la récompense va aux opérateurs de nœuds Monero joignables uniquement par Tor et I2P.", "k011": "Comment le miner", "k012": "La chaîne, maintenant", "k013": "Prototype.", "k014": "Pas de réseau public, aucun jeton en circulation, rien à vendre. La conception est en relecture publique au Monero Research Lab avant d'aller plus loin.", "k016": "Le projet", "k017": "Financer les nœuds que personne ne paie", "k018": "Les nœuds Monero publics sont tenus par des bénévoles. Ceux qui comptent le plus pour la vie privée — joignables seulement par Tor ou I2P — sont aussi les plus coûteux à maintenir et les moins visibles. Tessera les rémunère avec une monnaie qui ne coûte rien à produire, puisqu'elle réutilise un travail de minage déjà fait. Trois règles encadrent l'idée, et elles vivent dans le code plutôt que dans une déclaration d'intention.", "k019": "Règle 1", "k020": "La disponibilité, jamais l'usage", "k021": "Payer à la requête créerait une incitation directe à journaliser, classer et attribuer le trafic des utilisateurs. Les sondages vérifient qu'un nœud répond. Rien d'autre n'est observé.", "k022": "Règle 2", "k023": "Tor et I2P uniquement", "k024": "Le consensus accepte un point d'accès <code>.onion</code> v3 ou <code>.b32.i2p</code>, et rien d'autre — une forme clearnet est rejetée par le réseau. Subventionner le clearnet financerait exactement ce contre quoi Monero se défend.", "k025": "Règle 3", "k026": "Du collatéral, pas de la réputation", "k027": "Résister au Sybil doit coûter de l'argent, faute de pouvoir établir une identité sans tiers de confiance. S'enregistrer immobilise un dépôt, qu'un manquement entame.", "k028": "Miner", "k029": "Quatre briques, un seul hash", "k030": "Votre mineur cherche un hash RandomX pour Monero, exactement comme il le fait déjà. p2pool glisse dans la coinbase du bloc Monero un arbre de Merkle qui porte le hash de notre bloc. Si le hash trouvé satisfait notre difficulté, il compte aussi pour nous — sans calcul supplémentaire. Ni GPU ni ASIC ne peuvent s'en mêler : miner Tessera, c'est miner du RandomX.", "k031": "Soyons exacts sur ce que cela ne veut pas dire : <strong>la sécurité de Tessera est sa propre difficulté, pas le hashrate de Monero.</strong> Le bloc Monero qui porte notre preuve n'a pas besoin d'avoir été accepté par Monero — l'exiger rendrait notre consensus dépendant de la vue qu'a chaque nœud de la chaîne Monero. Le merge mining rend Tessera gratuit à miner pour qui mine déjà du Monero ; il ne lui transfère pas sa sécurité.", "k032": "L'emplacement de chaque chaîne dans l'arbre est imposé par son identifiant : personne ne peut miner deux versions d'une même chaîne dans un seul bloc Monero.", "k033": "Un monerod à RPC non restreint", "k034": "C'est lui qui vérifie le RandomX pour nous, via <code>calc_pow</code>, et qui vérifie aussi les preuves de service. Son RPC reste en local — ne l'exposez jamais.", "k035": "Un nœud Tessera", "k036": "Il répond aux trois méthodes de merge mining de p2pool sur le port 19081 et parle aux autres nœuds sur 19082.", "k037": "p2pool avec <code>--merge-mine</code>", "k038": "p2pool 4.0 ou plus. Il interroge le nœud Tessera, insère notre hash dans le bloc Monero et soumet les solutions aux deux chaînes. N'importe quel pool peut faire pareil — l'interface est générique, et plusieurs pools peuvent miner Tessera en même temps.", "k039": "Votre mineur, inchangé", "k040": "Pointé sur le stratum de p2pool, exactement comme pour miner du Monero seul. Rien de plus à configurer, rien à installer côté mineur.", "k041": "# le nœud Tessera, qui délègue la vérification RandomX à monerod", "k044": "# p2pool mine Monero et Tessera dans le même hash", "k047": "Aujourd'hui ces commandes ne fonctionnent que contre un réseau de test local.", "k048": "Commencer", "k049": "Un portefeuille, puis un nœud", "k050": "Tout ce qui suit tourne contre une <strong>chaîne de test locale</strong>. Il n'y a pas de réseau public à rejoindre : ce que vous minez n'existe que sur votre machine, et ne vaut rien. C'est l'intérêt pour l'instant — le mécanisme peut être éprouvé de bout en bout avant tout lancement.", "k051": "Il vous faut Python 3.12 et le paquet <code>cryptography</code>. Rien d'autre — pas de compilateur, pas de base de données, pas d'étape de construction.", "k052": "Créer un portefeuille", "k053": "Le portefeuille demande au nœud sur quel réseau il est et quel nonce utiliser : démarrez donc un nœud d'abord, et laissez-le tourner dans un autre terminal.", "k054": "# un nœud local, avec une preuve de travail factice — pas besoin de monerod", "k058": "# dans un autre terminal : créer la clé, puis la regarder", "k059": "Sauvegardez-la tout de suite.", "k060": "<code>~/.tessera/wallet.json</code> contient votre clé privée <strong>en clair</strong>. Elle n'est pas chiffrée, elle ne se régénère pas, et la perdre c'est perdre les coins. Copiez-la quelque part de sûr avant de miner quoi que ce soit.", "k061": "Miner", "k062": "Deux façons. La première ne demande que Python et prouve tout le chemin en une minute. La seconde est la vraie, contre un vrai démon Monero et un vrai p2pool.", "k063": "La voie rapide — un pool simulé", "k064": "<code>tools/fake_p2pool.py</code> joue le côté p2pool des trois appels RPC contre votre nœud local, avec une preuve de travail factice. Les blocs arrivent en quelques secondes et votre solde bouge.", "k065": "La vraie voie — monerod, p2pool, votre mineur", "k066": "Un démon Monero testnet à RPC <strong>non restreint</strong>, parce que Tessera vérifie le RandomX via <code>calc_pow</code>, qu'un RPC restreint n'expose pas. Gardez ce RPC en local.", "k075": "# puis pointez votre mineur habituel sur le stratum", "k076": "Sur votre plateforme", "k077": "Deux rôles, et ce n'est pas le même métier. <strong>Miner</strong> ne demande qu'un mineur pointé sur un pool qui merge-mine — aucun nouveau logiciel, rien de spécifique à Tessera. Faire tourner la <strong>pile</strong> — un démon Monero, p2pool et un nœud Tessera — voilà ce qui demande une installation, et une seule personne par pool doit s'en charger.", "k078": "Linux", "k079": "Windows", "k080": "HiveOS", "k081": "La plateforme de référence — tout ce qui est ici y a été construit et testé.", "k082": "# le nœud demande Python 3.12 et une bibliothèque", "k083": "# monerod et p2pool : binaires statiques officiels, aucun compilateur", "k084": "# getmonero.org/downloads · github.com/SChernykh/p2pool/releases", "k085": "# puis les trois commandes ci-dessus, et votre mineur habituel sur le stratum", "k086": "Les mêmes briques, avec les binaires Windows officiels des trois. Installez Python 3.12 depuis python.org en cochant <em>Add python.exe to PATH</em>, puis lancez le nœud depuis PowerShell.", "k087": "# monerod : l'archive monero-win-x64 de getmonero.org", "k088": "# le nœud Tessera", "k089": "# p2pool : p2pool-vX-windows-x64.zip", "k090": "# puis xmrig, lancé en administrateur pour les large pages", "k091": "Lancer xmrig en administrateur est une affaire de RandomX, pas de Tessera — sans les large pages vous perdez un tiers de votre hashrate sur n'importe quel minage Monero.", "k092": "<strong>Un rig HiveOS n'a besoin d'aucun changement.</strong> Il mine du RandomX avec xmrig vers une URL de stratum ; que ce pool merge-mine ou non regarde le pool, pas le rig. Vous n'installez donc rien de lié à Tessera sur le rig.", "k093": "Faites tourner la pile sur une machine que vous contrôlez — un petit serveur, un Raspberry Pi 5, ou la même machine que votre nœud — et pointez la flight sheet dessus :", "k094": "# Flight sheet", "k095": "# p2pool paie le portefeuille avec lequel il a été lancé", "k096": "N'exposez à vos rigs que le port stratum — sur un réseau privé ou un VPN maillé plutôt que sur l'internet ouvert. Le RPC Monero doit rester en local : il tourne non restreint, puisque Tessera vérifie le RandomX via <code>calc_pow</code>.", "k097": "Vérifier que ça marche", "k098": "p2pool écrit <code>uses chain_id …</code> une fois la chaîne acceptée. Le nœud écrit une ligne par bloc accepté, et votre solde tranche.", "k099": "p2pool attend un démon entièrement synchronisé avant de démarrer — il répète <code>monerod is busy syncing</code> jusque-là. Le testnet Monero fait environ 3 millions de blocs : comptez une nuit pour la première synchro, et quelques minutes pour rattraper ensuite.", "k100": "La preuve de service", "k101": "Comment prouver qu'un nœud caché est là", "k102": "C'est le problème central du projet. La disponibilité d'un service caché est un fait qui vit hors chaîne : tout rapport à son sujet est l'affirmation de celui qui a sondé, donc invérifiable. La sortie tient à trois observations.", "k103": "1 · Identité", "k104": "Une adresse .onion <em>est</em> une clé", "k105": "Une adresse Tor v3, c'est <code>base32(clé_ed25519 ‖ checksum ‖ version)</code>. Le consensus en extrait la clé publique et vérifie le checksum. Personne ne peut signer à la place d'un service.", "k106": "2 · Défi", "k107": "Le défi vient de la chaîne", "k108": "<code>Keccak256(hash_du_tour ‖ adresse)</code> désigne quatre blocs Monero consécutifs parmi les mille derniers. Imprévisible, identique pour tous, non rejouable, et encore présent sur un nœud élagué.", "k109": "3 · Vérification", "k110": "Chaque nœud revérifie", "k111": "Chaque nœud Tessera fait déjà tourner un monerod. Il recalcule lui-même la réponse attendue, puis vérifie la signature. <strong>Celui qui transporte la preuve n'a aucun pouvoir sur elle.</strong>", "k112": "L'aléa de l'auditeur change tout", "k113": "Le défi est public : un nœud pourrait le calculer hors ligne et n'aurait jamais besoin d'être joignable. C'est pourquoi l'auditeur ajoute <strong>son propre aléa</strong>, ancré au hash du bloc du tour : la réponse est liée à cet auditeur et à ce tirage, et la signature <strong>ne peut pas précéder ce bloc</strong>. Le consensus borne le moment où elle a été produite.", "k114": "Et c'est de là que vient le coût du Sybil", "k115": "La réponse couvre quatre blocs Monero. Une machine peut détenir la chaîne une fois pour mille identités ; elle ne peut pas la servir mille fois, à cinq auditeurs chacune, dans le délai accordé. Le coût redevient proportionnel au nombre d'identités, sans jamais avoir besoin de connaître un ASN.", "k116": "Les auditeurs", "k117": "Tirés, jamais choisis", "k118": "À chaque tour, les nœuds enregistrés sont rangés en anneau par <code>Keccak256(hash_du_tour ‖ adresse)</code>. Chacun audite ses cinq suivants, donc chacun est audité par ses cinq précédents. Ni l'audité ni l'auditeur ne décident, l'anneau tourne à chaque tour, et la charge est exactement la même pour tous — personne n'est surchargé, personne n'est oublié. C'est l'animation en haut de cette page.", "k119": "Quorum", "k120": "Trois oui, au plus un non", "k121": "Un auditeur qui ne joint pas un nœud dépose un constat d'absence, qui compte comme un devoir rendu. Un tour exige trois attestations <strong>et au plus une absence</strong> — trois complices sur cinq ne suffisent donc plus. Il en faut quatre.", "k122": "Sanction", "k123": "Ignorer son tirage coûte", "k124": "À chaque époque, l'anneau est recalculé sur huit tours échantillonnés. Sous 50 % de devoirs rendus, 5 % du collatéral est <strong>brûlé</strong> — jamais versé à quelqu'un, pour que personne n'ait intérêt à faire sanctionner un autre.", "k125": "Diversité", "k126": "Un cercle étroit ne gagne rien", "k127": "Sur une époque, l'anneau envoie à un nœud honnête des auditeurs de tout le registre. Un nœud attesté seulement par le même petit groupe n'est pas payé pour sa disponibilité — c'est ce qui rend la collusion stérile en dessous de la moitié du registre.", "k128": "Radiation", "k129": "Sous le minimum, on sort", "k130": "Si le collatéral tombe sous le seuil, le nœud quitte le registre et le reliquat revient à son opérateur. Garder bloqué le dépôt d'un nœud radié ne protégerait rien.", "k131": "Émission", "k132": "Une queue qui ne s'arrête jamais", "k133": "<code>récompense = max((18 000 000 TSR − émis) ≫ 20, 0,35 TSR)</code>, plus les frais du bloc. Avec des blocs d'une minute, ce décalage de 20 bits suit la courbe de Monero en temps réel. La queue ne s'arrête jamais, et c'est le point : <strong>une chaîne dont la raison d'être est de payer un service en continu ne peut pas cesser d'émettre sans cesser de payer.</strong>", "k134": "Récompense par bloc, sur treize ans", "k135": "En TSR. La queue perpétuelle de 0,35 TSR est atteinte vers la huitième année.", "k136": "Voir les valeurs", "k137": "Aucun premine", "k138": "Personne ne part avec de l'avance", "k139": "Pas de prévente, pas de part fondateur, aucune allocation réservée. Le premier bloc est le bloc un.", "k140": "Part service", "k141": "+40 %, en plus", "k142": "Tous les 720 blocs, la part service est versée : 80 % à la disponibilité attestée, plafonnée à 15 % par nœud, et 20 % au travail d'audit rendu. Elle s'ajoute à la récompense du mineur, elle ne lui est jamais retirée.", "k143": "Conséquence", "k144": "18 M n'est pas la masse finale", "k145": "Quand des nœuds sont payés, l'émission réelle dépasse la cible de jusqu'à 40 %. Les 18 M décrivent la courbe du minage, pas le total. Autant le dire que le cacher.", "k146": "Ce qui n'est pas attribué — plafonds, arrondis, absence de nœuds enregistrés — n'est tout simplement jamais émis. Aucun pot ne s'accumule nulle part : il n'y a donc rien à gouverner ni à détourner.", "k147": "Paramètres", "k148": "Ce qui est déjà dans le code", "k149": "Réseau de test — tout reste modifiable avant un réseau public", "k150": "Ticker", "k151": "Unités atomiques par coin", "k152": "Intervalle visé entre deux blocs", "k153": "Récompense du premier bloc", "k154": "Masse visée avant la queue", "k155": "Queue perpétuelle", "k156": "Preuve de travail", "k157": "Ajustement de difficulté", "k158": "Signatures", "k159": "Préfixe d'adresse (testnet)", "k160": "Identifiant de chaîne (testnet)", "k161": "Époque de paiement", "k162": "Auditeurs par nœud · quorum", "k163": "Premine", "k200": "research-lab, issue 164", "k201": "Code sous licence MIT. Le projet n'est affilié ni à Monero ni à p2pool : il utilise l'interface publique de merge mining de p2pool, sans effet sur le consensus ni sur l'économie minière de Monero. <em>Tessera</em>, d'après la <em>tessera hospitalis</em> romaine — un jeton brisé en deux, une moitié pour l'hôte, une pour l'hébergé, preuve du droit à l'hospitalité.", "k202": "La conception est soumise à la critique publique du Monero Research Lab, questions ouvertes comprises : <a href=\"https://github.com/monero-project/research-lab/issues/164\">research-lab, issue 164</a>. Les objections qui en sortiront changeront le projet, ou l'arrêteront.", "k203": "Réseau", "k204": "La chaîne, maintenant", "k205": "Lu sur un nœud qui tourne, et republié avec le site. Il n'y a pas de réseau public : ce sont les chiffres d'une seule chaîne de test, et ils sont affichés parce qu'un projet qui parle de disponibilité devrait montrer la sienne.", "k206": "Aucun mineur sur cette chaîne", "k207": "blocs minés", "k208": "difficulté", "k209": "hashrate impliqué par cette difficulté", "k210": "récompense du prochain bloc", "k211": "TSR émis", "k212": "nœuds de service enregistrés", "k213": "TSR immobilisés en collatéral", "k214": "transactions en attente", "k215": "Sans mineur au travail, la difficulté reste à son plancher : le hashrate ci-dessus est ce que ce plancher implique — une borne, pas une mesure. Il voudra dire quelque chose le jour où quelqu'un minera cette chaîne.", "k216": "Réseau", "k217": "Minage en cours", "k218": "Docs", "k219": "Rejoindre le testnet", "k220": "Faire tourner un nœud de service", "k221": "Spécification", "k222": "Pas à pas", "k223": "Ce qui tourne aujourd'hui, ce qui manque encore avant un réseau public, et les deux commandes qui changeront le jour où des nœuds d'amorçage existeront.", "k224": "Tor", "k225": "La procédure complète pour un nœud Tor : un seul service caché, le collatéral, la preuve de service, et vos devoirs d'auditeur. C'est la partie qui a besoin de monde."} };
+  var TRAD = { fr: {"k001": "Tessera", "k002": "Le projet", "k003": "Miner", "k004": "Commencer", "k005": "La preuve", "k006": "Émission", "k009": "Chaîne auxiliaire merge-minée avec Monero", "k010": "Un seul hash RandomX règle deux chaînes à la fois. Vous ne partagez pas votre hashrate et vous n'en dépensez pas un de plus — et la récompense va aux opérateurs de nœuds Monero joignables uniquement par Tor et I2P.", "k011": "Comment le miner", "k012": "La chaîne, maintenant", "k013": "Prototype.", "k014": "Pas de réseau public, aucun jeton en circulation, rien à vendre. La conception est en relecture publique au Monero Research Lab avant d'aller plus loin.", "k016": "Le projet", "k017": "Financer les nœuds que personne ne paie", "k018": "Les nœuds Monero publics sont tenus par des bénévoles. Ceux qui comptent le plus pour la vie privée — joignables seulement par Tor ou I2P — sont aussi les plus coûteux à maintenir et les moins visibles. Tessera les rémunère avec une monnaie qui ne coûte rien à produire, puisqu'elle réutilise un travail de minage déjà fait. Trois règles encadrent l'idée, et elles vivent dans le code plutôt que dans une déclaration d'intention.", "k019": "Règle 1", "k020": "La disponibilité, jamais l'usage", "k021": "Payer à la requête créerait une incitation directe à journaliser, classer et attribuer le trafic des utilisateurs. Les sondages vérifient qu'un nœud répond. Rien d'autre n'est observé.", "k022": "Règle 2", "k023": "Tor et I2P uniquement", "k024": "Le consensus accepte un point d'accès <code>.onion</code> v3 ou <code>.b32.i2p</code>, et rien d'autre — une forme clearnet est rejetée par le réseau. Subventionner le clearnet financerait exactement ce contre quoi Monero se défend.", "k025": "Règle 3", "k026": "Du collatéral, pas de la réputation", "k027": "Résister au Sybil doit coûter de l'argent, faute de pouvoir établir une identité sans tiers de confiance. S'enregistrer immobilise un dépôt, qu'un manquement entame.", "k028": "Miner", "k029": "Quatre briques, un seul hash", "k030": "Votre mineur cherche un hash RandomX pour Monero, exactement comme il le fait déjà. p2pool glisse dans la coinbase du bloc Monero un arbre de Merkle qui porte le hash de notre bloc. Si le hash trouvé satisfait notre difficulté, il compte aussi pour nous — sans calcul supplémentaire. Ni GPU ni ASIC ne peuvent s'en mêler : miner Tessera, c'est miner du RandomX.", "k031": "Soyons exacts sur ce que cela ne veut pas dire : <strong>la sécurité de Tessera est sa propre difficulté, pas le hashrate de Monero.</strong> Le bloc Monero qui porte notre preuve n'a pas besoin d'avoir été accepté par Monero — l'exiger rendrait notre consensus dépendant de la vue qu'a chaque nœud de la chaîne Monero. Le merge mining rend Tessera gratuit à miner pour qui mine déjà du Monero ; il ne lui transfère pas sa sécurité.", "k032": "L'emplacement de chaque chaîne dans l'arbre est imposé par son identifiant : personne ne peut miner deux versions d'une même chaîne dans un seul bloc Monero.", "k033": "Un monerod à RPC non restreint", "k034": "C'est lui qui vérifie le RandomX pour nous, via <code>calc_pow</code>, et qui vérifie aussi les preuves de service. Son RPC reste en local — ne l'exposez jamais.", "k035": "Un nœud Tessera", "k036": "Il répond aux trois méthodes de merge mining de p2pool sur le port 19081 et parle aux autres nœuds sur 19082.", "k037": "p2pool avec <code>--merge-mine</code>", "k038": "p2pool 4.0 ou plus. Il interroge le nœud Tessera, insère notre hash dans le bloc Monero et soumet les solutions aux deux chaînes. N'importe quel pool peut faire pareil — l'interface est générique, et plusieurs pools peuvent miner Tessera en même temps.", "k039": "Votre mineur, inchangé", "k040": "Pointé sur le stratum de p2pool, exactement comme pour miner du Monero seul. Rien de plus à configurer, rien à installer côté mineur.", "k041": "# le nœud Tessera, qui délègue la vérification RandomX à monerod", "k044": "# p2pool mine Monero et Tessera dans le même hash", "k047": "Aujourd'hui ces commandes ne fonctionnent que contre un réseau de test local.", "k048": "Commencer", "k049": "Un portefeuille, puis un nœud", "k050": "Tout ce qui suit tourne contre une <strong>chaîne de test locale</strong>. Il n'y a pas de réseau public à rejoindre : ce que vous minez n'existe que sur votre machine, et ne vaut rien. C'est l'intérêt pour l'instant — le mécanisme peut être éprouvé de bout en bout avant tout lancement.", "k051": "Il vous faut Python 3.12 et le paquet <code>cryptography</code>. Rien d'autre — pas de compilateur, pas de base de données, pas d'étape de construction.", "k052": "Créer un portefeuille", "k053": "Le portefeuille demande au nœud sur quel réseau il est et quel nonce utiliser : démarrez donc un nœud d'abord, et laissez-le tourner dans un autre terminal.", "k054": "# un nœud local, avec une preuve de travail factice — pas besoin de monerod", "k058": "# dans un autre terminal : créer la clé, puis la regarder", "k059": "Sauvegardez-la tout de suite.", "k060": "<code>~/.tessera/wallet.json</code> contient votre clé privée <strong>en clair</strong>. Elle n'est pas chiffrée, elle ne se régénère pas, et la perdre c'est perdre les coins. Copiez-la quelque part de sûr avant de miner quoi que ce soit.", "k061": "Miner", "k062": "Deux façons. La première ne demande que Python et prouve tout le chemin en une minute. La seconde est la vraie, contre un vrai démon Monero et un vrai p2pool.", "k063": "La voie rapide — un pool simulé", "k064": "<code>tools/fake_p2pool.py</code> joue le côté p2pool des trois appels RPC contre votre nœud local, avec une preuve de travail factice. Les blocs arrivent en quelques secondes et votre solde bouge.", "k065": "La vraie voie — monerod, p2pool, votre mineur", "k066": "Un démon Monero testnet à RPC <strong>non restreint</strong>, parce que Tessera vérifie le RandomX via <code>calc_pow</code>, qu'un RPC restreint n'expose pas. Gardez ce RPC en local.", "k075": "# puis pointez votre mineur habituel sur le stratum", "k076": "Sur votre plateforme", "k077": "Deux rôles, et ce n'est pas le même métier. <strong>Miner</strong> ne demande qu'un mineur pointé sur un pool qui merge-mine — aucun nouveau logiciel, rien de spécifique à Tessera. Faire tourner la <strong>pile</strong> — un démon Monero, p2pool et un nœud Tessera — voilà ce qui demande une installation, et une seule personne par pool doit s'en charger.", "k078": "Linux", "k079": "Windows", "k080": "HiveOS", "k081": "La plateforme de référence — tout ce qui est ici y a été construit et testé.", "k082": "# le nœud demande Python 3.12 et une bibliothèque", "k083": "# monerod et p2pool : binaires statiques officiels, aucun compilateur", "k084": "# getmonero.org/downloads · github.com/SChernykh/p2pool/releases", "k085": "# puis les trois commandes ci-dessus, et votre mineur habituel sur le stratum", "k086": "Les mêmes briques, avec les binaires Windows officiels des trois. Installez Python 3.12 depuis python.org en cochant <em>Add python.exe to PATH</em>, puis lancez le nœud depuis PowerShell.", "k087": "# monerod : l'archive monero-win-x64 de getmonero.org", "k088": "# le nœud Tessera", "k089": "# p2pool : p2pool-vX-windows-x64.zip", "k090": "# puis xmrig, lancé en administrateur pour les large pages", "k091": "Lancer xmrig en administrateur est une affaire de RandomX, pas de Tessera — sans les large pages vous perdez un tiers de votre hashrate sur n'importe quel minage Monero.", "k092": "<strong>Un rig HiveOS n'a besoin d'aucun changement.</strong> Il mine du RandomX avec xmrig vers une URL de stratum ; que ce pool merge-mine ou non regarde le pool, pas le rig. Vous n'installez donc rien de lié à Tessera sur le rig.", "k093": "Faites tourner la pile sur une machine que vous contrôlez — un petit serveur, un Raspberry Pi 5, ou la même machine que votre nœud — et pointez la flight sheet dessus :", "k094": "# Flight sheet", "k095": "# p2pool paie le portefeuille avec lequel il a été lancé", "k096": "N'exposez à vos rigs que le port stratum — sur un réseau privé ou un VPN maillé plutôt que sur l'internet ouvert. Le RPC Monero doit rester en local : il tourne non restreint, puisque Tessera vérifie le RandomX via <code>calc_pow</code>.", "k097": "Vérifier que ça marche", "k098": "p2pool écrit <code>uses chain_id …</code> une fois la chaîne acceptée. Le nœud écrit une ligne par bloc accepté, et votre solde tranche.", "k099": "p2pool attend un démon entièrement synchronisé avant de démarrer — il répète <code>monerod is busy syncing</code> jusque-là. Le testnet Monero fait environ 3 millions de blocs : comptez une nuit pour la première synchro, et quelques minutes pour rattraper ensuite.", "k100": "La preuve de service", "k101": "Comment prouver qu'un nœud caché est là", "k102": "C'est le problème central du projet. La disponibilité d'un service caché est un fait qui vit hors chaîne : tout rapport à son sujet est l'affirmation de celui qui a sondé, donc invérifiable. La sortie tient à trois observations.", "k103": "1 · Identité", "k104": "Une adresse .onion <em>est</em> une clé", "k105": "Une adresse Tor v3, c'est <code>base32(clé_ed25519 ‖ checksum ‖ version)</code>. Le consensus en extrait la clé publique et vérifie le checksum. Personne ne peut signer à la place d'un service.", "k106": "2 · Défi", "k107": "Le défi vient de la chaîne", "k108": "<code>Keccak256(hash_du_tour ‖ adresse)</code> désigne quatre blocs Monero consécutifs parmi les mille derniers. Imprévisible, identique pour tous, non rejouable, et encore présent sur un nœud élagué.", "k109": "3 · Vérification", "k110": "Chaque nœud revérifie", "k111": "Chaque nœud Tessera fait déjà tourner un monerod. Il recalcule lui-même la réponse attendue, puis vérifie la signature. <strong>Celui qui transporte la preuve n'a aucun pouvoir sur elle.</strong>", "k112": "L'aléa de l'auditeur change tout", "k113": "Le défi est public : un nœud pourrait le calculer hors ligne et n'aurait jamais besoin d'être joignable. C'est pourquoi l'auditeur ajoute <strong>son propre aléa</strong>, ancré au hash du bloc du tour : la réponse est liée à cet auditeur et à ce tirage, et la signature <strong>ne peut pas précéder ce bloc</strong>. Le consensus borne le moment où elle a été produite.", "k114": "Et c'est de là que vient le coût du Sybil", "k115": "La réponse couvre quatre blocs Monero. Une machine peut détenir la chaîne une fois pour mille identités ; elle ne peut pas la servir mille fois, à cinq auditeurs chacune, dans le délai accordé. Le coût redevient proportionnel au nombre d'identités, sans jamais avoir besoin de connaître un ASN.", "k116": "Les auditeurs", "k117": "Tirés, jamais choisis", "k118": "À chaque tour, les nœuds enregistrés sont rangés en anneau par <code>Keccak256(hash_du_tour ‖ adresse)</code>. Chacun audite ses cinq suivants, donc chacun est audité par ses cinq précédents. Ni l'audité ni l'auditeur ne décident, l'anneau tourne à chaque tour, et la charge est exactement la même pour tous — personne n'est surchargé, personne n'est oublié. C'est l'animation en haut de cette page.", "k119": "Quorum", "k120": "Trois oui, au plus un non", "k121": "Un auditeur qui ne joint pas un nœud dépose un constat d'absence, qui compte comme un devoir rendu. Un tour exige trois attestations <strong>et au plus une absence</strong> — trois complices sur cinq ne suffisent donc plus. Il en faut quatre.", "k122": "Sanction", "k123": "Ignorer son tirage coûte", "k124": "À chaque époque, l'anneau est recalculé sur huit tours échantillonnés. Sous 50 % de devoirs rendus, 5 % du collatéral est <strong>brûlé</strong> — jamais versé à quelqu'un, pour que personne n'ait intérêt à faire sanctionner un autre.", "k125": "Diversité", "k126": "Un cercle étroit ne gagne rien", "k127": "Sur une époque, l'anneau envoie à un nœud honnête des auditeurs de tout le registre. Un nœud attesté seulement par le même petit groupe n'est pas payé pour sa disponibilité — c'est ce qui rend la collusion stérile en dessous de la moitié du registre.", "k128": "Radiation", "k129": "Sous le minimum, on sort", "k130": "Si le collatéral tombe sous le seuil, le nœud quitte le registre et le reliquat revient à son opérateur. Garder bloqué le dépôt d'un nœud radié ne protégerait rien.", "k131": "Émission", "k132": "Une queue qui ne s'arrête jamais", "k133": "<code>récompense = max((18 000 000 TSR − émis) ≫ 20, 0,35 TSR)</code>, plus les frais du bloc. Avec des blocs d'une minute, ce décalage de 20 bits suit la courbe de Monero en temps réel. La queue ne s'arrête jamais, et c'est le point : <strong>une chaîne dont la raison d'être est de payer un service en continu ne peut pas cesser d'émettre sans cesser de payer.</strong>", "k134": "Récompense par bloc, sur treize ans", "k135": "En TSR. La queue perpétuelle de 0,35 TSR est atteinte vers la huitième année.", "k136": "Voir les valeurs", "k137": "Aucun premine", "k138": "Personne ne part avec de l'avance", "k139": "Pas de prévente, pas de part fondateur, aucune allocation réservée. Le premier bloc est le bloc un.", "k140": "Part service", "k141": "+40 %, en plus", "k142": "Tous les 720 blocs, la part service est versée : 80 % à la disponibilité attestée, plafonnée à 15 % par nœud, et 20 % au travail d'audit rendu. Elle s'ajoute à la récompense du mineur, elle ne lui est jamais retirée.", "k143": "Conséquence", "k144": "18 M n'est pas la masse finale", "k145": "Quand des nœuds sont payés, l'émission réelle dépasse la cible de jusqu'à 40 %. Les 18 M décrivent la courbe du minage, pas le total. Autant le dire que le cacher.", "k146": "Ce qui n'est pas attribué — plafonds, arrondis, absence de nœuds enregistrés — n'est tout simplement jamais émis. Aucun pot ne s'accumule nulle part : il n'y a donc rien à gouverner ni à détourner.", "k147": "Paramètres", "k148": "Ce qui est déjà dans le code", "k149": "Réseau de test — tout reste modifiable avant un réseau public", "k150": "Ticker", "k151": "Unités atomiques par coin", "k152": "Intervalle visé entre deux blocs", "k153": "Récompense du premier bloc", "k154": "Masse visée avant la queue", "k155": "Queue perpétuelle", "k156": "Preuve de travail", "k157": "Ajustement de difficulté", "k158": "Signatures", "k159": "Préfixe d'adresse (testnet)", "k160": "Identifiant de chaîne (testnet)", "k161": "Époque de paiement", "k162": "Auditeurs par nœud · quorum", "k163": "Premine", "k200": "research-lab, issue 164", "k201": "Code sous licence MIT. Le projet n'est affilié ni à Monero ni à p2pool : il utilise l'interface publique de merge mining de p2pool, sans effet sur le consensus ni sur l'économie minière de Monero. <em>Tessera</em>, d'après la <em>tessera hospitalis</em> romaine — un jeton brisé en deux, une moitié pour l'hôte, une pour l'hébergé, preuve du droit à l'hospitalité.", "k202": "La conception est soumise à la critique publique du Monero Research Lab, questions ouvertes comprises : <a href=\"https://github.com/monero-project/research-lab/issues/164\">research-lab, issue 164</a>. Les objections qui en sortiront changeront le projet, ou l'arrêteront.", "k203": "Réseau", "k204": "La chaîne, maintenant", "k205": "Lu sur un nœud qui tourne, et republié avec le site. Il n'y a pas de réseau public : ce sont les chiffres d'une seule chaîne de test, et ils sont affichés parce qu'un projet qui parle de disponibilité devrait montrer la sienne.", "k206": "Aucun mineur sur cette chaîne", "k207": "blocs minés", "k208": "difficulté", "k209": "hashrate impliqué par cette difficulté", "k210": "récompense du prochain bloc", "k211": "TSR émis", "k212": "nœuds de service enregistrés", "k213": "TSR immobilisés en collatéral", "k214": "transactions en attente", "k215": "Sans mineur au travail, la difficulté reste à son plancher : le hashrate ci-dessus est ce que ce plancher implique — une borne, pas une mesure. Il voudra dire quelque chose le jour où quelqu'un minera cette chaîne.", "k216": "Réseau", "k217": "Minage en cours", "k218": "Docs", "k219": "Rejoindre le testnet", "k220": "Faire tourner un nœud de service", "k221": "Spécification", "k222": "Pas à pas", "k223": "Ce qui tourne aujourd'hui, ce qui manque encore avant un réseau public, et les deux commandes qui changeront le jour où des nœuds d'amorçage existeront.", "k224": "Tor", "k225": "La procédure complète pour un nœud Tor : un seul service caché, le collatéral, la preuve de service, et vos devoirs d'auditeur. C'est la partie qui a besoin de monde.", "k226": "Minez du Monero.<br>Payez ceux qui le gardent <em>joignable</em>.", "k227": "l'anneau du tour", "k228": "5 auditeurs par nœud", "k229": "de votre hashrate détourné du minage de Monero", "k230": "au premier bloc, décroissant vers une queue perpétuelle", "k231": "d'intervalle visé entre deux blocs", "k232": "tests, sans autre dépendance que Python et <code>cryptography</code>", "k233": "Bloc Monero", "k234": "transaction coinbase", "k235": "racine de Merkle", "k236": "Arbre des chaînes auxiliaires", "k237": "racine", "k238": "emplacement imposé : SHA256(chain_id | nonce | &quot;m&quot;) mod N", "k239": "Un seul hash RandomX règle les deux chaînes.", "k240": "100 000 000", "k241": "17,166 TSR + frais", "k242": "18 000 000 TSR", "k243": "0,35 TSR par bloc", "k244": "RandomX, hérité de Monero", "k245": "LWMA-1, fenêtre de 60 blocs", "k246": "720 blocs", "k247": "aucun"} };
   var select = document.getElementById('langue');
   function applique(langue) {
     document.documentElement.lang = langue;
@@ -1039,6 +1073,8 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
     });
     if (select) select.value = langue;
     try { localStorage.setItem('tessera-langue', langue); } catch (e) {}
+    // la courbe écrit ses libellés en JS : elle ne peut pas passer par data-i18n
+    document.dispatchEvent(new CustomEvent('tessera:langue', { detail: langue }));
   }
   var choisie = null;
   try { choisie = localStorage.getItem('tessera-langue'); } catch (e) {}
@@ -1087,6 +1123,25 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
     for (var k in a) e.setAttribute(k, a[k]);
     return e;
   };
+  var MOTS = {
+    en: { lancement: 'launch', an: 'year ', queue: 'perpetual tail · 0.35 TSR',
+          premier: '17.166 TSR at the first block', parBloc: ' TSR/block',
+          legende: 'Reward per block' },
+    fr: { lancement: 'lancement', an: 'an ', queue: 'queue perpétuelle · 0,35 TSR',
+          premier: '17,166 TSR au premier bloc', parBloc: ' TSR/bloc',
+          legende: 'Récompense par bloc' }
+  };
+  function mots() { return MOTS[document.documentElement.lang] || MOTS.en; }
+  var aRetraduire = [];
+  function traduisible(noeud, rendu) {
+    aRetraduire.push(function () { noeud.textContent = rendu(mots()); });
+    noeud.textContent = rendu(mots());
+  }
+  document.addEventListener('tessera:langue', function () {
+    aRetraduire.forEach(function (f) { f(); });
+    remplirTable();
+  });
+
   var frag = document.createDocumentFragment();
 
   [0, 5, 10, 15].forEach(function (v) {
@@ -1097,7 +1152,7 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
   });
   [0, 2, 4, 6, 8, 10, 12].forEach(function (v) {
     var t = el('text', { x: X(v), y: H - B + 20, class: 'ax-t', 'text-anchor': 'middle' });
-    t.textContent = v === 0 ? 'launch' : 'year ' + v;
+    traduisible(t, function (m) { return v === 0 ? m.lancement : m.an + v; });
     frag.appendChild(t);
   });
 
@@ -1112,12 +1167,12 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
 
   frag.appendChild(el('line', { x1: X(8), y1: Y(0.35), x2: X(8), y2: Y(6.6), class: 'repere' }));
   var n1 = el('text', { x: X(8), y: Y(7.1), class: 'note', 'text-anchor': 'middle' });
-  n1.textContent = 'perpetual tail · 0.35 TSR';
+  traduisible(n1, function (m) { return m.queue; });
   frag.appendChild(n1);
   frag.appendChild(el('circle', { cx: X(8), cy: Y(0.35), r: 4.5, class: 'pt' }));
   frag.appendChild(el('circle', { cx: X(0), cy: Y(17.166), r: 4.5, class: 'pt' }));
   var n2 = el('text', { x: X(0) + 12, y: Y(17.166) + 4, class: 'note' });
-  n2.textContent = '17.166 TSR at the first block';
+  traduisible(n2, function (m) { return m.premier; });
   frag.appendChild(n2);
 
   var croix = el('line', { x1: 0, y1: T, x2: 0, y2: H - B, class: 'croix' });
@@ -1137,7 +1192,7 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
     croix.setAttribute('opacity', 1);
     point.setAttribute('cx', X(best[0])); point.setAttribute('cy', Y(best[1]));
     point.setAttribute('opacity', 1);
-    bulle.textContent = 'year ' + best[0] + ' · ' + best[1] + ' TSR/block';
+    bulle.textContent = mots().an + best[0] + ' · ' + best[1] + mots().parBloc;
     bulle.style.left = (X(best[0]) / W * box.width) + 'px';
     bulle.style.top = (Y(best[1]) / H * box.height) + 'px';
     bulle.style.opacity = 1;
@@ -1150,14 +1205,17 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
   svg.addEventListener('touchmove', survol, { passive: true });
   svg.addEventListener('touchend', sortie);
 
-  var tbl = document.getElementById('table-courbe');
-  if (tbl) {
-    var html = '<caption>Reward per block</caption><tbody>';
+  function remplirTable() {
+    var tbl = document.getElementById('table-courbe');
+    if (!tbl) return;
+    var m = mots();
+    var html = '<caption>' + m.legende + '</caption><tbody>';
     data.forEach(function (p) {
-      html += '<tr><th scope="row">year ' + p[0] + '</th><td>' + p[1] + ' TSR</td></tr>';
+      html += '<tr><th scope="row">' + m.an + p[0] + '</th><td>' + p[1] + ' TSR</td></tr>';
     });
     tbl.innerHTML = html + '</tbody>';
   }
+  remplirTable();
 })();
 </script>
 <script>
