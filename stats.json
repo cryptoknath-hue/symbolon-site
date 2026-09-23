@@ -1,0 +1,18 @@
+{
+ "generated_at": 1790181821,
+ "network": "testnet",
+ "height": 0,
+ "tip": "9bf6d1d714a583d77f8c78b48b25f3208ee8a5c923731653410d29f2df783a82",
+ "difficulty": 100000,
+ "hashrate": 1667,
+ "work": 100000,
+ "reward": 1716613769,
+ "emitted": 0,
+ "mempool": 0,
+ "epoch": 720,
+ "next_epoch_in": 720,
+ "denomination": 100000000,
+ "service_nodes": 0,
+ "collateral_locked": 0,
+ "min_collateral": 100000000000
+}
