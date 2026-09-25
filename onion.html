@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tessera — Run a service node</title>
-<meta name="description" content="Register a Tor-only Monero node on Tessera: hidden service, collateral, proof of service and auditing.">
+<title>Symbolon — Run a service node</title>
+<meta name="description" content="Register a Tor-only Monero node on Symbolon: hidden service, collateral, proof of service and auditing.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%2317120e'/%3E%3Cpath d='M2.5 3 H10.6 L11.8 7.5 L9.8 12 L11.8 16.5 L10.6 21 H2.5 Z' fill='%23d9a05e'/%3E%3Cpath d='M12.6 3 H21.5 V21 H12.6 L13.8 16.5 L11.8 12 L13.8 7.5 Z' fill='none' stroke='%23d9a05e' stroke-width='1.3'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -105,7 +105,7 @@ li::marker { color:var(--muted); }
       <path d="M12.6 3 H21.5 V21 H12.6 L13.8 16.5 L11.8 12 L13.8 7.5 Z"
             fill="none" stroke="var(--accent)" stroke-width="1.3"></path>
     </svg>
-    <span class="brand-name">Tessera</span>
+    <span class="brand-name">Symbolon</span>
   </a>
   <div class="liens"><a href="join.html">Join the testnet</a><a href="onion.html" aria-current="page">Run a service node</a><a href="spec.html">Specification</a><a class="back" href="./">&larr; Site</a></div>
 </div></header>
@@ -123,10 +123,10 @@ li::marker { color:var(--muted); }
 <a class="" href="#what-this-does-not-protect-you-from">What this does not protect you from</a></nav>
   <main>
     <h1>Run a service node</h1>
-    <div class="lede"><b>Nothing to earn today.</b> Tessera runs on a test chain and the coins are worth nothing. This procedure is worth running because the mechanism needs to be exercised by people other than its author.</div>
-    <p>A Tessera service node is a <strong>Monero node reachable only over Tor</strong>, registered on the Tessera
+    <div class="lede"><b>Nothing to earn today.</b> Symbolon runs on a test chain and the coins are worth nothing. This procedure is worth running because the mechanism needs to be exercised by people other than its author.</div>
+    <p>A Symbolon service node is a <strong>Monero node reachable only over Tor</strong>, registered on the Symbolon
 chain, which answers availability probes. This page is the whole procedure, end to end.</p>
-<p>Read this first: <strong>there is nothing to earn today.</strong> Tessera runs on a test chain, the coins are
+<p>Read this first: <strong>there is nothing to earn today.</strong> Symbolon runs on a test chain, the coins are
 worth nothing, and no public network exists yet. What follows is worth doing because the mechanism
 has to be exercised by people other than its author before it can be taken seriously — not because
 it pays.</p>
@@ -137,7 +137,7 @@ attestations accepted by consensus. What follows is a description of something t
 of something intended.</p>
 </blockquote>
 <h2 id="what-you-are-proving-and-what-you-are-not">What you are proving, and what you are not</h2>
-<p>The probe asks your hidden service to sign a value derived from the Tessera chain and from four
+<p>The probe asks your hidden service to sign a value derived from the Symbolon chain and from four
 Monero blocks. A valid signature proves three things at once: the service is <strong>up</strong>, it <strong>holds
 the private key</strong> of the <code>.onion</code> it registered, and it has the Monero blocks the challenge names.
 Nobody can forge that, not even the auditor who carries the proof — every validator recomputes the
@@ -152,51 +152,51 @@ check: <strong>the chain cannot verify it.</strong> It raises the cost of lying;
 <li>A <strong>Monero node</strong> you already run, or are willing to run, reachable over Tor.</li>
 <li><strong>Tor</strong>, with permission to create a hidden service.</li>
 <li><strong>Python 3.12</strong> and the <code>cryptography</code> package.</li>
-<li>A <strong>Tessera node</strong> on the same machine, itself talking to an unrestricted <code>monerod</code> RPC.</li>
-<li><strong>1 000 TSR</strong> of collateral, locked for 10 000 blocks (~7 days) after you deregister.</li>
+<li>A <strong>Symbolon node</strong> on the same machine, itself talking to an unrestricted <code>monerod</code> RPC.</li>
+<li><strong>1 000 SBL</strong> of collateral, locked for 10 000 blocks (~7 days) after you deregister.</li>
 </ul>
 <h2 id="1-one-hidden-service-two-ports">1. One hidden service, two ports</h2>
 <p>First, make <code>monerod</code> serve a <strong>restricted</strong> RPC alongside the unrestricted one:</p>
 <pre><code>--rpc-bind-ip 127.0.0.1 --rpc-bind-port 18081 \
 --rpc-restricted-bind-ip 127.0.0.1 --rpc-restricted-bind-port 18089
 </code></pre>
-<p>This distinction matters more than anything else on this page. Tessera needs the <strong>unrestricted</strong>
+<p>This distinction matters more than anything else on this page. Symbolon needs the <strong>unrestricted</strong>
 RPC, because <code>calc_pow</code> is not exposed by the restricted one — and the unrestricted RPC must never
 leave localhost, since it will run commands no stranger should be able to run on your node. What
 you publish to the world is the <strong>restricted</strong> RPC, which is what a public Monero node has always
 been.</p>
 <p>Then, in your <code>torrc</code>:</p>
-<pre><code>HiddenServiceDir /var/lib/tor/tessera/
+<pre><code>HiddenServiceDir /var/lib/tor/symbolon/
 HiddenServicePort 18081 127.0.0.1:18089
 HiddenServicePort 80 127.0.0.1:19083
 </code></pre>
 <p>Callers reach your node on the usual port 18081 of your <code>.onion</code>; Tor forwards that to the
-restricted RPC on 18089. Port 80 is the Tessera probe responder. <strong>Both behind the same
+restricted RPC on 18089. Port 80 is the Symbolon probe responder. <strong>Both behind the same
 <code>HiddenServiceDir</code></strong>, so both share one <code>.onion</code> address — which is the point: the address you
 register is the address that serves Monero.</p>
 <pre><code class="language-bash">sudo systemctl restart tor
-sudo cat /var/lib/tor/tessera/hostname
+sudo cat /var/lib/tor/symbolon/hostname
 </code></pre>
-<p>That <code>.onion</code> is your node's identity on Tessera.</p>
+<p>That <code>.onion</code> is your node's identity on Symbolon.</p>
 <h2 id="2-your-tor-key-is-your-identity-treat-it-that-way">2. Your Tor key is your identity — treat it that way</h2>
-<p><code>/var/lib/tor/tessera/hs_ed25519_secret_key</code> is the private key of your hidden service. Whoever
-holds it can impersonate your node on Tor <strong>and</strong> on Tessera. Tessera refuses to work with a key
+<p><code>/var/lib/tor/symbolon/hs_ed25519_secret_key</code> is the private key of your hidden service. Whoever
+holds it can impersonate your node on Tor <strong>and</strong> on Symbolon. Symbolon refuses to work with a key
 readable beyond its owner:</p>
-<pre><code class="language-bash">sudo chmod 600 /var/lib/tor/tessera/hs_ed25519_secret_key
+<pre><code class="language-bash">sudo chmod 600 /var/lib/tor/symbolon/hs_ed25519_secret_key
 </code></pre>
-<p>A detail worth knowing, because it explains a Tessera-specific piece of code: Tor does not keep
+<p>A detail worth knowing, because it explains a Symbolon-specific piece of code: Tor does not keep
 the 32-byte seed. It stores the <strong>expanded</strong> key, and mainstream ed25519 libraries only sign from
-a seed. Tessera ships its own ed25519 (<code>tessera/ed25519.py</code>) purely so that an operator can sign
+a seed. Symbolon ships its own ed25519 (<code>symbolon/ed25519.py</code>) purely so that an operator can sign
 with the key Tor actually wrote. It is checked byte for byte against a reference implementation.</p>
 <h2 id="3-a-wallet-and-collateral">3. A wallet, and collateral</h2>
-<pre><code class="language-bash">python3 tools/wallet.py new          # writes ~/.tessera/wallet.json — NOT encrypted, back it up
+<pre><code class="language-bash">python3 tools/wallet.py new          # writes ~/.symbolon/wallet.json — NOT encrypted, back it up
 python3 tools/wallet.py address
 python3 tools/wallet.py balance
 </code></pre>
 <p>Collateral is the only Sybil barrier that exists. It is not a fee: you get it back when you
 deregister, minus anything a penalty ate.</p>
 <h2 id="4-register">4. Register</h2>
-<pre><code class="language-bash">python3 tools/wallet.py register $(sudo cat /var/lib/tor/tessera/hostname) 1000
+<pre><code class="language-bash">python3 tools/wallet.py register $(sudo cat /var/lib/tor/symbolon/hostname) 1000
 </code></pre>
 <p>Consensus accepts <strong>only</strong> <code>.onion</code> v3 and <code>.b32.i2p</code> endpoints — a clearnet address has no valid
 form here. One account registers one node; one endpoint can be taken once.</p>
@@ -204,18 +204,18 @@ form here. One account registers one node; one endpoint can be taken once.</p>
 <pre><code class="language-bash">python3 tools/wallet.py registry
 </code></pre>
 <h2 id="5-run-the-responder">5. Run the responder</h2>
-<pre><code class="language-bash">python3 tools/service-node.py --tor-key /var/lib/tor/tessera
+<pre><code class="language-bash">python3 tools/service-node.py --tor-key /var/lib/tor/symbolon
 </code></pre>
 <p>It does two things: it answers auditors' probes, signing with your Tor key, and it files your own
 proof of availability each round.</p>
 <p>It <strong>never signs what it is handed.</strong> An auditor sends a round, its address and its nonce; the
-responder recomputes the expected answer from <strong>its own Tessera node</strong>, which derives it from the
+responder recomputes the expected answer from <strong>its own Symbolon node</strong>, which derives it from the
 chain, and signs only that. A hostile auditor cannot use your responder as a signing oracle — it
 does not choose the message, only a nonce that consensus already constrains.</p>
 <p>The responder listens on <code>127.0.0.1:19083</code>. Tor publishes it. <strong>Never expose it directly.</strong></p>
 <p>As a service, so it comes back after a reboot:</p>
-<pre><code class="language-bash">systemd-run --user --unit=tessera-service --collect \
-  python3 /path/to/tessera/tools/service-node.py --tor-key /var/lib/tor/tessera
+<pre><code class="language-bash">systemd-run --user --unit=symbolon-service --collect \
+  python3 /path/to/symbolon/tools/service-node.py --tor-key /var/lib/tor/symbolon
 </code></pre>
 <h2 id="6-your-other-job-auditing">6. Your other job: auditing</h2>
 <p>Registering makes you an auditor too. Each round the registry is sorted into a ring, and you audit
@@ -228,7 +228,7 @@ report</strong>. Filing an absence counts as a duty fulfilled: an auditor that c
 nothing to sign, and the mechanism must not punish it for saying so. A round counts as available
 with <strong>three attestations and at most one absence</strong>.</p>
 <p>On a timer, since duties change every round:</p>
-<pre><code class="language-bash"># ~/.config/systemd/user/tessera-audit.timer — every 10 minutes
+<pre><code class="language-bash"># ~/.config/systemd/user/symbolon-audit.timer — every 10 minutes
 [Timer]
 OnUnitActiveSec=10min
 </code></pre>
@@ -249,17 +249,17 @@ this one is refusing to help you leak your identity.</p>
 first, and wait for the transaction to be in a block.</p>
 <p><strong><code>le registre annonce … la clé donne …</code></strong> — the key in <code>--tor-key</code> is not the key of the endpoint
 you registered. Two hidden services got mixed up.</p>
-<p><strong><code>le nœud local ne peut pas calculer le défi</code></strong> — your Tessera node has no <code>monerod</code>, or its
+<p><strong><code>le nœud local ne peut pas calculer le défi</code></strong> — your Symbolon node has no <code>monerod</code>, or its
 <code>monerod</code> does not hold the Monero range the challenge names. The challenge draws from the last
 1 000 Monero blocks so that a pruned node can still answer; a node syncing from scratch cannot.</p>
 <p><strong>Your proof is refused as out of window</strong> — a proof is admissible for 60 blocks, a probe for 10.
 The narrow probe window is deliberate: it is what lets consensus bound <em>when</em> the answer was
 produced, instead of trusting the auditor's clock.</p>
 <h2 id="what-this-does-not-protect-you-from">What this does not protect you from</h2>
-<p>Registering publishes the association between a Tessera account and a <code>.onion</code>. That is inherent —
+<p>Registering publishes the association between a Symbolon account and a <code>.onion</code>. That is inherent —
 the chain has to know which endpoint to pay — but it means your node's address and its earnings are
 linked in public, permanently. Decide whether that matters to you before you register.</p>
-<p><code>~/.tessera/wallet.json</code> holds your private key <strong>in the clear</strong>. Acceptable while nothing has
+<p><code>~/.symbolon/wallet.json</code> holds your private key <strong>in the clear</strong>. Acceptable while nothing has
 value; it will not be acceptable on a real network, and it is on the list of things to fix first.</p>
   </main>
 </div>

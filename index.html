@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Tessera (TSR): an auxiliary chain merge-mined with Monero that pays operators of Tor and I2P Monero nodes for audited availability. Prototype: no public network, no value.">
-<meta property="og:title" content="Tessera (TSR)">
+<meta name="description" content="Symbolon (SBL): an auxiliary chain merge-mined with Monero that pays operators of Tor and I2P Monero nodes for audited availability. Prototype: no public network, no value.">
+<meta property="og:title" content="Symbolon (SBL)">
 <meta property="og:description" content="Mine Monero. Pay the people who keep it reachable.">
 <meta property="og:type" content="website">
 <style>
@@ -12,7 +12,7 @@
   img { max-width: 100%; }
   [hidden] { display: none !important; }
 </style>
-<title>Tessera (TSR)</title>
+<title>Symbolon (SBL)</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%2317120e'/%3E%3Cpath d='M2.5 3 H10.6 L11.8 7.5 L9.8 12 L11.8 16.5 L10.6 21 H2.5 Z' fill='%23d9a05e'/%3E%3Cpath d='M12.6 3 H21.5 V21 H12.6 L13.8 16.5 L11.8 12 L13.8 7.5 Z' fill='none' stroke='%23d9a05e' stroke-width='1.3'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -380,13 +380,13 @@
 <body>
 <nav class="nav">
   <div class="nav-in">
-    <a class="brand" href="#top"><svg class="brand-mark" viewBox="0 0 24 24" role="img" aria-label="Tessera">
-        <!-- la tessera hospitalis : un jeton brisé en deux, une moitié pour chacun.
+    <a class="brand" href="#top"><svg class="brand-mark" viewBox="0 0 24 24" role="img" aria-label="Symbolon">
+        <!-- le σύμβολον grec : un jeton brisé en deux, une moitié pour chacun.
              Arêtes vives, une moitié pleine, l'autre en creux — elles s'emboîtent. -->
         <path d="M2.5 3 H10.6 L11.8 7.5 L9.8 12 L11.8 16.5 L10.6 21 H2.5 Z" fill="var(--accent)"></path>
         <path d="M12.6 3 H21.5 V21 H12.6 L13.8 16.5 L11.8 12 L13.8 7.5 Z"
               fill="none" stroke="var(--accent)" stroke-width="1.3" stroke-linejoin="miter"></path>
-      </svg><span class="brand-name" data-i18n="k001">Tessera</span></a>
+      </svg><span class="brand-name" data-i18n="k001">Symbolon</span></a>
     <div class="nav-links">
       <a href="#project" data-i18n="k002">The project</a>
       <a href="#mine" data-i18n="k003">Mining</a>
@@ -462,7 +462,7 @@
       <div class="stat-l" data-i18n="k229">of your hashrate diverted from mining Monero</div>
     </div>
     <div class="stat">
-      <div class="stat-n">17.17<span class="u">TSR</span></div>
+      <div class="stat-n">17.17<span class="u">SBL</span></div>
       <div class="stat-l" data-i18n="k230">at the first block, decaying toward a perpetual tail</div>
     </div>
     <div class="stat">
@@ -482,7 +482,7 @@
       <p data-i18n="k018">
         Public Monero nodes are run by volunteers. The ones that matter most for privacy —
         reachable only over Tor or I2P — are also the most expensive to keep up and the least
-        visible. Tessera pays them with a currency that costs nothing to produce, because it
+        visible. Symbolon pays them with a currency that costs nothing to produce, because it
         reuses mining work that has already been done. Three rules frame the idea, and they live
         in the code rather than in a statement of intent.
       </p>
@@ -521,13 +521,13 @@
         Your miner looks for a RandomX hash for Monero, exactly as it already does. P2Pool slips a
         merkle tree carrying our block hash into the Monero coinbase. If the hash it finds meets our
         difficulty, it counts for us too — with no additional computation. No GPU and no ASIC can
-        take part: mining Tessera is mining RandomX.
+        take part: mining Symbolon is mining RandomX.
       </p>
       <p data-i18n="k031">
-        Let us be exact about what that does not mean: <strong>Tessera's security is its own
+        Let us be exact about what that does not mean: <strong>Symbolon's security is its own
         difficulty, not Monero's hashrate.</strong> The Monero block carrying our proof does not have
         to be a block Monero accepted — requiring that would make our consensus depend on each node's
-        own view of the Monero chain. Merge mining makes Tessera free to mine for anyone already
+        own view of the Monero chain. Merge mining makes Symbolon free to mine for anyone already
         mining Monero; it does not transfer Monero's security to it.
       </p>
     </div>
@@ -535,7 +535,7 @@
     <figure>
       <div class="scroller">
         <svg viewBox="0 0 720 286" role="img"
-             aria-label="A Monero block carries, in its coinbase, a merkle tree with one slot holding the Tessera block hash; a single RandomX hash settles both chains.">
+             aria-label="A Monero block carries, in its coinbase, a merkle tree with one slot holding the Symbolon block hash; a single RandomX hash settles both chains.">
           <rect x="16" y="26" width="300" height="196" rx="8" class="d-box"></rect>
           <text x="32" y="50" class="d-t" data-i18n="k233">Monero block</text>
           <line x1="16" y1="62" x2="316" y2="62" class="d-l"></line>
@@ -558,7 +558,7 @@
           <rect x="588" y="146" width="72" height="22" rx="5" class="d-leaf"></rect>
           <rect x="412" y="190" width="64" height="22" rx="5" class="d-leaf"></rect>
           <rect x="484" y="190" width="64" height="22" rx="5" class="d-leaf d-leaf-a"></rect>
-          <text x="500" y="205" class="d-t-in">Tessera</text>
+          <text x="500" y="205" class="d-t-in">Symbolon</text>
           <rect x="556" y="190" width="64" height="22" rx="5" class="d-leaf"></rect>
           <rect x="628" y="190" width="64" height="22" rx="5" class="d-leaf"></rect>
           <text x="416" y="238" class="d-t-dim" data-i18n="k238">slot is imposed: SHA256(chain_id | nonce | "m") mod N</text>
@@ -579,15 +579,15 @@
         service. Its RPC stays on localhost — never expose it.</p>
       </div></article>
       <article class="step"><div>
-        <h3 data-i18n="k035">A Tessera node</h3>
+        <h3 data-i18n="k035">A Symbolon node</h3>
         <p data-i18n="k036">It answers P2Pool's three merge mining methods on port 19081 and talks to other nodes on
         19082.</p>
       </div></article>
       <article class="step"><div>
         <h3 data-i18n="k037">P2Pool with <code>--merge-mine</code></h3>
-        <p data-i18n="k038">P2Pool 4.0 or later. It queries the Tessera node, inserts our hash into the Monero block
+        <p data-i18n="k038">P2Pool 4.0 or later. It queries the Symbolon node, inserts our hash into the Monero block
         and submits solutions to both chains. Any pool can do the same — the interface is generic,
-        and several pools can mine Tessera at the same time.</p>
+        and several pools can mine Symbolon at the same time.</p>
       </div></article>
       <article class="step"><div>
         <h3 data-i18n="k039">Your miner, unchanged</h3>
@@ -596,12 +596,12 @@
       </div></article>
     </div>
 
-    <pre><span class="c" data-i18n="k041"># the Tessera node, delegating RandomX verification to monerod</span>
-python3 -m tessera <span class="k">--network</span> testnet <span class="k">--monerod</span> http://127.0.0.1:28081
+    <pre><span class="c" data-i18n="k041"># the Symbolon node, delegating RandomX verification to monerod</span>
+python3 -m symbolon <span class="k">--network</span> testnet <span class="k">--monerod</span> http://127.0.0.1:28081
 
-<span class="c" data-i18n="k044"># P2Pool mines Monero and Tessera in the same hash</span>
+<span class="c" data-i18n="k044"># P2Pool mines Monero and Symbolon in the same hash</span>
 ./p2pool <span class="k">--wallet</span> &lt;XMR_ADDRESS&gt; \
-         <span class="k">--merge-mine</span> 127.0.0.1:19081 &lt;TSR_ADDRESS&gt;</pre>
+         <span class="k">--merge-mine</span> 127.0.0.1:19081 &lt;SBL_ADDRESS&gt;</pre>
     <p style="margin-top:14px; font-size:14px; color:var(--muted)" data-i18n="k047">
       Today these commands only work against a local test network.
     </p>
@@ -629,7 +629,7 @@ python3 -m tessera <span class="k">--network</span> testnet <span class="k">--mo
       first. Leave it running in another terminal.
     </p>
     <pre><span class="c" data-i18n="k054"># a local node, with a fake proof of work — no monerod needed</span>
-python3 -m tessera <span class="k">--network</span> local <span class="k">--pow</span> sha256 <span class="k">--data-dir</span> /tmp/tsr
+python3 -m symbolon <span class="k">--network</span> local <span class="k">--pow</span> sha256 <span class="k">--data-dir</span> /tmp/sbl
 
 <span class="c" data-i18n="k058"># in another terminal: create the key, then look at it</span>
 python3 tools/wallet.py new
@@ -637,7 +637,7 @@ python3 tools/wallet.py address
 python3 tools/wallet.py balance</pre>
     <div class="notice" style="margin-top:20px; border-left-color: var(--no)">
       <b data-i18n="k059">Back it up now.</b>
-      <span data-i18n="k060"><code>~/.tessera/wallet.json</code> holds your private key <strong>in the
+      <span data-i18n="k060"><code>~/.symbolon/wallet.json</code> holds your private key <strong>in the
       clear</strong>. It is not encrypted, it cannot be regenerated, and losing it loses the
       coins. Copy it somewhere safe before you mine anything.</span>
     </div>
@@ -653,23 +653,23 @@ python3 tools/wallet.py balance</pre>
         <h3 data-i18n="k063">The quick way — a simulated pool</h3>
         <p data-i18n="k064"><code>tools/fake_p2pool.py</code> plays P2Pool's side of the three RPC calls against your
         local node, with a fake proof of work. Blocks arrive in seconds and your balance moves.</p>
-        <pre style="margin-top:14px">python3 tools/fake_p2pool.py http://127.0.0.1:19081 &lt;your tsrl address&gt; 3
+        <pre style="margin-top:14px">python3 tools/fake_p2pool.py http://127.0.0.1:19081 &lt;your sbll address&gt; 3
 python3 tools/wallet.py balance</pre>
       </div></article>
       <article class="step"><div>
         <h3 data-i18n="k065">The real way — monerod, P2Pool, your miner</h3>
-        <p data-i18n="k066">A Monero testnet daemon with an <strong>unrestricted</strong> RPC, because Tessera
+        <p data-i18n="k066">A Monero testnet daemon with an <strong>unrestricted</strong> RPC, because Symbolon
         verifies RandomX through <code>calc_pow</code>, which a restricted RPC does not expose.
         Keep that RPC on localhost.</p>
         <pre style="margin-top:14px">monerod --testnet --non-interactive \
         --rpc-bind-ip 127.0.0.1 --rpc-bind-port 28081 \
         --zmq-pub tcp://127.0.0.1:28083 --disable-rpc-ban
 
-python3 -m tessera <span class="k">--network</span> testnet <span class="k">--monerod</span> http://127.0.0.1:28081
+python3 -m symbolon <span class="k">--network</span> testnet <span class="k">--monerod</span> http://127.0.0.1:28081
 
 ./p2pool <span class="k">--host</span> 127.0.0.1 <span class="k">--rpc-port</span> 28081 <span class="k">--zmq-port</span> 28083 \
          <span class="k">--wallet</span> &lt;XMR testnet address&gt; <span class="k">--stratum</span> 127.0.0.1:3333 \
-         <span class="k">--merge-mine</span> 127.0.0.1:19081 &lt;your tsrt address&gt;
+         <span class="k">--merge-mine</span> 127.0.0.1:19081 &lt;your sblt address&gt;
 
 <span class="c" data-i18n="k075"># then point your usual miner at the stratum</span>
 xmrig -o 127.0.0.1:3333 -u &lt;XMR testnet address&gt;</pre>
@@ -679,8 +679,8 @@ xmrig -o 127.0.0.1:3333 -u &lt;XMR testnet address&gt;</pre>
     <h3 style="font-size:20px; margin:38px 0 0" data-i18n="k076">On your platform</h3>
     <p style="color:var(--ink-2); max-width:64ch; margin-top:8px" data-i18n="k077">
       Two roles, and they are not the same job. <strong>Mining</strong> needs nothing but a miner
-      pointed at a pool that merge-mines — no new software, no Tessera-specific anything. Running
-      the <strong>stack</strong> — a Monero daemon, P2Pool and a Tessera node — is what takes
+      pointed at a pool that merge-mines — no new software, no Symbolon-specific anything. Running
+      the <strong>stack</strong> — a Monero daemon, P2Pool and a Symbolon node — is what takes
       per-platform setup, and only one person per pool has to do it.
     </p>
 
@@ -711,18 +711,18 @@ xmrig -o 127.0.0.1:3333 -u &lt;XMR address&gt;</pre>
 <span class="c" data-i18n="k087"># monerod: monero-win-x64 zip from getmonero.org</span>
 .\monerod.exe --testnet --rpc-bind-port 28081 --zmq-pub tcp://127.0.0.1:28083
 
-<span class="c" data-i18n="k088"># the Tessera node</span>
-python -m tessera --network testnet --monerod http://127.0.0.1:28081
+<span class="c" data-i18n="k088"># the Symbolon node</span>
+python -m symbolon --network testnet --monerod http://127.0.0.1:28081
 
 <span class="c" data-i18n="k089"># P2Pool: p2pool-vX-windows-x64.zip</span>
 .\p2pool.exe --host 127.0.0.1 --rpc-port 28081 --zmq-port 28083 `
              --wallet &lt;XMR address&gt; --stratum 127.0.0.1:3333 `
-             --merge-mine 127.0.0.1:19081 &lt;TSR address&gt;
+             --merge-mine 127.0.0.1:19081 &lt;SBL address&gt;
 
 <span class="c" data-i18n="k090"># then xmrig, run as administrator so it can use large pages</span>
 xmrig.exe -o 127.0.0.1:3333 -u &lt;XMR address&gt;</pre>
       <p style="margin-top:14px" data-i18n="k091">
-        Running xmrig as administrator is a RandomX matter, not a Tessera one — without large
+        Running xmrig as administrator is a RandomX matter, not a Symbolon one — without large
         pages you lose a third of your hashrate on any Monero mining.
       </p>
     </div>
@@ -731,7 +731,7 @@ xmrig.exe -o 127.0.0.1:3333 -u &lt;XMR address&gt;</pre>
       <p data-i18n="k092">
         <strong>A HiveOS rig needs no change at all.</strong> It mines RandomX with xmrig against a
         stratum URL; whether that pool merge-mines is the pool's business, not the rig's. So you do
-        not install anything Tessera-related on the rig.
+        not install anything Symbolon-related on the rig.
       </p>
       <p data-i18n="k093">
         Run the stack on a machine you control — a small server, a Raspberry Pi 5, or the same box
@@ -746,7 +746,7 @@ Algorithm      : rx/0</pre>
       <p style="margin-top:14px" data-i18n="k096">
         Expose only the stratum port to your rigs — over a private network or a mesh VPN rather
         than the open internet. The Monero RPC must stay on localhost: it runs unrestricted, since
-        Tessera verifies RandomX through <code>calc_pow</code>.
+        Symbolon verifies RandomX through <code>calc_pow</code>.
       </p>
     </div>
 
@@ -814,7 +814,7 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
       <article class="card">
         <span class="card-tag" data-i18n="k109">3 · Verification</span>
         <h3 data-i18n="k110">Every node checks it again</h3>
-        <p data-i18n="k111">Every Tessera node already runs a monerod. It recomputes the expected answer itself, then
+        <p data-i18n="k111">Every Symbolon node already runs a monerod. It recomputes the expected answer itself, then
         verifies the signature. <strong>Whoever carries the proof has no power over it.</strong></p>
       </article>
     </div>
@@ -889,7 +889,7 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
       <p class="sec-kicker" data-i18n="k131">Emission</p>
       <h2 data-i18n="k132">A tail that never stops</h2>
       <p data-i18n="k133">
-        <code>reward = max((18,000,000 TSR − emitted) ≫ 20, 0.35 TSR)</code>, plus the block's fees.
+        <code>reward = max((18,000,000 SBL − emitted) ≫ 20, 0.35 SBL)</code>, plus the block's fees.
         With one-minute blocks, that 20-bit shift follows Monero's curve in wall-clock time. The tail
         never stops, and that is the point: <strong>a chain whose purpose is to pay for a continuous
         service cannot stop emitting without ceasing to pay.</strong>
@@ -898,9 +898,9 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
 
     <div class="chart-wrap">
       <p class="chart-title" data-i18n="k134">Reward per block, over thirteen years</p>
-      <p class="chart-sub" data-i18n="k135">In TSR. The perpetual tail of 0.35 TSR is reached around year eight.</p>
+      <p class="chart-sub" data-i18n="k135">In SBL. The perpetual tail of 0.35 SBL is reached around year eight.</p>
       <svg id="courbe" viewBox="0 0 720 300" role="img"
-           aria-label="The block reward decays from 17.17 TSR to 0.35 TSR over eight years, then stays flat."></svg>
+           aria-label="The block reward decays from 17.17 SBL to 0.35 SBL over eight years, then stays flat."></svg>
       <div id="bulle"></div>
       <details>
         <summary data-i18n="k136">See the values</summary>
@@ -954,9 +954,9 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
       <div class="stat"><div class="stat-n" id="n-difficulte">—</div><div class="stat-l" data-i18n="k208">difficulty</div></div>
       <div class="stat"><div class="stat-n" id="n-hashrate">—</div><div class="stat-l" data-i18n="k209">hashrate implied by that difficulty</div></div>
       <div class="stat"><div class="stat-n" id="n-recompense">—</div><div class="stat-l" data-i18n="k210">next block reward</div></div>
-      <div class="stat"><div class="stat-n" id="n-emis">—</div><div class="stat-l" data-i18n="k211">TSR emitted</div></div>
+      <div class="stat"><div class="stat-n" id="n-emis">—</div><div class="stat-l" data-i18n="k211">SBL emitted</div></div>
       <div class="stat"><div class="stat-n" id="n-noeuds">—</div><div class="stat-l" data-i18n="k212">registered service nodes</div></div>
-      <div class="stat"><div class="stat-n" id="n-collateral">—</div><div class="stat-l" data-i18n="k213">TSR locked as collateral</div></div>
+      <div class="stat"><div class="stat-n" id="n-collateral">—</div><div class="stat-l" data-i18n="k213">SBL locked as collateral</div></div>
       <div class="stat"><div class="stat-n" id="n-mempool">—</div><div class="stat-l" data-i18n="k214">transactions waiting</div></div>
     </div>
 
@@ -974,17 +974,17 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
       <table>
         <caption data-i18n="k149">Test network — everything remains changeable before a public network</caption>
         <tbody>
-          <tr><th scope="row" data-i18n="k150">Ticker</th><td>TSR</td></tr>
+          <tr><th scope="row" data-i18n="k150">Ticker</th><td>SBL</td></tr>
           <tr><th scope="row" data-i18n="k151">Atomic units per coin</th><td data-i18n="k240">100,000,000</td></tr>
           <tr><th scope="row" data-i18n="k152">Target time between blocks</th><td>60 s</td></tr>
-          <tr><th scope="row" data-i18n="k153">First block reward</th><td data-i18n="k241">17.166 TSR + fees</td></tr>
-          <tr><th scope="row" data-i18n="k154">Supply targeted before the tail</th><td data-i18n="k242">18,000,000 TSR</td></tr>
-          <tr><th scope="row" data-i18n="k155">Perpetual tail</th><td data-i18n="k243">0.35 TSR per block</td></tr>
+          <tr><th scope="row" data-i18n="k153">First block reward</th><td data-i18n="k241">17.166 SBL + fees</td></tr>
+          <tr><th scope="row" data-i18n="k154">Supply targeted before the tail</th><td data-i18n="k242">18,000,000 SBL</td></tr>
+          <tr><th scope="row" data-i18n="k155">Perpetual tail</th><td data-i18n="k243">0.35 SBL per block</td></tr>
           <tr><th scope="row" data-i18n="k156">Proof of work</th><td data-i18n="k244">RandomX, inherited from Monero</td></tr>
           <tr><th scope="row" data-i18n="k157">Difficulty adjustment</th><td data-i18n="k245">LWMA-1, 60-block window</td></tr>
           <tr><th scope="row" data-i18n="k158">Signatures</th><td>ed25519</td></tr>
-          <tr><th scope="row" data-i18n="k159">Address prefix (testnet)</th><td>tsrt</td></tr>
-          <tr><th scope="row" data-i18n="k160">Chain identifier (testnet)</th><td>dd0b62f4…db86586c</td></tr>
+          <tr><th scope="row" data-i18n="k159">Address prefix (testnet)</th><td>sblt</td></tr>
+          <tr><th scope="row" data-i18n="k160">Chain identifier (testnet)</th><td>e90bd469…9c785e1e</td></tr>
           <tr><th scope="row" data-i18n="k161">Payout epoch</th><td data-i18n="k246">720 blocks</td></tr>
           <tr><th scope="row" data-i18n="k162">Auditors per node · quorum</th><td>5 · 3</td></tr>
           <tr><th scope="row" data-i18n="k163">Premine</th><td data-i18n="k247">none</td></tr>
@@ -1005,8 +1005,8 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
     <p style="margin-top:14px" data-i18n="k201">
       Code under the MIT licence. The project is affiliated with neither Monero nor P2Pool: it uses
       P2Pool's public merge mining interface, with no effect on Monero's consensus or mining
-      economics. <em>Tessera</em>, after the Roman <em>tessera hospitalis</em> — a token broken in
-      two, one half for the host, one for the guest, proving the right to hospitality.
+      economics. <em>Symbolon</em>, after the Greek <em>σύμβολον</em> — a token broken in
+      two, one half for the host, one for the guest, matched again to prove the bond of hospitality.
     </p>
   </footer>
 </div>
@@ -1047,7 +1047,7 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
   // ce bloc s'exécute avant celui qui pose la langue : on redessine quand elle change,
   // sinon la date reste au format anglais sur une page française
   var dernier = INSTANTANE;
-  document.addEventListener('tessera:langue', function () { rendu(dernier); });
+  document.addEventListener('symbolon:langue', function () { rendu(dernier); });
   function rafraichit() {
     fetch('stats.json', { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -1061,7 +1061,7 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
 
 <script>
 (function () {
-  var TRAD = { fr: {"k001": "Tessera", "k002": "Le projet", "k003": "Miner", "k004": "Commencer", "k005": "La preuve", "k006": "Émission", "k009": "Chaîne auxiliaire merge-minée avec Monero", "k010": "Un seul hash RandomX règle deux chaînes à la fois. Vous ne partagez pas votre hashrate et vous n'en dépensez pas un de plus — et la récompense va aux opérateurs de nœuds Monero joignables uniquement par Tor et I2P.", "k011": "Comment le miner", "k012": "La chaîne, maintenant", "k013": "Prototype.", "k014": "Pas de réseau public, aucun jeton en circulation, rien à vendre. La conception est en relecture publique au Monero Research Lab avant d'aller plus loin.", "k016": "Le projet", "k017": "Financer les nœuds que personne ne paie", "k018": "Les nœuds Monero publics sont tenus par des bénévoles. Ceux qui comptent le plus pour la vie privée — joignables seulement par Tor ou I2P — sont aussi les plus coûteux à maintenir et les moins visibles. Tessera les rémunère avec une monnaie qui ne coûte rien à produire, puisqu'elle réutilise un travail de minage déjà fait. Trois règles encadrent l'idée, et elles vivent dans le code plutôt que dans une déclaration d'intention.", "k019": "Règle 1", "k020": "La disponibilité, jamais l'usage", "k021": "Payer à la requête créerait une incitation directe à journaliser, classer et attribuer le trafic des utilisateurs. Les sondages vérifient qu'un nœud répond. Rien d'autre n'est observé.", "k022": "Règle 2", "k023": "Tor et I2P uniquement", "k024": "Le consensus accepte un point d'accès <code>.onion</code> v3 ou <code>.b32.i2p</code>, et rien d'autre — une forme clearnet est rejetée par le réseau. Subventionner le clearnet financerait exactement ce contre quoi Monero se défend.", "k025": "Règle 3", "k026": "Du collatéral, pas de la réputation", "k027": "Résister au Sybil doit coûter de l'argent, faute de pouvoir établir une identité sans tiers de confiance. S'enregistrer immobilise un dépôt, qu'un manquement entame.", "k028": "Miner", "k029": "Quatre briques, un seul hash", "k030": "Votre mineur cherche un hash RandomX pour Monero, exactement comme il le fait déjà. p2pool glisse dans la coinbase du bloc Monero un arbre de Merkle qui porte le hash de notre bloc. Si le hash trouvé satisfait notre difficulté, il compte aussi pour nous — sans calcul supplémentaire. Ni GPU ni ASIC ne peuvent s'en mêler : miner Tessera, c'est miner du RandomX.", "k031": "Soyons exacts sur ce que cela ne veut pas dire : <strong>la sécurité de Tessera est sa propre difficulté, pas le hashrate de Monero.</strong> Le bloc Monero qui porte notre preuve n'a pas besoin d'avoir été accepté par Monero — l'exiger rendrait notre consensus dépendant de la vue qu'a chaque nœud de la chaîne Monero. Le merge mining rend Tessera gratuit à miner pour qui mine déjà du Monero ; il ne lui transfère pas sa sécurité.", "k032": "L'emplacement de chaque chaîne dans l'arbre est imposé par son identifiant : personne ne peut miner deux versions d'une même chaîne dans un seul bloc Monero.", "k033": "Un monerod à RPC non restreint", "k034": "C'est lui qui vérifie le RandomX pour nous, via <code>calc_pow</code>, et qui vérifie aussi les preuves de service. Son RPC reste en local — ne l'exposez jamais.", "k035": "Un nœud Tessera", "k036": "Il répond aux trois méthodes de merge mining de p2pool sur le port 19081 et parle aux autres nœuds sur 19082.", "k037": "p2pool avec <code>--merge-mine</code>", "k038": "p2pool 4.0 ou plus. Il interroge le nœud Tessera, insère notre hash dans le bloc Monero et soumet les solutions aux deux chaînes. N'importe quel pool peut faire pareil — l'interface est générique, et plusieurs pools peuvent miner Tessera en même temps.", "k039": "Votre mineur, inchangé", "k040": "Pointé sur le stratum de p2pool, exactement comme pour miner du Monero seul. Rien de plus à configurer, rien à installer côté mineur.", "k041": "# le nœud Tessera, qui délègue la vérification RandomX à monerod", "k044": "# p2pool mine Monero et Tessera dans le même hash", "k047": "Aujourd'hui ces commandes ne fonctionnent que contre un réseau de test local.", "k048": "Commencer", "k049": "Un portefeuille, puis un nœud", "k050": "Tout ce qui suit tourne contre une <strong>chaîne de test locale</strong>. Il n'y a pas de réseau public à rejoindre : ce que vous minez n'existe que sur votre machine, et ne vaut rien. C'est l'intérêt pour l'instant — le mécanisme peut être éprouvé de bout en bout avant tout lancement.", "k051": "Il vous faut Python 3.12 et le paquet <code>cryptography</code>. Rien d'autre — pas de compilateur, pas de base de données, pas d'étape de construction.", "k052": "Créer un portefeuille", "k053": "Le portefeuille demande au nœud sur quel réseau il est et quel nonce utiliser : démarrez donc un nœud d'abord, et laissez-le tourner dans un autre terminal.", "k054": "# un nœud local, avec une preuve de travail factice — pas besoin de monerod", "k058": "# dans un autre terminal : créer la clé, puis la regarder", "k059": "Sauvegardez-la tout de suite.", "k060": "<code>~/.tessera/wallet.json</code> contient votre clé privée <strong>en clair</strong>. Elle n'est pas chiffrée, elle ne se régénère pas, et la perdre c'est perdre les coins. Copiez-la quelque part de sûr avant de miner quoi que ce soit.", "k061": "Miner", "k062": "Deux façons. La première ne demande que Python et prouve tout le chemin en une minute. La seconde est la vraie, contre un vrai démon Monero et un vrai p2pool.", "k063": "La voie rapide — un pool simulé", "k064": "<code>tools/fake_p2pool.py</code> joue le côté p2pool des trois appels RPC contre votre nœud local, avec une preuve de travail factice. Les blocs arrivent en quelques secondes et votre solde bouge.", "k065": "La vraie voie — monerod, p2pool, votre mineur", "k066": "Un démon Monero testnet à RPC <strong>non restreint</strong>, parce que Tessera vérifie le RandomX via <code>calc_pow</code>, qu'un RPC restreint n'expose pas. Gardez ce RPC en local.", "k075": "# puis pointez votre mineur habituel sur le stratum", "k076": "Sur votre plateforme", "k077": "Deux rôles, et ce n'est pas le même métier. <strong>Miner</strong> ne demande qu'un mineur pointé sur un pool qui merge-mine — aucun nouveau logiciel, rien de spécifique à Tessera. Faire tourner la <strong>pile</strong> — un démon Monero, p2pool et un nœud Tessera — voilà ce qui demande une installation, et une seule personne par pool doit s'en charger.", "k078": "Linux", "k079": "Windows", "k080": "HiveOS", "k081": "La plateforme de référence — tout ce qui est ici y a été construit et testé.", "k082": "# le nœud demande Python 3.12 et une bibliothèque", "k083": "# monerod et p2pool : binaires statiques officiels, aucun compilateur", "k084": "# getmonero.org/downloads · github.com/SChernykh/p2pool/releases", "k085": "# puis les trois commandes ci-dessus, et votre mineur habituel sur le stratum", "k086": "Les mêmes briques, avec les binaires Windows officiels des trois. Installez Python 3.12 depuis python.org en cochant <em>Add python.exe to PATH</em>, puis lancez le nœud depuis PowerShell.", "k087": "# monerod : l'archive monero-win-x64 de getmonero.org", "k088": "# le nœud Tessera", "k089": "# p2pool : p2pool-vX-windows-x64.zip", "k090": "# puis xmrig, lancé en administrateur pour les large pages", "k091": "Lancer xmrig en administrateur est une affaire de RandomX, pas de Tessera — sans les large pages vous perdez un tiers de votre hashrate sur n'importe quel minage Monero.", "k092": "<strong>Un rig HiveOS n'a besoin d'aucun changement.</strong> Il mine du RandomX avec xmrig vers une URL de stratum ; que ce pool merge-mine ou non regarde le pool, pas le rig. Vous n'installez donc rien de lié à Tessera sur le rig.", "k093": "Faites tourner la pile sur une machine que vous contrôlez — un petit serveur, un Raspberry Pi 5, ou la même machine que votre nœud — et pointez la flight sheet dessus :", "k094": "# Flight sheet", "k095": "# p2pool paie le portefeuille avec lequel il a été lancé", "k096": "N'exposez à vos rigs que le port stratum — sur un réseau privé ou un VPN maillé plutôt que sur l'internet ouvert. Le RPC Monero doit rester en local : il tourne non restreint, puisque Tessera vérifie le RandomX via <code>calc_pow</code>.", "k097": "Vérifier que ça marche", "k098": "p2pool écrit <code>uses chain_id …</code> une fois la chaîne acceptée. Le nœud écrit une ligne par bloc accepté, et votre solde tranche.", "k099": "p2pool attend un démon entièrement synchronisé avant de démarrer — il répète <code>monerod is busy syncing</code> jusque-là. Le testnet Monero fait environ 3 millions de blocs : comptez une nuit pour la première synchro, et quelques minutes pour rattraper ensuite.", "k100": "La preuve de service", "k101": "Comment prouver qu'un nœud caché est là", "k102": "C'est le problème central du projet. La disponibilité d'un service caché est un fait qui vit hors chaîne : tout rapport à son sujet est l'affirmation de celui qui a sondé, donc invérifiable. La sortie tient à trois observations.", "k103": "1 · Identité", "k104": "Une adresse .onion <em>est</em> une clé", "k105": "Une adresse Tor v3, c'est <code>base32(clé_ed25519 ‖ checksum ‖ version)</code>. Le consensus en extrait la clé publique et vérifie le checksum. Personne ne peut signer à la place d'un service.", "k106": "2 · Défi", "k107": "Le défi vient de la chaîne", "k108": "<code>Keccak256(hash_du_tour ‖ adresse)</code> désigne quatre blocs Monero consécutifs parmi les mille derniers. Imprévisible, identique pour tous, non rejouable, et encore présent sur un nœud élagué.", "k109": "3 · Vérification", "k110": "Chaque nœud revérifie", "k111": "Chaque nœud Tessera fait déjà tourner un monerod. Il recalcule lui-même la réponse attendue, puis vérifie la signature. <strong>Celui qui transporte la preuve n'a aucun pouvoir sur elle.</strong>", "k112": "L'aléa de l'auditeur change tout", "k113": "Le défi est public : un nœud pourrait le calculer hors ligne et n'aurait jamais besoin d'être joignable. C'est pourquoi l'auditeur ajoute <strong>son propre aléa</strong>, ancré au hash du bloc du tour : la réponse est liée à cet auditeur et à ce tirage, et la signature <strong>ne peut pas précéder ce bloc</strong>. Le consensus borne le moment où elle a été produite.", "k114": "Et c'est de là que vient le coût du Sybil", "k115": "La réponse couvre quatre blocs Monero. Une machine peut détenir la chaîne une fois pour mille identités ; elle ne peut pas la servir mille fois, à cinq auditeurs chacune, dans le délai accordé. Le coût redevient proportionnel au nombre d'identités, sans jamais avoir besoin de connaître un ASN.", "k116": "Les auditeurs", "k117": "Tirés, jamais choisis", "k118": "À chaque tour, les nœuds enregistrés sont rangés en anneau par <code>Keccak256(hash_du_tour ‖ adresse)</code>. Chacun audite ses cinq suivants, donc chacun est audité par ses cinq précédents. Ni l'audité ni l'auditeur ne décident, l'anneau tourne à chaque tour, et la charge est exactement la même pour tous — personne n'est surchargé, personne n'est oublié. C'est l'animation en haut de cette page.", "k119": "Quorum", "k120": "Trois oui, au plus un non", "k121": "Un auditeur qui ne joint pas un nœud dépose un constat d'absence, qui compte comme un devoir rendu. Un tour exige trois attestations <strong>et au plus une absence</strong> — trois complices sur cinq ne suffisent donc plus. Il en faut quatre.", "k122": "Sanction", "k123": "Ignorer son tirage coûte", "k124": "À chaque époque, l'anneau est recalculé sur huit tours échantillonnés. Sous 50 % de devoirs rendus, 5 % du collatéral est <strong>brûlé</strong> — jamais versé à quelqu'un, pour que personne n'ait intérêt à faire sanctionner un autre.", "k125": "Diversité", "k126": "Un cercle étroit ne gagne rien", "k127": "Sur une époque, l'anneau envoie à un nœud honnête des auditeurs de tout le registre. Un nœud attesté seulement par le même petit groupe n'est pas payé pour sa disponibilité — c'est ce qui rend la collusion stérile en dessous de la moitié du registre.", "k128": "Radiation", "k129": "Sous le minimum, on sort", "k130": "Si le collatéral tombe sous le seuil, le nœud quitte le registre et le reliquat revient à son opérateur. Garder bloqué le dépôt d'un nœud radié ne protégerait rien.", "k131": "Émission", "k132": "Une queue qui ne s'arrête jamais", "k133": "<code>récompense = max((18 000 000 TSR − émis) ≫ 20, 0,35 TSR)</code>, plus les frais du bloc. Avec des blocs d'une minute, ce décalage de 20 bits suit la courbe de Monero en temps réel. La queue ne s'arrête jamais, et c'est le point : <strong>une chaîne dont la raison d'être est de payer un service en continu ne peut pas cesser d'émettre sans cesser de payer.</strong>", "k134": "Récompense par bloc, sur treize ans", "k135": "En TSR. La queue perpétuelle de 0,35 TSR est atteinte vers la huitième année.", "k136": "Voir les valeurs", "k137": "Aucun premine", "k138": "Personne ne part avec de l'avance", "k139": "Pas de prévente, pas de part fondateur, aucune allocation réservée. Le premier bloc est le bloc un.", "k140": "Part service", "k141": "+40 %, en plus", "k142": "Tous les 720 blocs, la part service est versée : 80 % à la disponibilité attestée, plafonnée à 15 % par nœud, et 20 % au travail d'audit rendu. Elle s'ajoute à la récompense du mineur, elle ne lui est jamais retirée.", "k143": "Conséquence", "k144": "18 M n'est pas la masse finale", "k145": "Quand des nœuds sont payés, l'émission réelle dépasse la cible de jusqu'à 40 %. Les 18 M décrivent la courbe du minage, pas le total. Autant le dire que le cacher.", "k146": "Ce qui n'est pas attribué — plafonds, arrondis, absence de nœuds enregistrés — n'est tout simplement jamais émis. Aucun pot ne s'accumule nulle part : il n'y a donc rien à gouverner ni à détourner.", "k147": "Paramètres", "k148": "Ce qui est déjà dans le code", "k149": "Réseau de test — tout reste modifiable avant un réseau public", "k150": "Ticker", "k151": "Unités atomiques par coin", "k152": "Intervalle visé entre deux blocs", "k153": "Récompense du premier bloc", "k154": "Masse visée avant la queue", "k155": "Queue perpétuelle", "k156": "Preuve de travail", "k157": "Ajustement de difficulté", "k158": "Signatures", "k159": "Préfixe d'adresse (testnet)", "k160": "Identifiant de chaîne (testnet)", "k161": "Époque de paiement", "k162": "Auditeurs par nœud · quorum", "k163": "Premine", "k200": "research-lab, issue 164", "k201": "Code sous licence MIT. Le projet n'est affilié ni à Monero ni à p2pool : il utilise l'interface publique de merge mining de p2pool, sans effet sur le consensus ni sur l'économie minière de Monero. <em>Tessera</em>, d'après la <em>tessera hospitalis</em> romaine — un jeton brisé en deux, une moitié pour l'hôte, une pour l'hébergé, preuve du droit à l'hospitalité.", "k202": "La conception est soumise à la critique publique du Monero Research Lab, questions ouvertes comprises : <a href=\"https://github.com/monero-project/research-lab/issues/164\">research-lab, issue 164</a>. Les objections qui en sortiront changeront le projet, ou l'arrêteront.", "k203": "Réseau", "k204": "La chaîne, maintenant", "k205": "Lu sur un nœud qui tourne, et republié avec le site. Il n'y a pas de réseau public : ce sont les chiffres d'une seule chaîne de test, et ils sont affichés parce qu'un projet qui parle de disponibilité devrait montrer la sienne.", "k206": "Aucun mineur sur cette chaîne", "k207": "blocs minés", "k208": "difficulté", "k209": "hashrate impliqué par cette difficulté", "k210": "récompense du prochain bloc", "k211": "TSR émis", "k212": "nœuds de service enregistrés", "k213": "TSR immobilisés en collatéral", "k214": "transactions en attente", "k215": "Sans mineur au travail, la difficulté reste à son plancher : le hashrate ci-dessus est ce que ce plancher implique — une borne, pas une mesure. Il voudra dire quelque chose le jour où quelqu'un minera cette chaîne.", "k216": "Réseau", "k217": "Minage en cours", "k218": "Docs", "k219": "Rejoindre le testnet", "k220": "Faire tourner un nœud de service", "k221": "Spécification", "k222": "Pas à pas", "k223": "Ce qui tourne aujourd'hui, ce qui manque encore avant un réseau public, et les deux commandes qui changeront le jour où des nœuds d'amorçage existeront.", "k224": "Tor", "k225": "La procédure complète pour un nœud Tor : un seul service caché, le collatéral, la preuve de service, et vos devoirs d'auditeur. C'est la partie qui a besoin de monde.", "k226": "Minez du Monero.<br>Payez ceux qui le gardent <em>joignable</em>.", "k227": "l'anneau du tour", "k228": "5 auditeurs par nœud", "k229": "de votre hashrate détourné du minage de Monero", "k230": "au premier bloc, décroissant vers une queue perpétuelle", "k231": "d'intervalle visé entre deux blocs", "k232": "tests, sans autre dépendance que Python et <code>cryptography</code>", "k233": "Bloc Monero", "k234": "transaction coinbase", "k235": "racine de Merkle", "k236": "Arbre des chaînes auxiliaires", "k237": "racine", "k238": "emplacement imposé : SHA256(chain_id | nonce | &quot;m&quot;) mod N", "k239": "Un seul hash RandomX règle les deux chaînes.", "k240": "100 000 000", "k241": "17,166 TSR + frais", "k242": "18 000 000 TSR", "k243": "0,35 TSR par bloc", "k244": "RandomX, hérité de Monero", "k245": "LWMA-1, fenêtre de 60 blocs", "k246": "720 blocs", "k247": "aucun"} };
+  var TRAD = { fr: {"k001": "Symbolon", "k002": "Le projet", "k003": "Miner", "k004": "Commencer", "k005": "La preuve", "k006": "Émission", "k009": "Chaîne auxiliaire merge-minée avec Monero", "k010": "Un seul hash RandomX règle deux chaînes à la fois. Vous ne partagez pas votre hashrate et vous n'en dépensez pas un de plus — et la récompense va aux opérateurs de nœuds Monero joignables uniquement par Tor et I2P.", "k011": "Comment le miner", "k012": "La chaîne, maintenant", "k013": "Prototype.", "k014": "Pas de réseau public, aucun jeton en circulation, rien à vendre. La conception est en relecture publique au Monero Research Lab avant d'aller plus loin.", "k016": "Le projet", "k017": "Financer les nœuds que personne ne paie", "k018": "Les nœuds Monero publics sont tenus par des bénévoles. Ceux qui comptent le plus pour la vie privée — joignables seulement par Tor ou I2P — sont aussi les plus coûteux à maintenir et les moins visibles. Symbolon les rémunère avec une monnaie qui ne coûte rien à produire, puisqu'elle réutilise un travail de minage déjà fait. Trois règles encadrent l'idée, et elles vivent dans le code plutôt que dans une déclaration d'intention.", "k019": "Règle 1", "k020": "La disponibilité, jamais l'usage", "k021": "Payer à la requête créerait une incitation directe à journaliser, classer et attribuer le trafic des utilisateurs. Les sondages vérifient qu'un nœud répond. Rien d'autre n'est observé.", "k022": "Règle 2", "k023": "Tor et I2P uniquement", "k024": "Le consensus accepte un point d'accès <code>.onion</code> v3 ou <code>.b32.i2p</code>, et rien d'autre — une forme clearnet est rejetée par le réseau. Subventionner le clearnet financerait exactement ce contre quoi Monero se défend.", "k025": "Règle 3", "k026": "Du collatéral, pas de la réputation", "k027": "Résister au Sybil doit coûter de l'argent, faute de pouvoir établir une identité sans tiers de confiance. S'enregistrer immobilise un dépôt, qu'un manquement entame.", "k028": "Miner", "k029": "Quatre briques, un seul hash", "k030": "Votre mineur cherche un hash RandomX pour Monero, exactement comme il le fait déjà. p2pool glisse dans la coinbase du bloc Monero un arbre de Merkle qui porte le hash de notre bloc. Si le hash trouvé satisfait notre difficulté, il compte aussi pour nous — sans calcul supplémentaire. Ni GPU ni ASIC ne peuvent s'en mêler : miner Symbolon, c'est miner du RandomX.", "k031": "Soyons exacts sur ce que cela ne veut pas dire : <strong>la sécurité de Symbolon est sa propre difficulté, pas le hashrate de Monero.</strong> Le bloc Monero qui porte notre preuve n'a pas besoin d'avoir été accepté par Monero — l'exiger rendrait notre consensus dépendant de la vue qu'a chaque nœud de la chaîne Monero. Le merge mining rend Symbolon gratuit à miner pour qui mine déjà du Monero ; il ne lui transfère pas sa sécurité.", "k032": "L'emplacement de chaque chaîne dans l'arbre est imposé par son identifiant : personne ne peut miner deux versions d'une même chaîne dans un seul bloc Monero.", "k033": "Un monerod à RPC non restreint", "k034": "C'est lui qui vérifie le RandomX pour nous, via <code>calc_pow</code>, et qui vérifie aussi les preuves de service. Son RPC reste en local — ne l'exposez jamais.", "k035": "Un nœud Symbolon", "k036": "Il répond aux trois méthodes de merge mining de p2pool sur le port 19081 et parle aux autres nœuds sur 19082.", "k037": "p2pool avec <code>--merge-mine</code>", "k038": "p2pool 4.0 ou plus. Il interroge le nœud Symbolon, insère notre hash dans le bloc Monero et soumet les solutions aux deux chaînes. N'importe quel pool peut faire pareil — l'interface est générique, et plusieurs pools peuvent miner Symbolon en même temps.", "k039": "Votre mineur, inchangé", "k040": "Pointé sur le stratum de p2pool, exactement comme pour miner du Monero seul. Rien de plus à configurer, rien à installer côté mineur.", "k041": "# le nœud Symbolon, qui délègue la vérification RandomX à monerod", "k044": "# p2pool mine Monero et Symbolon dans le même hash", "k047": "Aujourd'hui ces commandes ne fonctionnent que contre un réseau de test local.", "k048": "Commencer", "k049": "Un portefeuille, puis un nœud", "k050": "Tout ce qui suit tourne contre une <strong>chaîne de test locale</strong>. Il n'y a pas de réseau public à rejoindre : ce que vous minez n'existe que sur votre machine, et ne vaut rien. C'est l'intérêt pour l'instant — le mécanisme peut être éprouvé de bout en bout avant tout lancement.", "k051": "Il vous faut Python 3.12 et le paquet <code>cryptography</code>. Rien d'autre — pas de compilateur, pas de base de données, pas d'étape de construction.", "k052": "Créer un portefeuille", "k053": "Le portefeuille demande au nœud sur quel réseau il est et quel nonce utiliser : démarrez donc un nœud d'abord, et laissez-le tourner dans un autre terminal.", "k054": "# un nœud local, avec une preuve de travail factice — pas besoin de monerod", "k058": "# dans un autre terminal : créer la clé, puis la regarder", "k059": "Sauvegardez-la tout de suite.", "k060": "<code>~/.symbolon/wallet.json</code> contient votre clé privée <strong>en clair</strong>. Elle n'est pas chiffrée, elle ne se régénère pas, et la perdre c'est perdre les coins. Copiez-la quelque part de sûr avant de miner quoi que ce soit.", "k061": "Miner", "k062": "Deux façons. La première ne demande que Python et prouve tout le chemin en une minute. La seconde est la vraie, contre un vrai démon Monero et un vrai p2pool.", "k063": "La voie rapide — un pool simulé", "k064": "<code>tools/fake_p2pool.py</code> joue le côté p2pool des trois appels RPC contre votre nœud local, avec une preuve de travail factice. Les blocs arrivent en quelques secondes et votre solde bouge.", "k065": "La vraie voie — monerod, p2pool, votre mineur", "k066": "Un démon Monero testnet à RPC <strong>non restreint</strong>, parce que Symbolon vérifie le RandomX via <code>calc_pow</code>, qu'un RPC restreint n'expose pas. Gardez ce RPC en local.", "k075": "# puis pointez votre mineur habituel sur le stratum", "k076": "Sur votre plateforme", "k077": "Deux rôles, et ce n'est pas le même métier. <strong>Miner</strong> ne demande qu'un mineur pointé sur un pool qui merge-mine — aucun nouveau logiciel, rien de spécifique à Symbolon. Faire tourner la <strong>pile</strong> — un démon Monero, p2pool et un nœud Symbolon — voilà ce qui demande une installation, et une seule personne par pool doit s'en charger.", "k078": "Linux", "k079": "Windows", "k080": "HiveOS", "k081": "La plateforme de référence — tout ce qui est ici y a été construit et testé.", "k082": "# le nœud demande Python 3.12 et une bibliothèque", "k083": "# monerod et p2pool : binaires statiques officiels, aucun compilateur", "k084": "# getmonero.org/downloads · github.com/SChernykh/p2pool/releases", "k085": "# puis les trois commandes ci-dessus, et votre mineur habituel sur le stratum", "k086": "Les mêmes briques, avec les binaires Windows officiels des trois. Installez Python 3.12 depuis python.org en cochant <em>Add python.exe to PATH</em>, puis lancez le nœud depuis PowerShell.", "k087": "# monerod : l'archive monero-win-x64 de getmonero.org", "k088": "# le nœud Symbolon", "k089": "# p2pool : p2pool-vX-windows-x64.zip", "k090": "# puis xmrig, lancé en administrateur pour les large pages", "k091": "Lancer xmrig en administrateur est une affaire de RandomX, pas de Symbolon — sans les large pages vous perdez un tiers de votre hashrate sur n'importe quel minage Monero.", "k092": "<strong>Un rig HiveOS n'a besoin d'aucun changement.</strong> Il mine du RandomX avec xmrig vers une URL de stratum ; que ce pool merge-mine ou non regarde le pool, pas le rig. Vous n'installez donc rien de lié à Symbolon sur le rig.", "k093": "Faites tourner la pile sur une machine que vous contrôlez — un petit serveur, un Raspberry Pi 5, ou la même machine que votre nœud — et pointez la flight sheet dessus :", "k094": "# Flight sheet", "k095": "# p2pool paie le portefeuille avec lequel il a été lancé", "k096": "N'exposez à vos rigs que le port stratum — sur un réseau privé ou un VPN maillé plutôt que sur l'internet ouvert. Le RPC Monero doit rester en local : il tourne non restreint, puisque Symbolon vérifie le RandomX via <code>calc_pow</code>.", "k097": "Vérifier que ça marche", "k098": "p2pool écrit <code>uses chain_id …</code> une fois la chaîne acceptée. Le nœud écrit une ligne par bloc accepté, et votre solde tranche.", "k099": "p2pool attend un démon entièrement synchronisé avant de démarrer — il répète <code>monerod is busy syncing</code> jusque-là. Le testnet Monero fait environ 3 millions de blocs : comptez une nuit pour la première synchro, et quelques minutes pour rattraper ensuite.", "k100": "La preuve de service", "k101": "Comment prouver qu'un nœud caché est là", "k102": "C'est le problème central du projet. La disponibilité d'un service caché est un fait qui vit hors chaîne : tout rapport à son sujet est l'affirmation de celui qui a sondé, donc invérifiable. La sortie tient à trois observations.", "k103": "1 · Identité", "k104": "Une adresse .onion <em>est</em> une clé", "k105": "Une adresse Tor v3, c'est <code>base32(clé_ed25519 ‖ checksum ‖ version)</code>. Le consensus en extrait la clé publique et vérifie le checksum. Personne ne peut signer à la place d'un service.", "k106": "2 · Défi", "k107": "Le défi vient de la chaîne", "k108": "<code>Keccak256(hash_du_tour ‖ adresse)</code> désigne quatre blocs Monero consécutifs parmi les mille derniers. Imprévisible, identique pour tous, non rejouable, et encore présent sur un nœud élagué.", "k109": "3 · Vérification", "k110": "Chaque nœud revérifie", "k111": "Chaque nœud Symbolon fait déjà tourner un monerod. Il recalcule lui-même la réponse attendue, puis vérifie la signature. <strong>Celui qui transporte la preuve n'a aucun pouvoir sur elle.</strong>", "k112": "L'aléa de l'auditeur change tout", "k113": "Le défi est public : un nœud pourrait le calculer hors ligne et n'aurait jamais besoin d'être joignable. C'est pourquoi l'auditeur ajoute <strong>son propre aléa</strong>, ancré au hash du bloc du tour : la réponse est liée à cet auditeur et à ce tirage, et la signature <strong>ne peut pas précéder ce bloc</strong>. Le consensus borne le moment où elle a été produite.", "k114": "Et c'est de là que vient le coût du Sybil", "k115": "La réponse couvre quatre blocs Monero. Une machine peut détenir la chaîne une fois pour mille identités ; elle ne peut pas la servir mille fois, à cinq auditeurs chacune, dans le délai accordé. Le coût redevient proportionnel au nombre d'identités, sans jamais avoir besoin de connaître un ASN.", "k116": "Les auditeurs", "k117": "Tirés, jamais choisis", "k118": "À chaque tour, les nœuds enregistrés sont rangés en anneau par <code>Keccak256(hash_du_tour ‖ adresse)</code>. Chacun audite ses cinq suivants, donc chacun est audité par ses cinq précédents. Ni l'audité ni l'auditeur ne décident, l'anneau tourne à chaque tour, et la charge est exactement la même pour tous — personne n'est surchargé, personne n'est oublié. C'est l'animation en haut de cette page.", "k119": "Quorum", "k120": "Trois oui, au plus un non", "k121": "Un auditeur qui ne joint pas un nœud dépose un constat d'absence, qui compte comme un devoir rendu. Un tour exige trois attestations <strong>et au plus une absence</strong> — trois complices sur cinq ne suffisent donc plus. Il en faut quatre.", "k122": "Sanction", "k123": "Ignorer son tirage coûte", "k124": "À chaque époque, l'anneau est recalculé sur huit tours échantillonnés. Sous 50 % de devoirs rendus, 5 % du collatéral est <strong>brûlé</strong> — jamais versé à quelqu'un, pour que personne n'ait intérêt à faire sanctionner un autre.", "k125": "Diversité", "k126": "Un cercle étroit ne gagne rien", "k127": "Sur une époque, l'anneau envoie à un nœud honnête des auditeurs de tout le registre. Un nœud attesté seulement par le même petit groupe n'est pas payé pour sa disponibilité — c'est ce qui rend la collusion stérile en dessous de la moitié du registre.", "k128": "Radiation", "k129": "Sous le minimum, on sort", "k130": "Si le collatéral tombe sous le seuil, le nœud quitte le registre et le reliquat revient à son opérateur. Garder bloqué le dépôt d'un nœud radié ne protégerait rien.", "k131": "Émission", "k132": "Une queue qui ne s'arrête jamais", "k133": "<code>récompense = max((18 000 000 SBL − émis) ≫ 20, 0,35 SBL)</code>, plus les frais du bloc. Avec des blocs d'une minute, ce décalage de 20 bits suit la courbe de Monero en temps réel. La queue ne s'arrête jamais, et c'est le point : <strong>une chaîne dont la raison d'être est de payer un service en continu ne peut pas cesser d'émettre sans cesser de payer.</strong>", "k134": "Récompense par bloc, sur treize ans", "k135": "En SBL. La queue perpétuelle de 0,35 SBL est atteinte vers la huitième année.", "k136": "Voir les valeurs", "k137": "Aucun premine", "k138": "Personne ne part avec de l'avance", "k139": "Pas de prévente, pas de part fondateur, aucune allocation réservée. Le premier bloc est le bloc un.", "k140": "Part service", "k141": "+40 %, en plus", "k142": "Tous les 720 blocs, la part service est versée : 80 % à la disponibilité attestée, plafonnée à 15 % par nœud, et 20 % au travail d'audit rendu. Elle s'ajoute à la récompense du mineur, elle ne lui est jamais retirée.", "k143": "Conséquence", "k144": "18 M n'est pas la masse finale", "k145": "Quand des nœuds sont payés, l'émission réelle dépasse la cible de jusqu'à 40 %. Les 18 M décrivent la courbe du minage, pas le total. Autant le dire que le cacher.", "k146": "Ce qui n'est pas attribué — plafonds, arrondis, absence de nœuds enregistrés — n'est tout simplement jamais émis. Aucun pot ne s'accumule nulle part : il n'y a donc rien à gouverner ni à détourner.", "k147": "Paramètres", "k148": "Ce qui est déjà dans le code", "k149": "Réseau de test — tout reste modifiable avant un réseau public", "k150": "Ticker", "k151": "Unités atomiques par coin", "k152": "Intervalle visé entre deux blocs", "k153": "Récompense du premier bloc", "k154": "Masse visée avant la queue", "k155": "Queue perpétuelle", "k156": "Preuve de travail", "k157": "Ajustement de difficulté", "k158": "Signatures", "k159": "Préfixe d'adresse (testnet)", "k160": "Identifiant de chaîne (testnet)", "k161": "Époque de paiement", "k162": "Auditeurs par nœud · quorum", "k163": "Premine", "k200": "research-lab, issue 164", "k201": "Code sous licence MIT. Le projet n'est affilié ni à Monero ni à p2pool : il utilise l'interface publique de merge mining de p2pool, sans effet sur le consensus ni sur l'économie minière de Monero. <em>Symbolon</em>, d'après le <em>σύμβολον</em> grec — un jeton brisé en deux, une moitié pour l'hôte, une pour l'hébergé, qu'on rapproche pour prouver le lien d'hospitalité.", "k202": "La conception est soumise à la critique publique du Monero Research Lab, questions ouvertes comprises : <a href=\"https://github.com/monero-project/research-lab/issues/164\">research-lab, issue 164</a>. Les objections qui en sortiront changeront le projet, ou l'arrêteront.", "k203": "Réseau", "k204": "La chaîne, maintenant", "k205": "Lu sur un nœud qui tourne, et republié avec le site. Il n'y a pas de réseau public : ce sont les chiffres d'une seule chaîne de test, et ils sont affichés parce qu'un projet qui parle de disponibilité devrait montrer la sienne.", "k206": "Aucun mineur sur cette chaîne", "k207": "blocs minés", "k208": "difficulté", "k209": "hashrate impliqué par cette difficulté", "k210": "récompense du prochain bloc", "k211": "SBL émis", "k212": "nœuds de service enregistrés", "k213": "SBL immobilisés en collatéral", "k214": "transactions en attente", "k215": "Sans mineur au travail, la difficulté reste à son plancher : le hashrate ci-dessus est ce que ce plancher implique — une borne, pas une mesure. Il voudra dire quelque chose le jour où quelqu'un minera cette chaîne.", "k216": "Réseau", "k217": "Minage en cours", "k218": "Docs", "k219": "Rejoindre le testnet", "k220": "Faire tourner un nœud de service", "k221": "Spécification", "k222": "Pas à pas", "k223": "Ce qui tourne aujourd'hui, ce qui manque encore avant un réseau public, et les deux commandes qui changeront le jour où des nœuds d'amorçage existeront.", "k224": "Tor", "k225": "La procédure complète pour un nœud Tor : un seul service caché, le collatéral, la preuve de service, et vos devoirs d'auditeur. C'est la partie qui a besoin de monde.", "k226": "Minez du Monero.<br>Payez ceux qui le gardent <em>joignable</em>.", "k227": "l'anneau du tour", "k228": "5 auditeurs par nœud", "k229": "de votre hashrate détourné du minage de Monero", "k230": "au premier bloc, décroissant vers une queue perpétuelle", "k231": "d'intervalle visé entre deux blocs", "k232": "tests, sans autre dépendance que Python et <code>cryptography</code>", "k233": "Bloc Monero", "k234": "transaction coinbase", "k235": "racine de Merkle", "k236": "Arbre des chaînes auxiliaires", "k237": "racine", "k238": "emplacement imposé : SHA256(chain_id | nonce | &quot;m&quot;) mod N", "k239": "Un seul hash RandomX règle les deux chaînes.", "k240": "100 000 000", "k241": "17,166 SBL + frais", "k242": "18 000 000 SBL", "k243": "0,35 SBL par bloc", "k244": "RandomX, hérité de Monero", "k245": "LWMA-1, fenêtre de 60 blocs", "k246": "720 blocs", "k247": "aucun"} };
   var select = document.getElementById('langue');
   function applique(langue) {
     document.documentElement.lang = langue;
@@ -1072,12 +1072,12 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
       el.innerHTML = (t === undefined || t === null) ? el.dataset.source : t;
     });
     if (select) select.value = langue;
-    try { localStorage.setItem('tessera-langue', langue); } catch (e) {}
+    try { localStorage.setItem('symbolon-langue', langue); } catch (e) {}
     // la courbe écrit ses libellés en JS : elle ne peut pas passer par data-i18n
-    document.dispatchEvent(new CustomEvent('tessera:langue', { detail: langue }));
+    document.dispatchEvent(new CustomEvent('symbolon:langue', { detail: langue }));
   }
   var choisie = null;
-  try { choisie = localStorage.getItem('tessera-langue'); } catch (e) {}
+  try { choisie = localStorage.getItem('symbolon-langue'); } catch (e) {}
   if (!choisie) {
     var nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
     choisie = TRAD[nav] ? nav : 'en';
@@ -1124,11 +1124,11 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
     return e;
   };
   var MOTS = {
-    en: { lancement: 'launch', an: 'year ', queue: 'perpetual tail · 0.35 TSR',
-          premier: '17.166 TSR at the first block', parBloc: ' TSR/block',
+    en: { lancement: 'launch', an: 'year ', queue: 'perpetual tail · 0.35 SBL',
+          premier: '17.166 SBL at the first block', parBloc: ' SBL/block',
           legende: 'Reward per block' },
-    fr: { lancement: 'lancement', an: 'an ', queue: 'queue perpétuelle · 0,35 TSR',
-          premier: '17,166 TSR au premier bloc', parBloc: ' TSR/bloc',
+    fr: { lancement: 'lancement', an: 'an ', queue: 'queue perpétuelle · 0,35 SBL',
+          premier: '17,166 SBL au premier bloc', parBloc: ' SBL/bloc',
           legende: 'Récompense par bloc' }
   };
   function mots() { return MOTS[document.documentElement.lang] || MOTS.en; }
@@ -1137,7 +1137,7 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
     aRetraduire.push(function () { noeud.textContent = rendu(mots()); });
     noeud.textContent = rendu(mots());
   }
-  document.addEventListener('tessera:langue', function () {
+  document.addEventListener('symbolon:langue', function () {
     aRetraduire.forEach(function (f) { f(); });
     remplirTable();
   });
@@ -1211,7 +1211,7 @@ curl -s http://127.0.0.1:19081 -d '{"jsonrpc":"2.0","id":"0","method":"get_info"
     var m = mots();
     var html = '<caption>' + m.legende + '</caption><tbody>';
     data.forEach(function (p) {
-      html += '<tr><th scope="row">' + m.an + p[0] + '</th><td>' + p[1] + ' TSR</td></tr>';
+      html += '<tr><th scope="row">' + m.an + p[0] + '</th><td>' + p[1] + ' SBL</td></tr>';
     });
     tbl.innerHTML = html + '</tbody>';
   }

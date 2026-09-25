@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tessera — Specification</title>
-<meta name="description" content="Technical specification of Tessera: merge mining, emission, service node registry, proof of service and audits.">
+<title>Symbolon — Specification</title>
+<meta name="description" content="Technical specification of Symbolon: merge mining, emission, service node registry, proof of service and audits.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%2317120e'/%3E%3Cpath d='M2.5 3 H10.6 L11.8 7.5 L9.8 12 L11.8 16.5 L10.6 21 H2.5 Z' fill='%23d9a05e'/%3E%3Cpath d='M12.6 3 H21.5 V21 H12.6 L13.8 16.5 L11.8 12 L13.8 7.5 Z' fill='none' stroke='%23d9a05e' stroke-width='1.3'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -105,7 +105,7 @@ li::marker { color:var(--muted); }
       <path d="M12.6 3 H21.5 V21 H12.6 L13.8 16.5 L11.8 12 L13.8 7.5 Z"
             fill="none" stroke="var(--accent)" stroke-width="1.3"></path>
     </svg>
-    <span class="brand-name">Tessera</span>
+    <span class="brand-name">Symbolon</span>
   </a>
   <div class="liens"><a href="join.html">Join the testnet</a><a href="onion.html">Run a service node</a><a href="spec.html" aria-current="page">Specification</a><a class="back" href="./">&larr; Site</a></div>
 </div></header>
@@ -156,7 +156,7 @@ li::marker { color:var(--muted); }
 <p>Timestamps: <code>timestamp &lt;= now + 2h</code> and <code>&gt;= tip.timestamp - 2h</code>.</p>
 <h2 id="accounts-addresses-transactions">Accounts, addresses, transactions</h2>
 <p>An account model, not UTXO. An address is <code>&lt;network prefix&gt; || base58(ed25519_pubkey || checksum)</code>,
-with the prefix (<code>tsrl</code> locally, <code>tsrt</code> on testnet) feeding the checksum: an address from one
+with the prefix (<code>sbll</code> locally, <code>sblt</code> on testnet) feeding the checksum: an address from one
 network is invalid on the other.</p>
 <p>A transaction <code>{version, sender, recipient, amount, fee, nonce, payload, signature}</code> is valid if:</p>
 <ol>
@@ -190,18 +190,18 @@ sender's nonce, credit <code>amount</code> to the recipient; then credit the min
 <p>The Monero block supplied must be <strong>well formed, carry our tag at the right slot, and have a
 sufficient RandomX hash</strong>. Nothing more: it does not have to be a block Monero accepted.</p>
 <p>This is a decision, not an oversight. Requiring a genuinely accepted block is incompatible with
-merge mining: a solution meets <em>our</em> difficulty, not Monero's, so barely one Tessera block in a
+merge mining: a solution meets <em>our</em> difficulty, not Monero's, so barely one Symbolon block in a
 thousand would be a real Monero block. And requiring the parent to be "known to our monerod" would
 make our consensus depend on each node's local view of the Monero chain, orphans included: two
-nodes could disagree on the validity of the same Tessera block. Namecoin and other auxiliary
+nodes could disagree on the validity of the same Symbolon block. Namecoin and other auxiliary
 chains make the same choice, for the same reason.</p>
-<p><strong>The consequence, not to be hidden: Tessera's security is its own difficulty, not Monero's
-hashrate.</strong> Anyone can mine Tessera with dedicated RandomX hashrate, without going through Monero
+<p><strong>The consequence, not to be hidden: Symbolon's security is its own difficulty, not Monero's
+hashrate.</strong> Anyone can mine Symbolon with dedicated RandomX hashrate, without going through Monero
 or P2Pool. Merge mining makes mining free for those already mining Monero; it does not transfer
-Monero's security to Tessera. A 51% attack on Tessera costs Tessera's difficulty.</p>
+Monero's security to Symbolon. A 51% attack on Symbolon costs Symbolon's difficulty.</p>
 <h2 id="chain-identity-chain-id">Chain identity (<code>chain_id</code>)</h2>
 <p>The merge mining <code>unique_id</code>: <strong>exactly 32 bytes</strong>, otherwise P2Pool refuses the chain.
-v1: <code>chain_id = Keccak256("tessera-&lt;network&gt;-v0")</code>, fixed at genesis and checked at startup
+v1: <code>chain_id = Keccak256("symbolon-&lt;network&gt;-v0")</code>, fixed at genesis and checked at startup
 (<code>NetworkParams.__post_init__</code>). It fixes the chain's slot in the merkle tree: changing it
 separates the chain permanently from every existing instance (a deliberate hard fork).</p>
 <h2 id="difficulty">Difficulty</h2>
@@ -229,15 +229,15 @@ emitted, which is stored block by block.</p>
 <tbody>
 <tr>
 <td>Supply targeted before the tail</td>
-<td>18,000,000 TSR</td>
+<td>18,000,000 SBL</td>
 </tr>
 <tr>
 <td>First block reward</td>
-<td>17.166 TSR</td>
+<td>17.166 SBL</td>
 </tr>
 <tr>
 <td>Perpetual tail</td>
-<td>0.35 TSR per block (~184,000 TSR/year)</td>
+<td>0.35 SBL per block (~184,000 SBL/year)</td>
 </tr>
 <tr>
 <td>Tail begins</td>
@@ -507,7 +507,7 @@ hour, and the ban is <strong>stored</strong>, so it survives a restart.</p>
   issued that template is refused. Once accepted, the block travels over P2P <strong>with its body</strong>, so
   this is a constraint on submission, not on propagation.</li>
 <li>Local RandomX verification: we depend on monerod, which is acceptable since an operator runs one
-  anyway, but it does mean a Tessera node cannot validate alone.</li>
+  anyway, but it does mean a Symbolon node cannot validate alone.</li>
 <li>A public network: seed lists are empty and no chain has ever run beyond a local test.</li>
 <li>Collusion between an operator holding half the registry and four of its five drawn auditors,
   as quantified above.</li>
