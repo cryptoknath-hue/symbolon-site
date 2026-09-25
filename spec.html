@@ -149,6 +149,15 @@ li::marker { color:var(--muted); }
    rule: <code>Keccak(H(prefix) || H(0x00) || 0^32)</code>, a coinbase's RingCT base being of the null type.
    Passing the whole block to <code>calc_pow</code> returns a plausible-looking but wrong hash, and every
    solution is rejected.</li>
+<li><strong>The Monero block is a RandomX block, with Monero's seed.</strong> Its major version is at least 12
+   — below that, <code>calc_pow</code> computes CryptoNight, for which ASICs exist. And <code>seed_hash</code> is the
+   hash of the Monero block at <code>rx_seed_height(monero_height)</code> (every 2048 blocks, 64 blocks of
+   lag), no older than <code>max_seed_age</code> (7 days on testnet) <strong>measured from our block's timestamp</strong>.
+   Without this rule the submitter picks the seed and can keep it forever, losing the key
+   rotation that is part of RandomX's defence against specialised hardware. The seed block is at
+   least 64 blocks deep, so every node reads the same one; the age is measured against our own
+   timestamp, which consensus already bounds — never against the local clock. A seed block the
+   node's monerod does not have yet is <em>unverifiable</em>, not invalid (see below).</li>
 <li><code>miner_address</code> is a valid address for the network, and the block's body (its transactions)
    reproduces <code>tx_root</code>. Since the body is never sent to the pool, the node finds it in the template
    it handed out: a forgotten template is a lost solution (see below).</li>
