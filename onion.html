@@ -189,7 +189,7 @@ the 32-byte seed. It stores the <strong>expanded</strong> key, and mainstream ed
 a seed. Symbolon ships its own ed25519 (<code>symbolon/ed25519.py</code>) purely so that an operator can sign
 with the key Tor actually wrote. It is checked byte for byte against a reference implementation.</p>
 <h2 id="3-a-wallet-and-collateral">3. A wallet, and collateral</h2>
-<pre><code class="language-bash">python3 tools/wallet.py new          # writes ~/.symbolon/wallet.json — NOT encrypted, back it up
+<pre><code class="language-bash">python3 tools/wallet.py new          # writes ~/.symbolon/wallet.json, encrypted — back it up
 python3 tools/wallet.py address
 python3 tools/wallet.py balance
 </code></pre>
@@ -259,8 +259,10 @@ produced, instead of trusting the auditor's clock.</p>
 <p>Registering publishes the association between a Symbolon account and a <code>.onion</code>. That is inherent —
 the chain has to know which endpoint to pay — but it means your node's address and its earnings are
 linked in public, permanently. Decide whether that matters to you before you register.</p>
-<p><code>~/.symbolon/wallet.json</code> holds your private key <strong>in the clear</strong>. Acceptable while nothing has
-value; it will not be acceptable on a real network, and it is on the list of things to fix first.</p>
+<p><code>~/.symbolon/wallet.json</code> holds your private key <strong>encrypted</strong> with a password. An auditor that
+runs unattended (a timer calling <code>wallet.py audit</code>) reads it from <code>SYMBOLON_WALLET_PASSWORD</code>: put
+that variable in a file only your user can read, never on a command line, where other users of
+the machine can see it.</p>
   </main>
 </div>
 </body>

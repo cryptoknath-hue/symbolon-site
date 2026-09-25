@@ -150,8 +150,10 @@ python3 tools/wallet.py balance
 </code></pre>
 <p><code>fake_pool.py</code> plays a pool's side of the three merge-mining RPC calls, with a fake proof of
 work. Blocks arrive in seconds.</p>
-<p><strong>Back up <code>~/.symbolon/wallet.json</code> now.</strong> It holds your private key in the clear, it is not
-encrypted, and it cannot be regenerated.</p>
+<p><strong>Back up <code>~/.symbolon/wallet.json</code> now, and remember its password.</strong> The key is encrypted
+(scrypt and AES-256-GCM); it cannot be regenerated, and without the file <em>or</em> the password the
+coins are gone. A wallet created before encryption existed opens with a warning:
+<code>python3 tools/wallet.py encrypt</code> converts it.</p>
 <h3 id="the-real-path-a-partner-pool-your-miner">The real path — a partner pool, your miner</h3>
 <p>This is merge mining as it actually works: your miner looks for one RandomX hash, and it settles
 both chains. You do not split your hashrate and you do not spend an extra hash.</p>
