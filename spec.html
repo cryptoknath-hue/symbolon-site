@@ -138,19 +138,19 @@ li::marker { color:var(--muted); }
    <code>BlockHeader</code> <code>{version, height, prev_hash, timestamp, difficulty, miner_address, tx_root}</code>.</li>
 <li><code>prev_hash</code> is the current tip, <code>height = tip + 1</code>, <code>difficulty = next_difficulty()</code>.</li>
 <li>The Monero blob parses; its coinbase carries a <code>0x03</code> merge mining tag giving
-   <code>(n_aux_chains, aux_nonce, merkle_root)</code> in P2Pool's format.</li>
+   <code>(n_aux_chains, aux_nonce, merkle_root)</code> in the standard merge mining format.</li>
 <li><code>slot = SHA256(chain_id | aux_nonce_le32 | 'm') % n_aux_chains</code> and the merkle proof (Keccak-256,
    Monero's tree) links <code>aux_hash</code> to <code>merkle_root</code> <strong>at that exact slot</strong> — which is what stops
    anyone mining two versions of the same chain.</li>
 <li><code>pow = RandomX(hashing_blob, seed_hash)</code> computed by monerod (<code>calc_pow</code>) satisfies
-   <code>int_le(pow) * difficulty &lt;= 2^256 - 1</code>. <strong>RandomX does not hash the full block</strong> P2Pool sends,
+   <code>int_le(pow) * difficulty &lt;= 2^256 - 1</code>. <strong>RandomX does not hash the full block</strong> the pool sends,
    but its hashing blob: header (up to and including the nonce) + merkle root of
    <code>[coinbase_hash] + tx_hashes</code> + leaf count. The coinbase hash follows Monero's v2 transaction
    rule: <code>Keccak(H(prefix) || H(0x00) || 0^32)</code>, a coinbase's RingCT base being of the null type.
    Passing the whole block to <code>calc_pow</code> returns a plausible-looking but wrong hash, and every
    solution is rejected.</li>
 <li><code>miner_address</code> is a valid address for the network, and the block's body (its transactions)
-   reproduces <code>tx_root</code>. Since the body is never sent to P2Pool, the node finds it in the template
+   reproduces <code>tx_root</code>. Since the body is never sent to the pool, the node finds it in the template
    it handed out: a forgotten template is a lost solution (see below).</li>
 </ol>
 <p>Timestamps: <code>timestamp &lt;= now + 2h</code> and <code>&gt;= tip.timestamp - 2h</code>.</p>
@@ -197,10 +197,10 @@ nodes could disagree on the validity of the same Symbolon block. Namecoin and ot
 chains make the same choice, for the same reason.</p>
 <p><strong>The consequence, not to be hidden: Symbolon's security is its own difficulty, not Monero's
 hashrate.</strong> Anyone can mine Symbolon with dedicated RandomX hashrate, without going through Monero
-or P2Pool. Merge mining makes mining free for those already mining Monero; it does not transfer
+or a pool. Merge mining makes mining free for those already mining Monero; it does not transfer
 Monero's security to Symbolon. A 51% attack on Symbolon costs Symbolon's difficulty.</p>
 <h2 id="chain-identity-chain-id">Chain identity (<code>chain_id</code>)</h2>
-<p>The merge mining <code>unique_id</code>: <strong>exactly 32 bytes</strong>, otherwise P2Pool refuses the chain.
+<p>The merge mining <code>unique_id</code>: <strong>exactly 32 bytes</strong>, as the merge mining format requires.
 v1: <code>chain_id = Keccak256("symbolon-&lt;network&gt;-v0")</code>, fixed at genesis and checked at startup
 (<code>NetworkParams.__post_init__</code>). It fixes the chain's slot in the merkle tree: changing it
 separates the chain permanently from every existing instance (a deliberate hard fork).</p>
@@ -501,7 +501,7 @@ invalid or unreadable block 25, a malformed message 50. At 100 points the host i
 hour, and the ban is <strong>stored</strong>, so it survives a restart.</p>
 <h2 id="what-does-not-exist-yet">What does not exist yet</h2>
 <ul>
-<li>Mining through a pool requires the template to still be held. P2Pool returns only the header
+<li>Mining through a pool requires the template to still be held. The pool returns only the header
   (<code>aux_blob</code>) on submission, so the body is recovered from the <code>templates</code> table of the node that
   handed the template out. It survives a restart, but a solution submitted to a node that never
   issued that template is refused. Once accepted, the block travels over P2P <strong>with its body</strong>, so
